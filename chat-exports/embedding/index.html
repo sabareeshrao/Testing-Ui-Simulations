@@ -27,7 +27,26 @@ main .controls,main .page-controls,main .wizardControls{margin-top:8px}
 .wide-split{display:grid;grid-template-columns:minmax(0,1fr);gap:12px;align-items:center}
 .wide-visual>svg{display:block;width:100%;height:auto;max-height:330px;margin:auto}
 @media(min-width:760px){.wide-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.wide-full{grid-column:1/-1}.wide-split{grid-template-columns:minmax(0,1fr) minmax(0,1.12fr);gap:24px}.wide-controls{padding-left:20px;border-left:1px solid currentColor;border-left-color:rgba(128,128,128,.25)}main button:not(.switch):not(.step):not(.step-tab):not(.stepbutton){min-height:34px}main .progress button{min-height:20px!important}}
-@media(max-width:759px){main{padding:14px 12px 28px}main .card,main .panel{padding:12px}.wide-grid{gap:0}.wide-split{gap:8px}}</style></head>
+@media(max-width:759px){main{padding:14px 12px 28px}main .card,main .panel{padding:12px}.wide-grid{gap:0}.wide-split{gap:8px}}</style><style id="vertical-compact-layout">/* Wide, compact, vertical lessons. Keep original comparison grids and simulation internals. */
+main,main.canvas{width:100%;max-width:1440px;margin-inline:auto;padding:12px clamp(12px,2vw,28px) 24px}
+main .wide-grid,main .wide-unit,main .wide-split,main .wide-visual,main .overview-grid,main .overview-grid>div,main .split,main .visual{display:block;min-width:0;max-width:100%}
+main .wide-controls,main .walkthrough,main .scaling-controls{display:block;padding:0;border:0;min-width:0}
+main h1{margin:0 0 6px;line-height:1.2}main h2{font-size:19px;margin:14px 0 5px;line-height:1.3}main h3{font-size:16px;margin:0 0 4px;line-height:1.35}
+main p{margin-block:5px 8px}main .card,main .panel{padding:8px 12px;margin:6px 0;border-radius:8px;min-height:0}
+main .tile,main .fact,main .road,main .learnbox{padding:5px 8px;border-radius:6px;min-height:0}
+main .diagram,main .wide-visual>svg,main .panel>svg,main .map,main .cos-svg,main #arch,main #scaling{display:block;width:100%;height:auto;max-height:270px;min-height:0;margin:0 auto}
+main #scaling,main #cosDiagram{max-height:190px}main #arch,main #architecture{max-height:295px}
+main #detail,main #stepArea,main #stepBody,main #wizardBody,main .stageArea,main .stepbody{min-height:0;height:auto}
+main .progress{margin:4px 0 6px}main .controls,main .page-controls,main .wizardControls,main .sim-controls{margin-top:6px;gap:6px}
+main .stack,main .flow{gap:4px}main .arrow,main .ragdown{font-size:18px;line-height:1.1;margin:2px 0}
+main .glyph{font-size:22px;line-height:1.2}main .bar{margin:4px 0 7px;height:8px}main .listrow,main .tech{padding-block:5px}
+main pre,main .codeBlock{padding:8px 10px;margin:5px 0;line-height:1.5}main .codeblock{margin:6px 0 10px;border-radius:8px}
+main .over,main .choice,main .instance,main .step,main .step-tab{min-height:0}main .instance{padding:10px}main .stageArea{padding:10px}
+main .roadmap,main .step-nav,main .steps,main .stepper{margin-block:8px}
+main input[type=range]{height:26px;min-height:0}main .caption{line-height:1.4}
+@media(min-width:760px){main button:not(.switch):not(.copy){min-height:32px;padding-block:6px}main .progress button{min-height:18px!important;padding-block:6px}}
+@media(max-width:759px){main,main.canvas{padding:12px 10px 24px}main .card,main .panel{padding:9px 10px}main .diagram,main .wide-visual>svg,main .panel>svg,main .map,main .cos-svg{max-height:290px}}
+</style></head>
 <body><main>
 <header class="hero"><div class="eyebrow">VISUAL AI EXPLAINER</div><h1>Embeddings</h1><p class="lead">Turning <strong>meaning into numbers</strong> so computers can compare ideas.</p></header>
 <section class="card" aria-label="Embedding process overview">
