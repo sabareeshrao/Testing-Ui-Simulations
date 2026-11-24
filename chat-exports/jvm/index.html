@@ -36,6 +36,18 @@ main .roadmap,main .step-nav,main .steps,main .stepper{margin-block:8px}
 main input[type=range]{height:26px;min-height:0}main .caption{line-height:1.4}
 @media(min-width:760px){main button:not(.switch):not(.copy){min-height:32px;padding-block:6px}main .progress button{min-height:18px!important;padding-block:6px}}
 @media(max-width:759px){main,main.canvas{padding:12px 10px 24px}main .card,main .panel{padding:9px 10px}main .diagram,main .wide-visual>svg,main .panel>svg,main .map,main .cos-svg{max-height:290px}}
+</style><style id="balanced-layout">/* Balanced reading width; vertical flow and natural card heights. */
+main,main.canvas{box-sizing:border-box;width:100%;max-width:1040px;margin-inline:auto;padding:20px 24px 32px}
+main .card,main .panel{padding:12px 16px;margin:8px 0;border-radius:10px}
+main .diagram,main .wide-visual>svg,main .panel>svg,main .map,main .cos-svg{max-width:100%;height:auto;max-height:300px}
+main .wide-grid,main .wide-split,main .overview-grid,main .split{display:block}
+main .wide-controls,main .walkthrough{border:0;padding:0}
+main h2{margin-top:20px;margin-bottom:8px}
+main p{max-width:85ch;line-height:1.55}
+main .caption,main .note{line-height:1.45}
+main button:not(.copy):not(.switch){min-height:36px}
+main .progress button{min-height:18px!important}
+@media(max-width:759px){main,main.canvas{padding:14px 12px 28px}main .card,main .panel{padding:10px 12px}main button:not(.copy):not(.switch){min-height:44px}main .progress button{min-height:18px!important}}
 </style></head><body><main>
 <h1>JVM — Java Virtual Machine</h1><p>The JVM is the runtime engine that executes Java bytecode on your computer.</p><p>It enables Java's principle: <strong>Write Once, Run Anywhere.</strong></p>
 <section class="card"><h3>How Java code executes</h3>

@@ -20,6 +20,18 @@ main .progress{margin:4px 0 6px}main .controls,main .sim-controls{margin-top:6px
 main input[type=range]{height:26px;min-height:0}main .caption{line-height:1.4}
 @media(min-width:760px){main button:not(.copy){min-height:32px;padding-block:6px}main .progress button{min-height:18px!important;padding-block:6px}}
 @media(max-width:759px){main,main.canvas{padding:12px 10px 24px}main .card,main .panel{padding:9px 10px}main .diagram{max-height:300px}}
+</style><style id="balanced-layout">/* Balanced reading width; vertical flow and natural card heights. */
+main,main.canvas{box-sizing:border-box;width:100%;max-width:1040px;margin-inline:auto;padding:20px 24px 32px}
+main .card,main .panel{padding:12px 16px;margin:8px 0;border-radius:10px}
+main .diagram,main .wide-visual>svg,main .panel>svg,main .map,main .cos-svg{max-width:100%;height:auto;max-height:300px}
+main .wide-grid,main .wide-split,main .overview-grid,main .split{display:block}
+main .wide-controls,main .walkthrough{border:0;padding:0}
+main h2{margin-top:20px;margin-bottom:8px}
+main p{max-width:85ch;line-height:1.55}
+main .caption,main .note{line-height:1.45}
+main button:not(.copy):not(.switch){min-height:36px}
+main .progress button{min-height:18px!important}
+@media(max-width:759px){main,main.canvas{padding:14px 12px 28px}main .card,main .panel{padding:10px 12px}main button:not(.copy):not(.switch){min-height:44px}main .progress button{min-height:18px!important}}
 </style></head><body><main><header><h1>Stage 010 — Document Retrieval</h1><small>D01 05:33 onwards · Relevance filtering & context selection</small></header>
 <p>GitHub లో Stage 009 వరకు ఉన్న source code, 332 timestamp actions verify చేశాను.</p>
 <p>ఇప్పటివరకు మన application user question తీసుకుని, embeddings generate చేసి, Top-3 relevant chunks ని select చేస్తుంది. కానీ ఇక్కడ ఒక సమస్య ఉంది. User మన knowledge base లో లేని question అడిగినా, మన semantic search మూడు chunks ని return చేస్తుంది.</p>
