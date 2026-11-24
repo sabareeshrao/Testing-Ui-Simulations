@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#f7faff">
+<title>Embeddings — Visual Interactive Lesson</title>
+<style>
+:root{--ink:#16243a;--muted:#63748d;--blue:#2563eb;--violet:#7c3aed;--green:#168747;--border:#dde5ef;--bg:#f7f9fe;--card:#fff;--soft:#eff6ff}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}body{margin:0;color:var(--ink);background:var(--bg);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+main{width:min(860px,100%);padding:28px 18px 64px;margin:auto}
+.hero{padding:4px 3px 19px}.eyebrow{font-size:11px;font-weight:800;letter-spacing:.14em;color:var(--blue)}h1{font-size:clamp(36px,7vw,52px);line-height:1.08;letter-spacing:-.04em;margin:9px 0 12px}h2{font-size:clamp(19px,4.6vw,25px);letter-spacing:-.025em;margin:31px 0 12px;line-height:1.18}h3{font-size:17px;margin:0}p{margin:0 0 8px}.lead{font-size:17px;color:#50627c;max-width:610px}.lead strong{color:#16243a}.card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:21px;box-shadow:0 6px 20px rgba(24,53,104,.035)}.tiny{font-size:12px;color:var(--muted)}.tag{font-size:11px;display:inline-flex;align-items:center;border:1px solid #dbe4ee;border-radius:999px;padding:3px 9px;color:#5a6b82;font-weight:700}.between{display:flex;align-items:center;justify-content:space-between;gap:10px}.caption{font-size:12px;color:var(--muted);margin-top:10px}.sectiontitle{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}.diagram{width:100%;display:block;overflow:visible}.pipeline{display:grid;grid-template-columns:1fr 24px 1.15fr 24px 1fr;align-items:center;gap:5px;padding:6px 0 2px}.pipebox{min-height:93px;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;border-radius:13px;border:1px solid;padding:10px 7px}.pipebox strong{font-size:17px}.pipebox small{font-size:12px;margin-top:2px}.blue{background:#eaf2ff;border-color:#c5daff;color:#1d4ed8}.purple{background:#f2ecff;border-color:#d8caff;color:#6d28d9}.green{background:#e8fbf0;border-color:#bcebcf;color:#166534}.arrow{font-size:25px;color:#91a0b7;text-align:center}.mini-vector{display:flex;gap:4px;align-items:end;height:24px}.mini-vector i{display:block;width:10px;border-radius:3px 3px 1px 1px;background:#1e9b5c}.selectrow{display:flex;gap:8px;margin:0 0 14px}.selectrow button{flex:1}.btn{font:700 14px system-ui,-apple-system,sans-serif;cursor:pointer;border:1px solid #cdd8e7;border-radius:10px;padding:11px 14px;color:#35465f;background:#fff;min-height:44px;transition:background .18s,color .18s,border-color .18s,transform .15s}.btn:hover:not(:disabled){border-color:#93b4fa;background:#f0f6ff}.btn:active:not(:disabled){transform:scale(.985)}.btn.primary,.btn[aria-pressed="true"]{background:#2563eb;color:#fff;border-color:#2563eb}.btn:disabled{opacity:.42;cursor:default}.btn:focus-visible,input:focus-visible{outline:3px solid #93c5fd;outline-offset:3px}.map{background:#fff;display:block;width:100%;max-height:390px;min-height:170px;border-radius:10px}.legend{display:flex;gap:15px;flex-wrap:wrap;align-items:center;margin:6px 0 12px;font-size:12px;color:#53637a}.legend i{width:9px;height:9px;display:inline-block;border-radius:50%;margin-right:5px}.metricrow{display:flex;align-items:center;justify-content:space-between;font-size:13px;margin:11px 0 4px}.bar{height:11px;background:#edf1f6;border-radius:20px;overflow:hidden}.bar>i{display:block;height:100%;background:#9ac0fc;border-radius:20px;transition:width .32s ease}.bar.first>i{background:#17a66c}.divider{height:1px;background:#e6ecf3;margin:15px 0}.stepper{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;margin-bottom:14px}.stepbutton{background:#f4f7fb;border:1px solid #e1e9f3;padding:11px 5px;min-height:52px;border-radius:10px;text-align:center;font-weight:700;color:#6b7890;cursor:pointer}.stepbutton span{display:block;font-size:14px}.stepbutton small{display:block;font-size:11px;font-weight:600}.stepbutton[aria-current="step"]{background:#e6f0ff;border-color:#2563eb;color:#1d4ed8}.stepbody{border:1px solid #e1e9f3;border-radius:13px;min-height:176px;padding:19px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:15px}.quote{font-size:clamp(18px,5vw,25px);font-weight:800;text-align:center;letter-spacing:-.02em}.bigtoken{display:flex;gap:5px;justify-content:center;flex-wrap:wrap}.bigtoken span{background:#dbeafe;color:#1d4ed8;padding:12px 13px;border-radius:10px;font-weight:750}.modelbox{background:#f2ecff;color:#6d28d9;border:1px solid #d8caff;border-radius:12px;text-align:center;padding:17px 50px}.modelbox .glyph{display:block;font-size:34px}.nums{display:flex;justify-content:center;gap:5px;width:100%}.nums span{font-variant-numeric:tabular-nums;background:#ede9fe;color:#6d28d9;border-radius:7px;flex:1;max-width:62px;text-align:center;padding:10px 2px;font-size:12px;font-weight:700}.nums span.neg{background:#f0f2f7;color:#4b5870}.controls{display:flex;justify-content:space-between;gap:12px;margin-top:14px}.stepbody .caption{text-align:center;margin:0}.cos-svg{width:100%;display:block;max-height:360px;min-height:170px}.sliderrow{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:6px}.angle{font-weight:800;font-size:26px;color:#2563eb;font-variant-numeric:tabular-nums}input[type=range]{width:100%;accent-color:#2563eb;cursor:pointer;height:30px;margin:6px 0}.metrics{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:10px}.metric{padding:15px 10px;background:#f6f8fc;border-radius:12px;text-align:center;min-height:89px}.metric .value{font-size:27px;font-weight:800;font-variant-numeric:tabular-nums}.metric .label{font-size:12px;color:#718097}.presets{display:flex;gap:9px;margin-top:12px}.presets button{flex:1}.formula{text-align:center;margin:16px auto 1px;font-size:18px;color:#344256;font-family:Georgia,"Times New Roman",serif}.rag{display:flex;flex-direction:column;align-items:center;gap:8px}.ragitem{border-radius:10px;border:1px solid #cddaf0;padding:11px 16px;text-align:center;width:min(460px,100%);font-size:13px}.ragitem b{display:block;font-size:14px}.ragdown{color:#93a5ba;font-size:24px;line-height:1}.matched{width:min(490px,100%);border:1px solid #d9e4f1;border-radius:11px;background:#f8fafc;padding:12px}.match{display:flex;justify-content:space-between;align-items:center;gap:10px;background:#eff6ff;border-radius:7px;padding:6px 10px;margin:4px 0;font-size:12px}.match:first-child{background:#e2f9e9}.match b{white-space:nowrap;color:#3163b5}.match:first-child b{color:#12834f}.remember{border-left:3px solid #2563eb;margin:27px 0 0;padding:9px 0 9px 17px;font-size:14px;color:#465a73}.remember strong{color:#1d4ed8}svg text{font-family:system-ui,-apple-system,"Segoe UI",sans-serif}@media(max-width:500px){main{padding:20px 11px 40px}.card{padding:14px;border-radius:14px}.pipeline{grid-template-columns:1fr 17px 1.15fr 17px 1fr;gap:3px}.pipebox{min-height:83px;padding:8px 3px}.pipebox strong{font-size:13px}.pipebox small{font-size:10px}.arrow{font-size:19px}.stepbutton{padding:8px 2px}.stepbutton small{font-size:10px}.stepbody{min-height:165px;padding:12px}.bigtoken span{padding:8px 9px}.modelbox{padding:12px 30px}.metrics .value{font-size:22px}.selectrow{gap:6px}.selectrow .btn{padding:9px 8px}}@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+</style>
+</head>
+<body><main>
+<header class="hero"><div class="eyebrow">VISUAL AI EXPLAINER</div><h1>Embeddings</h1><p class="lead">Turning <strong>meaning into numbers</strong> so computers can compare ideas.</p></header>
+<section class="card" aria-label="Embedding process overview">
+<div class="pipeline"><div class="pipebox blue"><strong>“Hello”</strong><small>Text</small></div><div class="arrow">→</div><div class="pipebox purple"><strong>Embedding</strong><small>model</small></div><div class="arrow">→</div><div class="pipebox green"><div class="mini-vector"><i style="height:22px"></i><i style="height:9px"></i><i style="height:16px"></i><i style="height:19px"></i></div><small>Number vector</small></div></div>
+<p class="caption">Example output: [0.82, −0.16, 0.45, 0.71, …] — illustrative, not generated by a real model.</p>
+</section>
+<section aria-labelledby="maptitle"><h2 id="maptitle">1. Explore the semantic space</h2>
+<div class="card"><div class="sectiontitle"><h3>Meaning map</h3><span class="tag">INTERACTIVE</span></div>
+<div class="selectrow" id="qBtns" aria-label="Select a query"><button class="btn primary" data-query="Dog" aria-pressed="true">Dog</button><button class="btn" data-query="Car" aria-pressed="false">Car</button><button class="btn" data-query="Pizza" aria-pressed="false">Pizza</button></div>
+<svg class="map" id="semanticMap" viewBox="0 0 340 181" role="img" aria-label="Illustrative two dimensional embedding map of animal vehicle and food concepts"></svg>
+<div class="legend"><span><i style="background:#2563eb"></i>Animals</span><span><i style="background:#7c3aed"></i>Vehicles</span><span><i style="background:#16a34a"></i>Food</span><span><i style="background:#eeb43d"></i>Selected query</span></div>
+<div class="divider"></div><div class="between"><strong id="nearTitle">Nearest to “Dog”</strong><span class="tiny">Proximity scores</span></div>
+<div id="similarityResults" aria-live="polite"></div>
+<p class="caption">Illustrative 2D coordinates and proximity scores, not real model outputs. Production embeddings often have hundreds or thousands of dimensions.</p>
+</div></section>
+<section aria-labelledby="convertTitle"><h2 id="convertTitle">2. How text becomes a vector</h2>
+<div class="card"><div class="stepper" id="stepper" aria-label="Conversion steps">
+<button class="stepbutton" data-step="0" aria-current="step"><span>1</span><small>Text</small></button>
+<button class="stepbutton" data-step="1"><span>2</span><small>Tokens</small></button>
+<button class="stepbutton" data-step="2"><span>3</span><small>Model</small></button>
+<button class="stepbutton" data-step="3"><span>4</span><small>Vector</small></button></div>
+<div class="stepbody" id="stepBody" aria-live="polite"></div><div class="controls"><button class="btn" id="prevStep">‹ Previous</button><button class="btn primary" id="nextStep">Next step ›</button></div>
+</div></section>
+<section aria-labelledby="cosTitle"><h2 id="cosTitle">3. Cosine similarity playground</h2>
+<div class="card"><p class="tiny">Rotate vector B to see how two vectors align.</p>
+<svg class="cos-svg" id="cosDiagram" viewBox="0 0 340 176" role="img" aria-label="Two unit vectors with a controllable angle"></svg>
+<div class="sliderrow"><label for="angle"><strong>Angle</strong></label><output class="angle" id="angleDisplay" for="angle">30°</output></div>
+<input id="angle" type="range" min="0" max="180" step="5" value="30" aria-label="Angle between vectors A and B">
+<div class="metrics"><div class="metric"><div class="label">Cosine similarity</div><div class="value" id="cosValue">0.87</div></div><div class="metric"><div class="label">Relationship</div><div class="value" id="cosRelation">Aligned</div></div></div>
+<div class="presets"><button class="btn" data-angle="0">0°</button><button class="btn" data-angle="90">90°</button><button class="btn" data-angle="180">180°</button></div>
+<div class="formula" aria-label="Cosine similarity equals A dot B divided by the magnitudes of A and B">cos θ = (A · B) / (‖A‖ ‖B‖)</div>
+<p class="caption">Cosine similarity ranges from −1 to +1. This geometric demonstration uses unit vectors.</p>
+</div></section>
+<section aria-labelledby="ragTitle"><h2 id="ragTitle">4. Embeddings inside RAG</h2>
+<div class="card"><div class="rag"><div class="ragitem blue"><b>Question</b>“How many vacation days?”</div><div class="ragdown">↓</div><div class="ragitem purple"><b>Question embedding</b>Vector search</div><div class="ragdown">↓</div><div class="matched"><div class="match"><span>Leave allowance: 20 days</span><b>Match</b></div><div class="match"><span>Sick leave: 10 days</span><b>Related</b></div><div class="match" style="background:#f0f2f6"><span>Work hours: 8 per day</span><b style="color:#64748b">Less relevant</b></div></div><div class="ragdown">↓</div><div class="ragitem green"><b>LLM answer</b>“You receive 20 days.”</div></div>
+<p class="caption">Embeddings help retrieve relevant text even when the question uses different words.</p></div></section>
+<p class="remember"><strong>Remember:</strong> An embedding represents information as a vector. Related meanings often have similar vectors, making semantic search possible.</p>
+</main>
+<script>
+"use strict";
+const points=[
+{t:"Dog",x:49,y:99,c:"animal"},{t:"Puppy",x:74,y:59,c:"animal"},{t:"Cat",x:98,y:133,c:"animal"},
+{t:"Car",x:166,y:100,c:"vehicle"},{t:"Bus",x:190,y:59,c:"vehicle"},{t:"Train",x:221,y:132,c:"vehicle"},
+{t:"Pizza",x:267,y:99,c:"food"},{t:"Pasta",x:291,y:58,c:"food"},{t:"Burger",x:311,y:132,c:"food"}];
+const color={animal:"#2563eb",vehicle:"#7c3aed",food:"#16a34a"};
+const $=id=>document.getElementById(id);
+let query="Dog",step=0;
+function renderMap(){
+ const chosen=points.find(p=>p.t===query),sorted=points.filter(p=>p.t!==query).map(p=>Object.assign({},p,{d:Math.hypot(p.x-chosen.x,p.y-chosen.y)})).sort((a,b)=>a.d-b.d);
+ let s='<rect x="5" y="7" width="110" height="164" rx="9" fill="#eff6ff"/><rect x="121" y="7" width="124" height="164" rx="9" fill="#f5f3ff"/><rect x="251" y="7" width="84" height="164" rx="9" fill="#f0fdf4"/><g font-size="10" font-weight="600" text-anchor="middle"><text x="59" y="24" fill="#2563eb">Animals</text><text x="183" y="24" fill="#7c3aed">Vehicles</text><text x="293" y="24" fill="#15803d">Food</text></g>';
+ sorted.slice(0,2).forEach(p=>{s+='<line x1="'+chosen.x+'" y1="'+chosen.y+'" x2="'+p.x+'" y2="'+p.y+'" stroke="#edb130" stroke-width="2.5" stroke-dasharray="4 4"/>'});
+ points.forEach(p=>{if(p.t===query)s+='<circle cx="'+p.x+'" cy="'+p.y+'" r="14" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>';s+='<circle cx="'+p.x+'" cy="'+p.y+'" r="'+(p.t===query?7:5)+'" fill="'+color[p.c]+'"/><text x="'+p.x+'" y="'+(p.y-13)+'" text-anchor="middle" font-size="10" font-weight="'+(p.t===query?'700':'500')+'" fill="#334155">'+p.t+'</text>'});
+ $('semanticMap').innerHTML=s;$('nearTitle').textContent='Nearest to “'+query+'”';
+ $('similarityResults').innerHTML=sorted.slice(0,3).map((p,i)=>{const v=Math.max(0,Math.round(100-p.d*.4));return '<div class="metricrow"><span>'+(i+1)+'. '+p.t+'</span><span>'+v+'%</span></div><div class="bar '+(i===0?'first':'')+'"><i style="width:'+v+'%"></i></div>'}).join('');
+ document.querySelectorAll('[data-query]').forEach(b=>{const active=b.dataset.query===query;b.classList.toggle('primary',active);b.setAttribute('aria-pressed',String(active))});
+}
+document.querySelectorAll('[data-query]').forEach(b=>b.addEventListener('click',()=>{query=b.dataset.query;renderMap()}));
+function renderStep(){
+ document.querySelectorAll('[data-step]').forEach(b=>{if(Number(b.dataset.step)===step)b.setAttribute('aria-current','step');else b.removeAttribute('aria-current')});
+ $('prevStep').disabled=step===0;$('nextStep').textContent=step===3?'↻ Restart':'Next step ›';
+ const h=[
+ '<div style="font-size:34px;color:#2563eb">▤</div><div class="quote">A puppy is playing</div><div class="caption">Input text</div>',
+ '<div class="bigtoken"><span>A</span><span>puppy</span><span>is</span><span>playing</span></div><div class="caption">Simplified tokenization. Actual tokenizers may use subword pieces.</div>',
+ '<div class="modelbox"><span class="glyph">◈</span><strong>Embedding model</strong></div><div class="caption">Combines token representations into a sentence vector.</div>',
+ '<div class="nums"><span>0.82</span><span>0.15</span><span class="neg">−0.46</span><span>0.71</span><span>0.33</span><span class="neg">−0.19</span></div><div class="caption">One illustrative vector for the whole sentence.</div>'
+ ];
+ $('stepBody').innerHTML=h[step];
+}
+document.querySelectorAll('[data-step]').forEach(b=>b.addEventListener('click',()=>{step=Number(b.dataset.step);renderStep()}));
+$('prevStep').addEventListener('click',()=>{step=Math.max(0,step-1);renderStep()});
+$('nextStep').addEventListener('click',()=>{step=(step+1)%4;renderStep()});
+function renderCos(){
+ const angle=Number($('angle').value),rad=angle*Math.PI/180,x=170+98*Math.cos(rad),y=110-98*Math.sin(rad),bx=170+105*Math.cos(rad),by=110-105*Math.sin(rad)-8;
+ const cos=Math.cos(rad);const label=cos>.7?'Aligned':cos>.15?'Partly aligned':cos>=-.15?'Orthogonal':cos>-.7?'Opposing':'Opposite';
+ $('cosDiagram').innerHTML='<circle cx="170" cy="110" r="98" stroke="#e2e8f0" stroke-dasharray="4 4" fill="none"/><path d="M60 110 H286 M170 12 V163" stroke="#e2e8f0" stroke-width="1.2"/><line x1="170" y1="110" x2="268" y2="110" stroke="#2563eb" stroke-width="4" stroke-linecap="round"/><circle cx="268" cy="110" r="5" fill="#2563eb"/><line x1="170" y1="110" x2="'+x+'" y2="'+y+'" stroke="#16a34a" stroke-width="4" stroke-linecap="round"/><circle cx="'+x+'" cy="'+y+'" r="5" fill="#16a34a"/><circle cx="170" cy="110" r="4" fill="#64748b"/><text x="278" y="104" font-size="12" font-weight="700" fill="#2563eb">A</text><text x="'+bx+'" y="'+by+'" font-size="12" font-weight="700" text-anchor="middle" fill="#15803d">B</text><text x="170" y="172" font-size="10" text-anchor="middle" fill="#64748b">Illustrative unit vectors</text>';
+ $('angleDisplay').textContent=angle+'°';$('cosValue').textContent=cos.toFixed(2);$('cosRelation').textContent=label;
+}
+$('angle').addEventListener('input',renderCos);
+document.querySelectorAll('[data-angle]').forEach(b=>b.addEventListener('click',()=>{$('angle').value=b.dataset.angle;renderCos()}));
+renderMap();renderStep();renderCos();
+</script>
+</body></html>
