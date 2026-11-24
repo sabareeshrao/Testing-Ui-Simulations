@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#f8faff">
+<meta name="description" content="An illustrated, interactive, offline guide to Convolutional Neural Networks (CNNs), filters, ReLU, pooling, and training.">
+<title>CNN — Convolutional Neural Network</title>
+<style>
+:root{--bg:#f7f9fd;--white:#fff;--ink:#18263a;--muted:#62748b;--line:#dde5f0;--blue:#2563eb;--violet:#7c3aed;--green:#169b60;--amber:#dd920d;--softblue:#eaf2ff;--softpurple:#f2edff;--softgreen:#e9fbf2}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+main{max-width:870px;margin:auto;padding:28px 17px 56px}.eyebrow{font-size:11px;color:#2563eb;letter-spacing:.16em;font-weight:850}.hero{padding:5px 2px 16px}h1{font-size:clamp(36px,7vw,53px);letter-spacing:-.05em;line-height:1.07;margin:7px 0 12px}h2{font-size:clamp(22px,4vw,26px);letter-spacing:-.035em;line-height:1.2;margin:32px 0 11px}h3{font-size:17px;margin:0 0 4px}p{margin:0}.lead{font-size:17px;color:#53657c;max-width:660px}.lead strong{color:var(--ink)}
+.card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:19px;box-shadow:0 6px 20px rgba(31,50,93,.035)}.muted,.caption{font-size:12px;color:var(--muted)}.caption{margin-top:11px;line-height:1.55}.explain{font-size:14px;line-height:1.65;color:#50617a;margin:0 0 14px}.explain strong,.explain b{color:#1e293b}.badge{font-size:11px;font-weight:800;border:1px solid #dbe4ef;border-radius:999px;padding:4px 9px;white-space:nowrap;color:#64748b}.between{display:flex;justify-content:space-between;align-items:center;gap:10px}.row{display:flex;gap:9px;align-items:center}.split{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}.center{text-align:center}.smalltitle{font-size:14px;font-weight:750;margin:0 0 8px}.tile{background:#f8fafc;border-radius:12px;padding:12px}.line{height:1px;background:#e6ebf2;margin:15px 0}
+.pipeline{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}.pipe{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:105px;text-align:center;border-radius:13px;background:#f3f6fa;border:1px solid #e2e8f0;gap:4px;padding:10px 4px}.pipe[data-k="1"]{background:#eaf2ff;border-color:#c7ddff}.pipe[data-k="2"]{background:#f1ebff;border-color:#d9cbff}.pipe[data-k="3"]{background:#ecfdf5;border-color:#bbebd1}.pipe strong{font-size:12px}.pipe span{font-size:24px}.pipe small{font-size:10px;color:#697a90}.stagebar{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;margin:15px 0 10px}.stagebar button{font:700 11px system-ui;border:0;border-radius:7px;min-height:30px;padding:7px 3px;background:#e9eef6;color:#62758d;cursor:pointer}.stagebar button[aria-current="step"]{background:#2563eb;color:#fff}.stageDescription{border:1px solid #e1e9f3;border-radius:10px;padding:11px 13px;font-size:13px;color:#4d5f77;min-height:62px}
+.btn{border:1px solid #cad7e7;border-radius:10px;padding:10px 13px;font:700 14px system-ui;background:#fff;color:#31425b;cursor:pointer;min-height:44px;transition:.16s background,.16s color,.16s transform}.btn:active:not(:disabled){transform:scale(.98)}.btn:hover:not(:disabled){background:#f0f6ff;border-color:#94b5f9}.btn.primary,.btn[aria-pressed="true"]{background:#2563eb;color:#fff;border-color:#2563eb}.btn:disabled{opacity:.45;cursor:default}button:focus-visible,input:focus-visible{outline:3px solid #93c5fd;outline-offset:3px}.pickerlabel{font-size:13px;font-weight:750;display:block;margin-bottom:7px}.options{display:flex;gap:8px;margin-bottom:15px}.options .btn{flex:1;min-width:0;padding:9px 6px}.matrix{display:grid;gap:3px;max-width:100%;margin:auto}.m5{grid-template-columns:repeat(5,minmax(0,1fr));width:min(240px,100%)}.m3{grid-template-columns:repeat(3,minmax(0,1fr));width:min(176px,100%)}.m2{grid-template-columns:repeat(2,minmax(0,1fr));width:min(145px,100%)}.cell{display:flex;align-items:center;justify-content:center;aspect-ratio:1;border-radius:5px;font-size:13px;font-weight:800;color:#25466c;background:#e6eefc;border:2px solid transparent;min-width:0;font-variant-numeric:tabular-nums;transition:background .22s,border-color .22s}.cell.on{background:#2563eb;color:#fff}.cell.window{border:2px solid #f59e0b}.cell.pos{background:#ede9fe;color:#6d28d9}.cell.neg{background:#f1f5f9;color:#6b788b}.cell.positive{background:#bfdbfe;color:#1d4ed8}.cell.relu-on{background:#bbf7d0;color:#166534}.cell.pooled{background:#ede9fe;color:#6d28d9}.cell.selected{border-color:#f59e0b}.diagramWrap{display:grid;grid-template-columns:1.08fr .92fr;gap:13px;align-items:start}.matrixPanel{text-align:center;padding:13px 8px;border:1px solid #e4eaf3;border-radius:13px;background:#fcfdff;min-width:0}.matrixPanel .caption{margin:7px 0 0}.matrixPanel strong{display:block;margin-bottom:9px}.posrow{margin:17px 0 5px}.posrow output{font-size:13px;font-weight:700;color:#2563eb;font-variant-numeric:tabular-nums}input[type=range]{width:100%;accent-color:#2563eb;height:31px;cursor:pointer}.controls{display:flex;gap:8px;align-items:center;justify-content:space-between}.calculation{background:#f6f8fc;border-radius:13px;padding:14px;margin-top:12px}.calculation>.between{margin-bottom:11px}.calculation .number{font-size:27px;font-weight:850;color:#12764b;font-variant-numeric:tabular-nums}.multiply{display:flex;align-items:center;justify-content:center;gap:7px;min-width:0}.multiply .matrix{width:100px;flex:0 1 100px}.multiply .cell{font-size:11px;border-radius:4px}.mathSign{font-weight:800;color:#7a899f;font-size:21px}.formulaLine{font-size:12px;color:#5c6d82;margin-top:10px;word-break:break-word;text-align:center;font-family:ui-monospace,SFMono-Regular,Consolas,monospace}
+.resultPanel{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}.resultPanel .matrixPanel{padding:13px 7px}.poolArea{display:flex;flex-direction:column;align-items:center;gap:9px;margin-top:14px;padding:13px 10px;border:1px solid #e5e9f3;border-radius:13px;background:#fcfdff}.down{font-size:25px;color:#8b9aad;line-height:1}.poolArea .matrix{width:150px}
+.score{margin:10px 0 14px}.score .bar{height:12px;border-radius:99px;overflow:hidden;background:#eef1f7}.score .bar>i{height:100%;display:block;border-radius:99px;background:#a78bfa;transition:width .35s}.score.best .bar>i{background:#16a36a}.scorehead{display:flex;align-items:center;justify-content:space-between;font-size:13px;margin-bottom:5px}.scorehead b{font-variant-numeric:tabular-nums}.callout{background:#f0fdf4;border:1px solid #d5f3e0;border-radius:10px;padding:12px;font-size:13px;margin-top:10px;color:#165b3c}
+.training{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;align-items:center;margin:5px 0 15px}.trainbox{background:#eaf2ff;color:#1d4ed8;border:1px solid #c7dbff;border-radius:10px;min-height:74px;display:flex;justify-content:center;align-items:center;text-align:center;flex-direction:column;padding:9px;gap:4px;font-weight:800;font-size:13px}.trainbox small{font-size:11px;font-weight:400;color:#5f6f85}.trainbox:nth-child(2){background:#f0eaff;color:#6d28d9;border-color:#ddcfff}.trainbox:nth-child(3){background:#fff7e7;color:#946210;border-color:#fde3a9}.trainbottom{display:flex;flex-direction:column;align-items:center;gap:5px}.loop{display:block;text-align:center;color:#0f9c60;font-size:18px}.backprop{background:#e6faef;color:#146b42;border:1px solid #adebc9;border-radius:10px;padding:11px 18px;text-align:center;font-size:13px;font-weight:750;max-width:350px;width:100%}.gridfacts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.fact{padding:12px;border-radius:12px;background:#f7f9fd;border:1px solid #e6ecf5}.fact strong{font-size:13px;display:block}.fact p{font-size:12px;color:#65748a;margin-top:5px}
+.remember{margin-top:29px;padding:14px 16px;background:#eef5ff;border-left:4px solid #2563eb;border-radius:4px 12px 12px 4px;font-size:14px;color:#425673}.remember strong{color:#184db5}
+@media(max-width:600px){main{padding:20px 10px 42px}.card{padding:13px;border-radius:14px}.pipeline{gap:4px}.pipe{min-height:91px;padding:7px 2px}.pipe span{font-size:21px}.pipe strong{font-size:10px}.pipe small{font-size:9px}.diagramWrap{gap:9px}.matrixPanel{padding:10px 5px}.matrixPanel strong{font-size:13px}.matrixPanel .cell{font-size:11px}.multiply .matrix{flex:1}.multiply{gap:3px}.multiply .cell{font-size:9px}.mathSign{font-size:15px}.calculation{padding:11px}.resultPanel{gap:8px}.gridfacts{grid-template-columns:1fr}.training{gap:6px}.trainbox{font-size:11px;padding:5px;min-height:75px}.trainbox small{font-size:10px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body><main>
+<header class="hero"><div class="eyebrow">INTERACTIVE NEURAL NETWORK LESSON</div><h1>CNN</h1><p class="lead"><strong>Convolutional Neural Network</strong> — a model that learns to recognize local patterns in images, from edges and shapes to entire objects.</p></header>
+
+<section aria-labelledby="architectureTitle"><h2 id="architectureTitle">1. How a CNN works</h2><p class="explain">A CNN looks at small neighborhoods of pixels instead of treating the whole image as one unstructured list. It repeatedly extracts features and uses them to make a prediction.</p>
+<div class="card">
+<div class="pipeline" aria-label="Simplified image classification pipeline">
+<div class="pipe" data-k="1"><span aria-hidden="true">▦</span><strong>Image</strong><small>Pixels</small></div>
+<div class="pipe" data-k="2"><span aria-hidden="true">▩</span><strong>Convolution</strong><small>Filters</small></div>
+<div class="pipe" data-k="2"><span aria-hidden="true">⚡</span><strong>ReLU</strong><small>Activation</small></div>
+<div class="pipe" data-k="2"><span aria-hidden="true">▤</span><strong>Pooling</strong><small>Summary</small></div>
+<div class="pipe" data-k="3"><span aria-hidden="true">🎯</span><strong>Classify</strong><small>Prediction</small></div>
+</div>
+<div class="stagebar" id="archSteps"><button data-stage="0" aria-current="step">Image</button><button data-stage="1">Filter</button><button data-stage="2">ReLU</button><button data-stage="3">Pooling</button><button data-stage="4">Classify</button></div>
+<div id="stageDescription" class="stageDescription" aria-live="polite">An image is a grid of pixel values. Color images generally have red, green, and blue channels.</div>
+<p class="caption">A typical CNN repeats convolution blocks many times before classification. This diagram is simplified.</p>
+</div></section>
+
+<section aria-labelledby="simTitle"><h2 id="simTitle">2. Try a convolution yourself</h2>
+<p class="explain">The same <strong>3×3 filter</strong> slides over a 5×5 image. At each position, multiply overlapping values and add them. A strong positive result means this filter found a pattern it responds to.</p>
+<div class="card">
+<div class="between"><h3>Convolution simulator</h3><span class="badge">LIVE CALCULATION</span></div>
+<div style="margin-top:15px"><span class="pickerlabel">Choose an image pattern</span><div class="options" id="patterns" role="group" aria-label="Image pattern"><button class="btn primary" data-pattern="Vertical" aria-pressed="true">Vertical</button><button class="btn" data-pattern="Horizontal" aria-pressed="false">Horizontal</button><button class="btn" data-pattern="Diagonal" aria-pressed="false">Diagonal</button></div></div>
+<div><span class="pickerlabel">Choose a filter</span><div class="options" id="filters" role="group" aria-label="Kernel type"><button class="btn primary" data-filter="Vertical" aria-pressed="true">Vertical</button><button class="btn" data-filter="Horizontal" aria-pressed="false">Horizontal</button><button class="btn" data-filter="Diagonal" aria-pressed="false">Diagonal</button></div></div>
+<div class="diagramWrap">
+<div class="matrixPanel"><strong>Input image · 5×5</strong><div class="matrix m5" id="inputMatrix" aria-label="Pixel values"></div><div class="caption">Orange border: current window</div></div>
+<div class="matrixPanel"><strong>Filter · 3×3</strong><div class="matrix m3" id="filterMatrix" aria-label="Kernel weights"></div><div class="caption">Shared weights</div></div>
+</div>
+<div class="between posrow"><label for="scan"><strong>Move the filter</strong></label><output id="scanValue" for="scan">Position 5 of 9</output></div>
+<input id="scan" type="range" min="0" max="8" value="4" step="1" aria-label="Filter scanning position">
+<div class="controls"><span class="muted">Stride = 1 · No padding</span><button class="btn" id="play" aria-pressed="false">▶ Auto scan</button></div>
+<div class="calculation">
+<div class="between"><strong>Multiply and sum</strong><output class="number" id="sumValue">6</output></div>
+<div class="multiply"><div class="matrix m3" id="patchMatrix" aria-label="Selected image patch"></div><span class="mathSign">×</span><div class="matrix m3" id="calcKernel" aria-label="Corresponding kernel"></div><span class="mathSign">=</span><div class="number" id="calcResult">6</div></div>
+<div class="formulaLine" id="calcFormula">0×−1 + ... = 6</div>
+</div>
+<p class="caption">This example uses hand-designed kernels and 0/1 pixels, so the result is easy to calculate. Real CNN filters are usually learned during training.</p>
+</div></section>
+
+<section aria-labelledby="resultTitle"><h2 id="resultTitle">3. Feature maps → ReLU → Pooling</h2>
+<p class="explain"><strong>Convolution</strong> creates a feature map showing where a pattern responds. <strong>ReLU</strong> replaces negative responses with zero. <strong>Max pooling</strong> keeps the strongest value within each local window, making a smaller representation.</p>
+<div class="card">
+<div class="resultPanel">
+<div class="matrixPanel"><strong>Convolution output</strong><div class="matrix m3" id="convMap" aria-label="Three by three feature map"></div><div class="caption">5 − 3 + 1 = 3</div></div>
+<div class="matrixPanel"><strong>After ReLU</strong><div class="matrix m3" id="reluMap" aria-label="Feature map after ReLU"></div><div class="caption">ReLU(x) = max(0, x)</div></div>
+</div>
+<div class="poolArea"><div class="down" aria-hidden="true">↓</div><strong>Max pooling: 2×2 window</strong><div class="matrix m2" id="poolMap" aria-label="Two by two pooled feature map"></div><p class="caption center">Stride 1 → 2×2 output. Many CNNs use stride 2 instead.</p></div>
+<p class="caption">The output updates when you change the input pattern or kernel above. Here all operations are shown without training or hidden calculations.</p>
+</div></section>
+
+<section aria-labelledby="detectionTitle"><h2 id="detectionTitle">4. Which pattern was detected?</h2>
+<p class="explain">Different filters respond to different shapes. A real CNN learns many filters. These three simple, hand-designed filters demonstrate why multiple feature maps are useful.</p>
+<div class="card"><div class="between"><h3>Filter response comparison</h3><span class="badge">TOY EXAMPLE</span></div>
+<div id="filterScores" aria-live="polite" style="margin-top:14px"></div>
+<div id="detectorResult" class="callout"></div>
+<p class="caption">Bars show the sum of positive responses for each filter, not model probabilities or a trained classification. These particular patterns are constructed to make the comparison clear.</p>
+</div></section>
+
+<section aria-labelledby="trainTitle"><h2 id="trainTitle">5. How a CNN learns</h2>
+<p class="explain">During training, a CNN predicts an output, compares it with the correct answer, and adjusts its filter weights to reduce the error. This process repeats across many examples.</p>
+<div class="card">
+<div class="training"><div class="trainbox">Training image <small>+ correct label</small></div><div class="trainbox">CNN prediction <small>Forward pass</small></div><div class="trainbox">Loss <small>How wrong?</small></div></div>
+<div class="trainbottom"><div class="loop" aria-hidden="true">↙ &nbsp;&nbsp;&nbsp; ↓ &nbsp;&nbsp;&nbsp; ↘</div><div class="backprop">Backpropagation + optimizer<br><span style="font-weight:450">Update filter weights, then repeat</span></div></div>
+<div class="line"></div>
+<div class="gridfacts"><div class="fact"><strong>Early layers</strong><p>Often detect edges, contrast, and textures.</p></div><div class="fact"><strong>Deeper layers</strong><p>Combine small patterns into richer features.</p></div><div class="fact"><strong>Output layer</strong><p>Maps learned features to predictions.</p></div></div>
+</div></section>
+
+<section aria-labelledby="conceptTitle"><h2 id="conceptTitle">6. Three important CNN ideas</h2>
+<div class="card"><div class="gridfacts"><div class="fact"><strong>Local receptive field</strong><p>A small filter inspects a local patch rather than the whole image at once.</p></div><div class="fact"><strong>Weight sharing</strong><p>The same learned filter is reused in different locations, reducing parameters.</p></div><div class="fact"><strong>Stride & padding</strong><p>Stride controls how far the filter moves; padding controls treatment of image borders.</p></div></div>
+<p class="caption">Technical note: common CNN libraries perform cross-correlation (without flipping the kernel), though the operation is traditionally called “convolution.”</p>
+</div></section>
+<p class="remember"><strong>Remember:</strong> Convolution finds local patterns. ReLU adds nonlinearity. Pooling summarizes spatial features. Training learns which filters are useful.</p>
+</main>
+<script>
+"use strict";
+const FILTERS={
+ Vertical:[-1,2,-1,-1,2,-1,-1,2,-1],
+ Horizontal:[-1,-1,-1,2,2,2,-1,-1,-1],
+ Diagonal:[2,-1,-1,-1,2,-1,-1,-1,2]
+};
+const TYPES=Object.keys(FILTERS);
+const stageTexts=[
+ "An image is a grid of pixel values. Color images generally have red, green, and blue channels.",
+ "A small filter slides across the image. It uses the same weights at every location to create a feature map.",
+ "ReLU replaces negative activations with zero. This nonlinearity helps the network learn complex patterns.",
+ "Pooling summarizes neighborhoods, often reducing spatial resolution while preserving strong responses.",
+ "Later layers combine learned features and a classifier produces scores for possible labels."
+];
+const $=id=>document.getElementById(id);
+let pattern="Vertical",filter="Vertical",pos=4,stage=0,timer=null;
+function pixelsFor(name){return Array.from({length:25},(_,i)=>{const r=Math.floor(i/5),c=i%5;return Number(name==="Vertical"?c===2:name==="Horizontal"?r===2:r===c)})}
+function convolution(pixels,k){
+ return Array.from({length:9},(_,i)=>{
+ const r=Math.floor(i/3),c=i%3;
+ return k.reduce((sum,v,j)=>sum+v*pixels[(r+Math.floor(j/3))*5+c+j%3],0)
+ })
+}
+function relu(arr){return arr.map(v=>Math.max(0,v))}
+function pool(arr){return [0,1,3,4].map(i=>Math.max(arr[i],arr[i+1],arr[i+3],arr[i+4]))}
+function box(v,classes){return '<div class="cell '+classes+'">'+v+'</div>'}
+function render(){
+ const pix=pixelsFor(pattern),ker=FILTERS[filter],o=convolution(pix,ker),act=relu(o),pooled=pool(act);
+ const r=Math.floor(pos/3),c=pos%3;
+ $('inputMatrix').innerHTML=pix.map((v,i)=>{
+ const rr=Math.floor(i/5),cc=i%5,inside=rr>=r&&rr<r+3&&cc>=c&&cc<c+3;
+ return box(v,(v?'on ':'')+(inside?'window':''))
+ }).join('');
+ $('filterMatrix').innerHTML=ker.map(v=>box(v,v===2?'pos':'neg')).join('');
+ const patch=ker.map((_,j)=>pix[(r+Math.floor(j/3))*5+c+j%3]);
+ $('patchMatrix').innerHTML=patch.map(v=>box(v,v?'on':'')).join('');
+ $('calcKernel').innerHTML=ker.map(v=>box(v,v===2?'pos':'neg')).join('');
+ $('convMap').innerHTML=o.map((v,i)=>box(v,(v>0?'positive':v<0?'neg':'')+(i===pos?' selected':''))).join('');
+ $('reluMap').innerHTML=act.map(v=>box(v,v>0?'relu-on':'neg')).join('');
+ $('poolMap').innerHTML=pooled.map(v=>box(v,'pooled')).join('');
+ $('scan').value=String(pos);$('scanValue').textContent='Position '+(pos+1)+' of 9';
+ $('sumValue').textContent=String(o[pos]);$('calcResult').textContent=String(o[pos]);
+ $('calcFormula').textContent=patch.map((p,j)=>p+'×'+(ker[j]===-1?'−1':ker[j])).join(' + ')+' = '+o[pos];
+ document.querySelectorAll('[data-pattern]').forEach(b=>{const active=b.dataset.pattern===pattern;b.classList.toggle('primary',active);b.setAttribute('aria-pressed',String(active))});
+ document.querySelectorAll('[data-filter]').forEach(b=>{const active=b.dataset.filter===filter;b.classList.toggle('primary',active);b.setAttribute('aria-pressed',String(active))});
+ renderScores(pix);
+}
+function renderScores(pix){
+ const scores=TYPES.map(name=>({name,score:relu(convolution(pix,FILTERS[name])).reduce((a,b)=>a+b,0)}));
+ const max=Math.max(...scores.map(x=>x.score)),winner=scores.find(x=>x.score===max);
+ $('filterScores').innerHTML=scores.map(s=>{
+ const pct=Math.round((s.score/18)*100);
+ return '<div class="score '+(s.score===max?'best':'')+'"><div class="scorehead"><span>'+s.name+' detector</span><b>'+s.score+'</b></div><div class="bar"><i style="width:'+pct+'%"></i></div></div>'
+ }).join('');
+ $('detectorResult').innerHTML='<strong>'+winner.name+' pattern</strong> is the strongest match for this example input.';
+}
+function renderStage(){
+ $('stageDescription').textContent=stageTexts[stage];
+ document.querySelectorAll('[data-stage]').forEach(b=>{if(Number(b.dataset.stage)===stage)b.setAttribute('aria-current','step');else b.removeAttribute('aria-current')});
+}
+function setPlaying(playing){
+ if(timer!==null){clearInterval(timer);timer=null}
+ if(playing){timer=setInterval(()=>{pos=(pos+1)%9;render()},650)}
+ $('play').textContent=playing?'❚❚ Pause scan':'▶ Auto scan';
+ $('play').setAttribute('aria-pressed',String(playing));
+}
+document.querySelectorAll('[data-pattern]').forEach(b=>b.addEventListener('click',()=>{pattern=b.dataset.pattern;pos=4;render()}));
+document.querySelectorAll('[data-filter]').forEach(b=>b.addEventListener('click',()=>{filter=b.dataset.filter;pos=4;render()}));
+document.querySelectorAll('[data-stage]').forEach(b=>b.addEventListener('click',()=>{stage=Number(b.dataset.stage);renderStage()}));
+$('scan').addEventListener('input',e=>{pos=Number(e.target.value);render()});
+$('play').addEventListener('click',()=>setPlaying(timer===null));
+document.addEventListener('visibilitychange',()=>{if(document.hidden)setPlaying(false)});
+render();renderStage();
+</script>
+</body></html>
