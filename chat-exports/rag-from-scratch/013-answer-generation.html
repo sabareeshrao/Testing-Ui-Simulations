@@ -1,0 +1,150 @@
+<!doctype html><html lang="te"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="dark"><title>Stage 013 — Answer Generation</title><style>:root{color-scheme:dark;--ink:#ececec;--muted:#a1a1aa;--line:#404040;--soft:#292929;--blue:#60a5fa;--green:#4ade80}*{box-sizing:border-box}html,body{background:#212121;color:var(--ink);margin:0}body{font:16px/1.7 system-ui,-apple-system,"Segoe UI",sans-serif}main{width:min(100%,790px);margin:auto;padding:20px 22px 48px}h1{font-size:clamp(25px,4.8vw,31px);line-height:1.3;margin:0 0 14px}h2{font-size:22px;line-height:1.35;margin:28px 0 12px}h3{font-size:17px;line-height:1.45;margin:21px 0 9px}p{margin:12px 0}small{font-size:13px;color:var(--muted)}a{color:#93c5fd;overflow-wrap:anywhere;text-underline-offset:3px}.card{border:1px solid var(--line);border-radius:14px;padding:16px;margin:16px 0;background:#252525}.card h2:first-child{margin-top:0;font-size:17px}.row{display:flex;align-items:center;gap:8px;min-width:0}.between{justify-content:space-between}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.three{grid-template-columns:repeat(3,minmax(0,1fr))}.tile{padding:12px;border:1px solid var(--line);border-radius:8px;overflow-wrap:anywhere}.center{text-align:center}.arrow{text-align:center;color:#a1a1aa;font-size:22px;line-height:1.3;margin:5px}.diagram{display:block;width:100%;height:auto;color:#d4d4d8;max-height:620px}.diagram text{font-family:system-ui,sans-serif;fill:currentColor}.diagram text[fill]{fill:attr(fill color,currentColor)}.codebox{border:1px solid #404040;background:#171717;border-radius:11px;overflow:hidden;margin:14px 0}.codehead{display:flex;align-items:center;justify-content:space-between;background:#2c2c2c;color:#bcbcbc;padding:7px 12px;font-size:12px}.codebox pre{margin:0;padding:14px;overflow-x:auto;white-space:pre;tab-size:4;color:#e6edf3;font:13px/1.65 ui-monospace,Consolas,monospace}.codebox code{font:inherit;background:transparent;padding:0}.kw{color:#ff7b72}.str{color:#a5d6ff}.fn{color:#d2a8ff}.num{color:#79c0ff}.op{color:#ff7b72}.com{color:#8b949e}code{background:#303030;padding:2px 4px;border-radius:4px;font:13px ui-monospace,monospace;overflow-wrap:anywhere}.terminal{background:#0d1117;color:#e6edf3;border-radius:10px;padding:14px;margin:12px 0;white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.65 ui-monospace,monospace}.terminal small{color:#8b949e}.terminal b{color:#7ee787}.terminal em{color:#79c0ff;font-style:normal}button{border:1px solid #555;border-radius:9px;background:#303030;color:#eee;padding:9px 13px;font:600 14px system-ui;cursor:pointer;min-height:38px}button.copy,.qcopy{font-size:12px;min-height:28px;padding:4px 8px;background:transparent;border:0;color:#c7c7c7}button:focus-visible,input:focus-visible{outline:2px solid #60a5fa;outline-offset:2px}input[type=range]{width:100%;accent-color:#c4b5fd;min-height:28px}input[type=text]{width:100%;background:#171717;border:1px solid #555;border-radius:8px;padding:12px;color:#eee;font:inherit}label{display:block;margin:12px 0}output{float:right;font-weight:700}.scroll{overflow:auto}table{width:100%;border-collapse:collapse;font-size:14px;margin:12px 0}td,th{text-align:left;padding:9px 8px;border-bottom:1px solid var(--line);vertical-align:top}hr{border:0;border-top:1px solid var(--line);margin:22px 0}.heat{display:flex;gap:3px;margin:4px 0}.heat i{flex:1;min-width:2px;height:14px;border-radius:2px}.tree{font:13px/1.8 ui-monospace,monospace;white-space:pre-wrap}.good{color:#4ade80}.bad{color:#f87171}.purple{color:#c4b5fd}.big{font-size:26px;font-weight:650}.bar{height:9px;background:#3b3b3b;border-radius:9px;overflow:hidden}.bar i{display:block;background:#16a34a;height:100%;border-radius:9px}.rankrow{padding:7px 0}.rankbar{height:11px;background:#333;position:relative;border-radius:3px;overflow:hidden}.rankbar:after{content:'';position:absolute;left:50%;height:100%;border-left:1px solid #888}.rankbar i{position:absolute;height:100%;border-radius:2px}.change{border-radius:8px;padding:10px;margin:8px 0;font:13px ui-monospace,monospace;overflow-wrap:anywhere}.remove{background:#ef444418;color:#f87171}.add{background:#16a34a18;color:#86efac}.stage{padding:5px 0}.next{background:#303030;border-radius:6px;padding:5px}.qrow{padding:10px 0;border-bottom:1px solid #404040}.qrow span{flex:1}.metric{font-size:26px;font-weight:650}.validation{font-size:13px}.kv{padding:8px 0;border-bottom:1px solid var(--line)}.flowlabel{font-size:12px;color:#aaa}.badge{font-size:12px;color:#4ade80}.muted{color:#a1a1aa}@media(max-width:460px){main{padding:16px 15px 35px}.card{padding:12px}.grid{gap:7px}.tile{padding:8px}.codebox pre,.terminal{font-size:12px}h2{font-size:20px}.row{gap:5px}.three{gap:5px}.three .tile{padding:6px}}button:disabled{opacity:.45;cursor:default}main{width:min(100%,1120px)}input[type=checkbox]{accent-color:#4ade80;width:18px;height:18px;flex:none}#payload{white-space:pre-wrap;overflow-wrap:anywhere}#payload{white-space:pre-wrap;overflow-wrap:anywhere}select,textarea{display:block;width:100%;padding:10px;background:#171717;color:#ececec;border:1px solid #555;border-radius:8px;font:inherit}textarea{resize:vertical}button:disabled{opacity:.45;cursor:default}</style></head><body><main><h1>Stage 013 — Answer Generation</h1><small>D01 07:39 onwards · Extracting and displaying the LLM answer</small><p>GitHub లో Stage 012 వరకు ఉన్న source code, 458 timestamp actions verify చేశాను. ఇప్పటివరకు మన application LLM కి augmented prompt పంపించి response object తీసుకుంటుంది. కానీ terminal లో response status మాత్రమే చూపిస్తుంది.</p><div class="codebox"><div class="codehead"><span>text</span><button class="copy" type="button">Copy</button></div><pre><code>LLM response status: completed</code></pre></div><p>User కి కావాల్సింది status కాదు. తన question కి answer. ఈ stage లో response object నుంచి actual generated text extract చేసి, validate చేసి, terminal లో display చేస్తాం.</p><section class="card"><svg class="diagram" viewBox="0 0 340 300" role="img" aria-label="Prompt to answer extraction"><rect x="45" y="5" width="250" height="43" rx="7" stroke="#8b5cf6" fill="#8b5cf6" fill-opacity=".1"/><text x="170" y="22" text-anchor="middle" font-size="12" font-weight="bold">Augmented prompt</text><text x="170" y="37" text-anchor="middle" font-size="10">Question + retrieved context</text><path d="M170 48V66" stroke="currentColor" fill="none" stroke-dasharray="3 3"/><rect x="45" y="67" width="250" height="43" rx="7" stroke="#3b82f6" fill="#3b82f6" fill-opacity=".1"/><text x="170" y="84" text-anchor="middle" font-size="12" font-weight="bold">LLM</text><text x="170" y="99" text-anchor="middle" font-size="10">Generates response</text><path d="M170 110V128" stroke="currentColor" stroke-dasharray="3 3"/><rect x="35" y="129" width="270" height="68" rx="7" stroke="#d97706" fill="#d97706" fill-opacity=".07"/><text x="170" y="147" text-anchor="middle" font-size="11" font-weight="bold">Response object</text><rect x="47" y="157" width="118" height="28" rx="4" fill="#64748b" fill-opacity=".15"/><text x="106" y="174" text-anchor="middle" font-size="10">status</text><rect x="175" y="157" width="118" height="28" rx="4" stroke="#16a34a" fill="#16a34a" fill-opacity=".15"/><text x="234" y="174" text-anchor="middle" font-size="10">output_text</text><path d="M170 197V215" stroke="currentColor" stroke-dasharray="3 3"/><rect x="45" y="216" width="250" height="34" rx="6" stroke="#16a34a" fill="#16a34a" fill-opacity=".1"/><text x="170" y="237" text-anchor="middle" font-size="11">Validate and extract answer</text><path d="M170 250V266" stroke="currentColor" stroke-dasharray="3 3"/><rect x="70" y="267" width="200" height="28" rx="6" stroke="#16a34a" fill="#16a34a" fill-opacity=".15"/><text x="170" y="285" text-anchor="middle" font-size="11" font-weight="bold">Display answer to user</text></svg></section>
+<h2>1. What does the LLM return?</h2><p>OpenAI Responses API ఒక plain string మాత్రమే return చేయదు. Response object లో generated output, status, usage information వంటి fields ఉంటాయి. Python SDK లో output_text అనే helper ద్వారా generated text access చేయవచ్చు.</p><section class="card"><small>ILLUSTRATIVE RESPONSE OBJECT</small><div class="tile row between"><div><b>status</b><br><small>Request completion state</small></div><span class="good">completed</span></div><div class="tile" style="border-color:#16a34a"><b>output_text</b><br><small>Generated answer</small><p>Embeddings are numerical representations of text that encode its meaning.</p></div><div class="tile"><b>usage</b><br><small>Token consumption information</small></div><small>Example data only — not an actual API response.</small></section><p>మనకు ఇప్పుడు ముఖ్యమైనవి status మరియు output_text. Response complete కాకపోతే partial answer ని final answer లాగా చూపించకూడదు. Completed response లో text లేకపోతే కూడా దాన్ని detect చేయాలి.</p>
+<h2>Step 1 — Create answer.py</h2><small>D01 07:39</small><p>VS Code project root లో answer.py అనే కొత్త file create చెయ్యి.</p><section class="card"><div class="tree">📂 rag-from-scratch
+  📁 .venv
+  📁 data
+  📁 storage
+  <span class="good">◇ answer.py NEW</span>
+  ◇ chunker.py
+  ◇ embedder.py
+  ◇ llm.py
+  ◇ loader.py
+  ◇ main.py
+  ◇ preprocessor.py
+  ◇ prompt_builder.py
+  ▤ requirements.txt
+  ◇ retriever.py
+  ◇ search.py
+  ◇ similarity.py
+  ◇ vector_store.py
+  ▤ .gitignore</div></section><p>llm.py బాధ్యత API communication. answer.py బాధ్యత response validation మరియు answer extraction. ఈ రెండు responsibilities separate గా ఉంచడం వల్ల testing సులభం అవుతుంది.</p>
+<h2>Step 2 — Import type-checking dependencies</h2><div class="codebox"><div class="codehead"><span>python</span><button class="copy" type="button">Copy</button></div><pre><code>from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from openai.types.responses import Response</code></pre></div><p>from __future__ import annotations వల్ల type annotations ని వెంటనే evaluate చేయకుండా వాయిదా వేయవచ్చు. TYPE_CHECKING అనేది static type checker ఉపయోగిస్తున్నప్పుడు True అవుతుంది. Normal Python execution సమయంలో False.</p><section class="card"><div class="grid"><div class="tile"><b>Static type checking</b><p>TYPE_CHECKING = True</p><div class="arrow">↓</div><div class="good">Import Response type</div><small>Editor and type checker</small></div><div class="tile"><b>Runtime execution</b><p>TYPE_CHECKING = False</p><div class="arrow">↓</div>Skip type-only import<br><small>Normal Python execution</small></div></div></section><p>దీనివల్ల answer.py ని independently test చేయడానికి OpenAI SDK install అయ్యి ఉండాల్సిన అవసరం లేదు. అయితే actual RAG application కి llm.py ద్వారా SDK ఇంకా అవసరమే.</p>
+<h2>Step 3 — Define extract_answer()</h2><div class="codebox"><div class="codehead"><span>python</span><button class="copy" type="button">Copy</button></div><pre><code>def extract_answer(response: Response) -&gt; str:</code></pre></div><p>ఈ function LLM response object తీసుకుని validated answer string return చేస్తుంది.</p>
+<h2>Step 4 — Validate response status</h2><div class="codebox"><div class="codehead"><span>python</span><button class="copy" type="button">Copy</button></div><pre><code>    if response.status != &quot;completed&quot;:
+        raise ValueError(f&quot;LLM response is not complete: {response.status}&quot;)</code></pre></div><p>Response status completed కాకపోతే answer ని accept చేయడం లేదు.</p><div class="scroll"><table><thead><tr><th>Status</th><th>Our application behavior</th></tr></thead><tbody><tr><td>completed</td><td>Check answer text</td></tr><tr><td>incomplete</td><td>Reject partial response</td></tr><tr><td>failed</td><td>Report unavailable answer</td></tr><tr><td>cancelled</td><td>Report unavailable answer</td></tr><tr><td>Other status</td><td>Reject as unfinished</td></tr></tbody></table></div><p>ఉదాహరణకు output token limit reach అయితే API incomplete response ఇవ్వవచ్చు. మన project కోసం incomplete text ని final answer గా display చేయకూడదని నిర్ణయించాం.</p>
+<h2>Step 5 — Extract the generated text</h2><div class="codebox"><div class="codehead"><span>python</span><button class="copy" type="button">Copy</button></div><pre><code>    answer = response.output_text.strip()</code></pre></div><p>ఇక్కడ output_text SDK helper generated text ని అందిస్తుంది. strip() answer మొదట్లో, చివర్లో ఉన్న unwanted whitespace తొలగిస్తుంది. మధ్యలో ఉన్న paragraphs, line breaks మాత్రం preserve అవుతాయి.</p><section class="card"><small>BEFORE STRIP</small><div class="terminal">&quot;  Embeddings are numerical vectors.\n&quot;</div><div class="arrow">↓ .strip()</div><small>AFTER STRIP</small><div class="terminal"><b>"Embeddings are numerical vectors."</b></div></section>
+<h2>Step 6 — Validate answer content</h2><div class="codebox"><div class="codehead"><span>python</span><button class="copy" type="button">Copy</button></div><pre><code>    if not answer:
+        raise ValueError(&quot;LLM returned no answer text&quot;)</code></pre></div><p>Response status completed అయినంత మాత్రాన usable text ఉందని guarantee లేదు. Empty string లేదా whitespace-only text వస్తే ఈ validation error raise చేస్తుంది.</p><div class="codebox"><div class="codehead"><span>python</span><button class="copy" type="button">Copy</button></div><pre><code>    return answer</code></pre></div><p>Status మరియు content validations రెండూ successful అయితేనే answer return అవుతుంది.</p>
+<h2>Interactive answer extraction simulator</h2><section class="card"><label for="status">Response status</label><select id="status"><option>completed</option><option>incomplete</option><option>failed</option><option>cancelled</option></select><label for="text">Response output_text</label><textarea id="text" rows="3">  Embeddings represent text as numerical vectors. [demo.txt:1]  </textarea><hr><div id="steps"></div><div class="terminal"><small>TERMINAL OUTPUT</small><div id="output" aria-live="polite" style="white-space:pre-wrap"></div></div><div class="row"><button id="reset" title="Reset">↻</button><button id="prev">Previous</button><button id="next" style="flex:1">Next →</button></div><small>← / → to navigate when not editing a field. Synthetic response simulation. No network request.</small></section><p>Status incomplete గా మార్చి test చెయ్యి. తర్వాత completed select చేసి text మొత్తం delete చేసి test చెయ్యి. రెండు cases లోనూ application answer display చేయదు.</p>
+<h2>Step 7 — Complete answer.py</h2><small>D01 07:40–07:56</small><div class="codebox"><div class="codehead"><span>python</span><button class="copy" type="button">Copy</button></div><pre><code>from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from openai.types.responses import Response
+
+
+def extract_answer(response: Response) -&gt; str:
+    if response.status != &quot;completed&quot;:
+        raise ValueError(f&quot;LLM response is not complete: {response.status}&quot;)
+
+    answer = response.output_text.strip()
+    if not answer:
+        raise ValueError(&quot;LLM returned no answer text&quot;)
+
+    return answer</code></pre></div>
+<h2>Step 8 — Test answer extraction independently</h2><small>D01 07:57–07:58</small><p>SimpleNamespace ద్వారా real API లేకుండా response object లాంటి test object create చేస్తున్నాం. మొదటి command successful answer ని print చేస్తుంది.</p><div class="codebox"><div class="codehead"><span>bash</span><button class="copy" type="button">Copy</button></div><pre><code>python -c &quot;from types import SimpleNamespace; from answer import extract_answer; print(extract_answer(SimpleNamespace(status='completed', output_text='  Demo answer [demo.txt:1]  ')))&quot;</code></pre></div><div class="terminal"><small>ACTUAL TEST OUTPUT</small><hr><b>Demo answer [demo.txt:1]</b></div><p>Second test incomplete status తో partial text పంపిస్తుంది. ValueError raise అవ్వాలి.</p><div class="codebox"><div class="codehead"><span>bash</span><button class="copy" type="button">Copy</button></div><pre><code>python -c &quot;from types import SimpleNamespace; from answer import extract_answer; extract_answer(SimpleNamespace(status='incomplete', output_text='Partial answer'))&quot;</code></pre></div><div class="terminal"><small>EXPECTED EXCEPTION · abbreviated</small><hr><span class="bad">ValueError: LLM response is not complete: incomplete</span></div><p>Equivalent incomplete-response unit test pass అయింది.</p>
+<h2>Step 9 — Modify main.py</h2><small>D01 07:59–08:08</small><h3>Change 1 — Add import</h3><div class="codebox"><div class="codehead"><span>python</span><button class="copy" type="button">Copy</button></div><pre><code>from answer import extract_answer</code></pre></div><p>llm import కింద add చెయ్యి. Existing code remove చేయాల్సిన అవసరం లేదు.</p><h3>Change 2 — Extract answer and handle validation errors</h3><div class="codebox"><div class="codehead"><span>python</span><button class="copy" type="button">Copy</button></div><pre><code>    try:
+        answer = extract_answer(response)
+    except ValueError as error:
+        print(f&quot;Answer unavailable: {error}&quot;)
+        return</code></pre></div><p>Status print line తర్వాత add చెయ్యి. try block extract_answer call చేస్తుంది. ValueError వస్తే except block user-friendly message print చేసి main() నుంచి return అవుతుంది. API connection errors ఇంకా Stage 018 లో handle చేస్తాం.</p><h3>Change 3 — Display answer</h3><div class="codebox"><div class="codehead"><span>python</span><button class="copy" type="button">Copy</button></div><pre><code>    print(&quot;\nAnswer:&quot;)
+    print(answer)</code></pre></div><p>Validation successful అయితేనే ఈ lines execute అవుతాయి. Existing citation-like strings preserve అవుతాయి; వాటి correctness Stage 014 లో validate చేస్తాం.</p>
+<h2>Step 10 — Complete main.py</h2><div class="codebox"><div class="codehead"><span>python</span><button class="copy" type="button">Copy</button></div><pre><code>from pathlib import Path
+from loader import load_documents
+from preprocessor import clean_text
+from chunker import create_chunks
+from embedder import load_embedding_model, embed_texts, MODEL_NAME
+from vector_store import save_vector_store, load_vector_store
+from retriever import retrieve_documents
+from prompt_builder import build_prompt
+from llm import create_llm_client, request_response
+from answer import extract_answer
+
+
+def main():
+    print(&quot;RAG Application Started&quot;)
+
+    data_directory = Path(__file__).resolve().parent / &quot;data&quot;
+    documents = load_documents(data_directory)
+    print(f&quot;Loaded {len(documents)} documents&quot;)
+    all_chunks = []
+    for name, content in documents.items():
+        cleaned_content = clean_text(content)
+        all_chunks.extend(create_chunks(name, cleaned_content))
+
+    print(f&quot;Created {len(all_chunks)} chunks&quot;)
+    if not all_chunks:
+        print(&quot;No chunks to embed.&quot;)
+        return
+
+    texts = [chunk[&quot;text&quot;] for chunk in all_chunks]
+    model = load_embedding_model()
+    embeddings = embed_texts(model, texts)
+
+    print(f&quot;Embedding matrix shape: {embeddings.shape}&quot;)
+    for chunk, vector in zip(all_chunks, embeddings, strict=True):
+        print(f&quot;{chunk['id']}: {len(vector)} dimensions&quot;)
+
+    storage_directory = data_directory.parent / &quot;storage&quot;
+    save_vector_store(storage_directory, all_chunks, embeddings, MODEL_NAME)
+    print(&quot;Vector store saved.&quot;)
+
+    saved_chunks, saved_embeddings = load_vector_store(
+        storage_directory, MODEL_NAME
+    )
+    print(f&quot;Reloaded {len(saved_chunks)} chunks&quot;)
+    print(f&quot;Reloaded matrix shape: {saved_embeddings.shape}&quot;)
+
+    question = input(&quot;\nAsk a question: &quot;).strip()
+    if not question:
+        print(&quot;Question cannot be empty.&quot;)
+        return
+
+    query = embed_texts(model, [question])[0]
+    results = retrieve_documents(
+        query, saved_chunks, saved_embeddings, top_k=3, min_score=0.35
+    )
+    if not results:
+        print(&quot;No relevant context found.&quot;)
+        return
+
+    print(f&quot;\nRetrieved {len(results)} relevant chunks:&quot;)
+    prompt = build_prompt(question, results)
+    client = create_llm_client()
+    response = request_response(client, prompt)
+    print(f&quot;\nLLM response status: {response.status}&quot;)
+
+    try:
+        answer = extract_answer(response)
+    except ValueError as error:
+        print(f&quot;Answer unavailable: {error}&quot;)
+        return
+
+    print(&quot;\nAnswer:&quot;)
+    print(answer)
+
+
+if __name__ == &quot;__main__&quot;:
+    main()</code></pre></div>
+<h2>Step 11 — Syntax and runtime validation</h2><small>D01 08:09</small><div class="codebox"><div class="codehead"><span>bash</span><button class="copy" type="button">Copy</button></div><pre><code>python -m py_compile main.py answer.py</code></pre></div><div class="terminal"><small>ACTUAL LOCAL TEST RESULTS</small><hr>Ran 14 tests in 0.006s
+<b>OK</b></div><p>9 answer extraction tests, 5 main-flow tests with stubbed dependencies passed. Tested files Git blob hashes committed files తో match అయ్యాయి. Tests ఇంకా repository లో commit చేయలేదు; formal suite Stage 019.</p>
+<h2>Step 12 — Run application</h2><small>D01 08:10</small><div class="codebox"><div class="codehead"><span>bash</span><button class="copy" type="button">Copy</button></div><pre><code>python main.py</code></pre></div><div class="terminal"><small>EXPECTED SUCCESSFUL STRUCTURE — NOT LIVE INFERENCE</small><hr>RAG Application Started
+Loaded 3 documents
+Created 7 chunks
+[Existing indexing and storage messages]
+
+Ask a question: <em>What are embeddings?</em>
+[Actual retrieved chunk count]
+LLM response status: completed
+
+Answer:
+[Actual generated answer]</div><p>Real API calls usage charges కలిగించవచ్చు. Actual inference, SDK and answer correctness ఇంకా unverified. If response incomplete or text blank, Answer unavailable message వస్తుంది.</p>
+<h2>Development progress</h2><section class="card"><div class="row between"><b class="big">65%</b><b>13 / 20 stages</b></div><div class="bar"><i style="width:65%"></i></div><div class="stage row "><span class="good">✓</span><span style="flex:1">01. Project initialization</span><small>14 steps</small></div><div class="stage row "><span class="good">✓</span><span style="flex:1">02. Knowledge base and document loading</span><small>22 steps</small></div><div class="stage row "><span class="good">✓</span><span style="flex:1">03. Multiple document loading</span><small>36 steps</small></div><div class="stage row "><span class="good">✓</span><span style="flex:1">04. Text preprocessing</span><small>17 steps</small></div><div class="stage row "><span class="good">✓</span><span style="flex:1">05. Text chunking</span><small>40 steps</small></div><div class="stage row "><span class="good">✓</span><span style="flex:1">06. Embedding generation</span><small>49 steps</small></div><div class="stage row "><span class="good">✓</span><span style="flex:1">07. Vector storage</span><small>62 steps</small></div><div class="stage row "><span class="good">✓</span><span style="flex:1">08. Cosine similarity</span><small>40 steps</small></div><div class="stage row "><span class="good">✓</span><span style="flex:1">09. Semantic search</span><small>52 steps</small></div><div class="stage row "><span class="good">✓</span><span style="flex:1">10. Document retrieval</span><small>37 steps</small></div><div class="stage row "><span class="good">✓</span><span style="flex:1">11. Prompt augmentation</span><small>45 steps</small></div><div class="stage row "><span class="good">✓</span><span style="flex:1">12. LLM integration</span><small>44 steps</small></div><div class="stage row "><span class="good">✓</span><span style="flex:1">13. Answer generation</span><small>32 steps</small></div><div class="stage row next"><span class="muted">▷</span><span style="flex:1">14. Source citations</span><small>NEXT</small></div><div class="stage row "><span class="muted">○</span><span style="flex:1">15. REST API development</span><small></small></div><div class="stage row "><span class="muted">○</span><span style="flex:1">16. Chat interface</span><small></small></div><div class="stage row "><span class="muted">○</span><span style="flex:1">17. RAG evaluation</span><small></small></div><div class="stage row "><span class="muted">○</span><span style="flex:1">18. Error handling</span><small></small></div><div class="stage row "><span class="muted">○</span><span style="flex:1">19. Testing</span><small></small></div><div class="stage row "><span class="muted">○</span><span style="flex:1">20. Deployment</span><small></small></div><p>32 new timestamps · 490 total · 17 project files · 339 lines · D01 08:10</p></section>
+<h2>GitHub update</h2><p><a href="https://sabareeshrao.github.io/Gradstudio-Version-2.0/github-timestamps/rag/">Timestamp Coding Simulator</a></p><p><a href="https://github.com/sabareeshrao/Gradstudio-Version-2.0/commit/81f198d2a76392ac78bb1c46133f245562b8f725">Commit 013</a></p><p><a href="https://github.com/sabareeshrao/Gradstudio-Version-2.0/blob/main/github-timestamps/rag/project/answer.py">answer.py</a></p><p>Previous 458 actions preserved; changed files matched replay and local test hashes. No changes to unrelated simulators. HTML reconstructed; exact fidelity, browser verification, real SDK/model inference, local execution, and live deployment pending.</p><p>References: <a href="https://developers.openai.com/api/docs/guides/text?lang=python">Text generation</a> · <a href="https://developers.openai.com/api/docs/guides/reasoning?api-mode=responses">Incomplete responses</a>.</p><h2>Next Stage 014 — Source Citations</h2><p>Generated answer లో source IDs నిజంగా retrieved chunks లో ఉన్నాయో check చేస్తాం. Next timestamp D01 08:11.</p></main><script>const keywords=new Set('from import as def return if not or and in for while else elif raise True False None class try except with break continue lambda yield pass is'.split(' '));const builtins=new Set('print input len float list dict str int enumerate range zip ValueError Path'.split(' '));const tokenRE=/(#[^\n]*|(?:[frbuFRBU]{0,2})(?:"(?:\\.|[^"\\\n])*"|'(?:\\.|[^'\\\n])*')|\b\d+(?:\.\d+)?\b|\b[A-Za-z_]\w*\b|[=<>+\-*/:|&!]+|\s+|.)/g;document.querySelectorAll('pre code').forEach(el=>{const raw=el.textContent;el.replaceChildren();for(const m of raw.matchAll(tokenRE)){const t=m[0],cls=t.startsWith('#')?'com':/^(?:[frbu]{0,2})["']/i.test(t)?'str':keywords.has(t)?'kw':builtins.has(t)?'fn':/^\d/.test(t)?'num':/^[=<>+\-*/:|&!]+$/.test(t)?'op':'';if(cls){const span=document.createElement('span');span.className=cls;span.textContent=t;el.append(span)}else el.append(document.createTextNode(t));}});async function copyText(text,b){try{await navigator.clipboard.writeText(text)}catch(e){const t=document.createElement('textarea');t.value=text;document.body.append(t);t.select();document.execCommand('copy');t.remove()}b.textContent='Copied';setTimeout(()=>b.textContent='Copy',900)}document.querySelectorAll('.copy').forEach(b=>b.onclick=()=>copyText(b.closest('.codebox').querySelector('code').textContent,b));document.querySelectorAll('.qcopy').forEach(b=>b.onclick=()=>copyText(b.dataset.q,b));
+const $=id=>document.getElementById(id);let step=0;const seed='  Embeddings represent text as numerical vectors. [demo.txt:1]  ';const labels=['Receive response','Validate status','Extract and validate text','Display final answer'];function draw(){const status=$('status').value,clean=$('text').value.trim(),valid=status==='completed';$('steps').innerHTML=labels.map((t,i)=>'<div class="row between" style="padding:7px 0;'+(i===step?'background:#303030;border-radius:6px':'')+'"><span class="'+(i===1&&!valid&&step>=1||i===2&&valid&&!clean&&step>=2?'bad':i<step?'good':'muted')+'">'+(i===1&&!valid&&step>=1||i===2&&valid&&!clean&&step>=2?'✕':i<step?'✓':i===step?'▷':'○')+' '+t+'</span><small>'+(i===step?'Current':'')+'</small></div>').join('');const out=$('output');out.className=step>=1&&!valid||step>=2&&!clean?'bad':step===1||step===2?'good':'';out.textContent=step===0?'Waiting for validation...':!valid?'Answer unavailable: LLM response is not complete: '+status:step===1?'Response status accepted.':!clean?'Answer unavailable: LLM returned no answer text':step===2?'Text validation passed.':'Answer:\n'+clean;$('prev').disabled=step===0;$('next').disabled=step===3||step>=1&&!valid||step>=2&&!clean;}function move(d){if(d<0&&step>0||d>0&&!$('next').disabled){step+=d;draw()}}$('status').onchange=$('text').oninput=()=>{step=0;draw()};$('prev').onclick=()=>move(-1);$('next').onclick=()=>move(1);$('reset').onclick=()=>{step=0;$('status').value='completed';$('text').value=seed;draw()};document.addEventListener('keydown',e=>{if(e.defaultPrevented||e.isComposing||e.ctrlKey||e.metaKey||e.altKey||e.shiftKey||!['ArrowLeft','ArrowRight'].includes(e.key)||e.target.closest('input,textarea,select,[contenteditable],a'))return;e.preventDefault();move(e.key==='ArrowLeft'?-1:1)});draw();</script></body></html>
