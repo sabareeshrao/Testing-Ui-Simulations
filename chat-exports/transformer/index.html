@@ -41,4 +41,16 @@ case 4:h=[1,2,'N'].map((n,i)=>'<div class="block"><div class="caption">Block '+n
 case 5:h='<div class="tile">The cat sat on the <strong style="color:#16a34a">mat</strong></div><div class="caption" style="margin-top:10px">Illustrative next-token probabilities</div>'+[['mat',62],['floor',21],['chair',11],['bed',6]].map(([t,p],i)=>'<div class="row between"><span>'+t+'</span><span>'+p+'%</span></div><div class="bar"><i class="'+(i===0?'best':'')+'" style="width:'+p+'%"></i></div>').join('');break;
 }$('detail').innerHTML=h;renderMatrix()}
 $('prev').addEventListener('click',()=>{if(stage>0){stage--;render()}});$('next').addEventListener('click',()=>{stage=(stage+1)%6;render()});$('progress').addEventListener('click',e=>{const b=e.target.closest('button[data-stage]');if(b){stage=Number(b.dataset.stage);render();$('progress').children[stage].focus()}});document.addEventListener('click',e=>{const b=e.target.closest('button[data-token]');if(b){const parent=b.parentElement.id==='matrixButtons'?'matrixButtons':'detail';token=Number(b.dataset.token);render();const next=$(parent).querySelector('button[data-token="'+token+'"]');if(next)next.focus()}});render();
+</script><script id="simulator-keyboard">
+(()=>{"use strict";
+const get=id=>document.getElementById(id),click=id=>{const b=get(id);if(b&&!b.disabled&&!b.hidden)b.click()},press=s=>{const b=document.querySelector(s);if(b&&!b.disabled)b.click()},range=(id,d)=>{const el=get(id);if(!el)return;d<0?el.stepDown():el.stepUp();el.dispatchEvent(new Event('input',{bubbles:true}));el.dispatchEvent(new Event('change',{bubbles:true}))};
+
+const groups=[{ids:['prev','next'],run:d=>click(d<0?'prev':'next')},{ids:['matrixButtons'],run:d=>{token=Math.max(0,Math.min(tokens.length-1,token+d));render()}}];let active=0;
+const elements=g=>[...(g.ids||[]).map(get),...(g.selectors||[]).map(s=>document.querySelector(s))].filter(Boolean);
+const container=g=>{const es=elements(g);if(!es.length)return null;let p=es[0].closest('section,article,.card,.panel,.simulator');while(p&&!es.every(e=>p.contains(e)))p=p.parentElement;return p};
+function choose(t){if(!(t instanceof Element))return;let exact=groups.findIndex(g=>elements(g).some(e=>e===t||e.contains(t)));if(exact>=0){active=exact;return}let best=null;groups.forEach((g,i)=>{const p=container(g);if(p&&p.contains(t)&&(!best||best.p.contains(p)&&best.p!==p))best={p,i}});if(best)active=best.i}
+document.addEventListener('pointerdown',e=>choose(e.target));document.addEventListener('focusin',e=>choose(e.target));
+document.addEventListener('keydown',e=>{if(e.defaultPrevented||e.altKey||e.ctrlKey||e.metaKey||e.shiftKey||!['ArrowLeft','ArrowRight'].includes(e.key))return;const t=e.target;if(t instanceof Element&&(t.closest('input,textarea,select,[contenteditable]:not([contenteditable="false"]),[role="slider"],[role="textbox"]')||t.isContentEditable))return;let g=groups[active];if(!elements(g).length)g=groups[0];if(!elements(g).length)return;e.preventDefault();g.run(e.key==='ArrowLeft'?-1:1)});
+const first=elements(groups[0])[0];if(first){const hint=document.createElement('small');hint.textContent='Keyboard: ← back · → forward';hint.style.cssText='display:block;font:11px/1.4 system-ui;opacity:.7;margin:4px 0 0';first.parentElement.insertAdjacentElement('afterend',hint);}
+})();
 </script></body></html>
