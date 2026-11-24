@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="dark"><meta name="theme-color" content="#0b1422">
+<meta name="description" content="Learn Amazon EC2 through a beginner-friendly, interactive dark-theme AWS-style lesson. Includes launch walkthrough, networking firewall simulator, instance lifecycle and cost concepts. Works offline.">
+<title>Amazon EC2 — Interactive Learning Lab</title>
+<style>
+:root{color-scheme:dark;--bg:#0b1422;--surface:#142236;--deep:#101b2b;--raised:#1c2c42;--stroke:#384a63;--ink:#f5f8ff;--muted:#c5d1e2;--secondary:#a8bad0;--orange:#ffac2f;--orange-bg:#352617;--blue:#8fc5ff;--blue-bg:#182e48;--green:#7ce9b5;--green-bg:#14372d;--red:#ffa6a6;--red-bg:#492b33;--shadow:rgba(0,0,0,.22)}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.58 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+button,select,input{font:inherit}
+main{width:min(880px,100%);margin:auto;padding:22px 16px 75px}
+h1{font-size:clamp(39px,8vw,58px);letter-spacing:-.045em;line-height:1.1;margin:7px 0 10px;color:#fff}
+h2{font-size:clamp(21px,5vw,27px);line-height:1.18;letter-spacing:-.02em;margin:32px 0 11px;color:var(--ink)}
+h3{margin:0;font-size:18px;letter-spacing:-.015em}p{margin:0}a{color:#ffc977;text-underline-offset:3px}a:hover{color:#ffe1a3}
+.kicker{font-size:11px;font-weight:900;letter-spacing:.16em;color:var(--orange)}
+.brand{display:flex;gap:10px;align-items:center;margin-bottom:25px}.brandmark{display:inline-flex;background:#25202a;color:var(--orange);font-size:21px;font-weight:950;letter-spacing:-.05em;border:1px solid #68502b;border-radius:10px;padding:4px 11px}.brandtxt{font-size:12px;color:var(--muted)}.lead{font-size:17px;color:var(--muted);max-width:670px}.lead strong{color:var(--ink)}
+.card{background:var(--surface);border:1px solid var(--stroke);border-radius:17px;padding:20px;box-shadow:0 8px 28px var(--shadow)}
+.intro{margin:22px 0 7px}.small{font-size:12px;color:var(--muted)}.caption{font-size:12px;color:var(--muted);line-height:1.6;margin-top:11px}
+.explain{font-size:14px;color:var(--muted);margin:4px 0 14px;line-height:1.65}.explain strong{color:#fff}
+.row{display:flex;align-items:center;gap:10px}.between{justify-content:space-between}.tag{font-size:11px;font-weight:800;color:var(--orange);border:1px solid #73552e;background:var(--orange-bg);border-radius:99px;padding:4px 10px;white-space:nowrap}
+.rule{height:1px;background:var(--stroke);margin:16px 0}.btn{appearance:none;border:1px solid #536984;background:#24364e;color:#f5f8ff;border-radius:10px;min-height:44px;padding:10px 14px;font-size:14px;font-weight:800;cursor:pointer;transition:background .15s,transform .12s,border-color .15s}
+.btn:hover:not(:disabled){background:#304a66;border-color:#85a0be}.btn:active:not(:disabled){transform:scale(.985)}
+.btn.orange,.btn[aria-pressed=true]{background:var(--orange);border-color:var(--orange);color:#231505}.btn.orange:hover:not(:disabled){background:#ffbe53;border-color:#ffbe53}.btn:disabled{opacity:.4;cursor:not-allowed}
+button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible{outline:3px solid #ffcb70;outline-offset:3px}.btn.danger{border-color:#b87d83;color:#ffb2ae;background:#40282f}.btn.danger:hover:not(:disabled){background:#563239}.btn.wide{width:100%}
+.overview{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:7px;margin:8px 0 0}
+.over{border:1px solid #3d536d;background:var(--deep);border-radius:12px;min-height:113px;text-align:center;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:9px 4px;gap:5px}
+.over:nth-child(2),.over:nth-child(4){background:#162940}
+.over .ico{font-size:30px;line-height:1.1}.over strong{font-size:12px;color:#f3f6fb}.over small{font-size:10px;color:#cad5e5}
+.over.ec2{background:#332616;border-color:#996d25}.over.ec2 strong{color:var(--orange)}
+.storage{border:1px dashed #758aa3;padding:9px 12px;border-radius:10px;display:flex;justify-content:center;align-items:center;gap:9px;margin:12px auto 0;background:#17263a;font-size:12px;color:var(--muted);max-width:420px}.storage b{color:var(--blue)}
+.steps{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px;margin:16px 0}.step{background:var(--deep);border:1px solid var(--stroke);color:var(--muted);border-radius:10px;min-height:58px;padding:7px 2px;cursor:pointer;font-weight:700;font-size:11px}.step span{display:block;font-size:15px;font-weight:900;margin-bottom:2px}.step[aria-current=step]{background:var(--orange-bg);border-color:var(--orange);color:var(--orange)}
+.stageTitle{font-size:19px;font-weight:900;margin:3px 0 6px}.stageDesc{color:var(--muted);font-size:14px;line-height:1.62;margin-bottom:14px}
+.stageArea{min-height:210px;border-radius:13px;border:1px solid #344962;background:var(--deep);padding:16px}.stageArea strong{color:var(--ink)}
+.optionGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.choice{min-height:104px;background:#213247;border:1px solid #49617e;color:var(--ink);border-radius:12px;padding:14px;text-align:left;cursor:pointer;display:flex;flex-direction:column;gap:5px}
+.choice strong{color:#fff;font-size:14px}.choice .icon{font-size:27px;line-height:1.1}.choice small{font-size:12px;line-height:1.4;color:var(--muted)}
+.choice[aria-pressed=true]{background:#362918;border-color:var(--orange);box-shadow:0 0 0 1px #e8a83b inset}.choice[aria-pressed=true] strong{color:#ffca77}
+.choice:focus-visible{outline:3px solid #ffcb70;outline-offset:2px}
+.flow{display:flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap}
+.flowbox{border-radius:10px;background:#213247;border:1px solid #507090;padding:13px;min-width:100px;text-align:center;color:var(--ink);font-size:13px;font-weight:700}
+.flowbox.orange{background:#352817;border-color:#967034;color:#ffca77}
+.flowbox.blue{background:#1b3550;color:#a8d5ff}.flowarrow{color:var(--orange);font-size:22px}
+.note{margin-top:12px;background:#263247;border-left:3px solid var(--orange);padding:11px 12px;border-radius:5px 10px 10px 5px;font-size:13px;color:#f0dbb9}
+.note.green{background:#1b3a31;border-color:#4cce98;color:#d4ffeb}.note.red{background:#442b35;border-color:#ff9e9e;color:#ffe0df}
+.wizardControls{display:flex;justify-content:space-between;gap:9px;margin-top:14px}
+.summary{display:grid;grid-template-columns:1fr 1fr;gap:9px}.summaryLine{padding:10px 12px;background:#203047;border:1px solid #405671;border-radius:9px;min-width:0}.summaryLine small{color:var(--muted);display:block;font-size:11px}.summaryLine b{color:#fff;font-size:13px;overflow-wrap:anywhere}
+.inlineStatus{display:inline-flex;align-items:center;gap:6px;font-size:12px;padding:5px 10px;border-radius:99px;font-weight:900;border:1px solid #62768f;color:#e5eefa}
+.inlineStatus.running{border-color:#3ea578;background:#164333;color:#a6f7cc}.inlineStatus.stopped{border-color:#c18c36;background:#4c391c;color:#ffdfab}.inlineStatus.terminated{border-color:#b8656e;background:#492830;color:#ffc0c1}.inlineStatus.idle{background:#293549}
+.dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:currentColor}
+.sgScene{display:grid;grid-template-columns:1fr 34px 1fr;gap:5px;align-items:center;margin:12px 0 14px}
+.sgNode{border:1px solid #506481;border-radius:11px;text-align:center;padding:14px 8px;background:#17283c;min-height:110px;display:flex;justify-content:center;align-items:center;flex-direction:column;gap:6px}.sgNode span{font-size:27px}.sgNode strong{font-size:13px}.sgNode small{color:var(--muted);font-size:11px}
+.sgarrow{text-align:center;font-size:26px;font-weight:900}.sgarrow.allowed{color:var(--green)}.sgarrow.denied{color:var(--red)}
+.inbound{display:grid;gap:8px}.ruleLine{display:flex;justify-content:space-between;align-items:center;gap:12px;background:var(--deep);border:1px solid #384c65;border-radius:10px;padding:10px 12px}.ruleLine strong{font-size:14px}.ruleLine small{font-size:11px;color:var(--muted);display:block}.switch{width:52px;height:32px;border-radius:99px;border:1px solid #71849b;background:#3a4b61;padding:3px;cursor:pointer;flex:none}.switch::after{content:"";display:block;width:24px;height:24px;border-radius:50%;background:#fff;transition:transform .15s}.switch[aria-pressed=true]{background:#ed9e21;border-color:#ed9e21}.switch[aria-pressed=true]::after{transform:translateX(19px);background:#241a0a}
+.testControls{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.testControls select{flex:1;min-width:140px;background:#20334a;color:#fff;border:1px solid #7790aa;border-radius:9px;padding:9px 12px;min-height:43px}
+.checkResult{border-radius:11px;padding:12px 14px;border:1px solid #6d7b8e;color:#f5f8ff;background:#213047;font-weight:850}
+.checkResult.allowed{background:#143b2d;border-color:#39a47c;color:#b7ffdb}.checkResult.denied{background:#442a32;border-color:#c27985;color:#ffcece}
+.statePanel{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:stretch}
+.instance{border:1px solid #4b6687;border-radius:13px;background:#1a2a40;padding:18px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;min-height:176px;text-align:center}
+.machine{font-size:48px;line-height:1.15}.machine.running{filter:drop-shadow(0 0 13px #16b27777)}
+.billing{display:grid;gap:9px}.billingLine{border:1px solid #3f5774;background:#1b2c43;border-radius:10px;padding:10px 13px}
+.billingLine span{font-size:11px;color:var(--muted);display:block}.billingLine b{font-size:13px;color:#f7faff}
+.stateBtns{display:flex;flex-wrap:wrap;gap:9px;margin:15px 0 0}.stateBtns button{flex:1;min-width:92px}
+.costRows{border:1px solid #40536c;border-radius:12px;overflow:hidden}.costRow{display:grid;grid-template-columns:1.1fr repeat(3,1fr);align-items:center;border-bottom:1px solid #36495f;min-height:51px}.costRow:last-child{border-bottom:0}.costRow>div{padding:9px 7px;text-align:center;color:#edf4ff;font-size:12px}.costRow>div:first-child{text-align:left;font-weight:750;color:#fff;background:#1c2c40;height:100%;display:flex;align-items:center}.costRow.header{background:#24364e}.costRow.header>div{font-weight:850;font-size:11px;color:#fbd29b}.costRow .on{color:#98edc2}.costRow .off{color:#cad7e5}
+.badges{display:flex;flex-wrap:wrap;gap:8px}.miniBadge{border-radius:10px;padding:8px 12px;background:#202f43;color:#e7eff8;border:1px solid #465c74;font-size:12px;font-weight:700}
+.codeBlock{background:#090f19;color:#dbeaff;border:1px solid #354860;padding:15px;border-radius:12px;overflow-x:auto;font:13px/1.65 ui-monospace,Menlo,Consolas,monospace;white-space:pre-wrap;overflow-wrap:anywhere}
+.footer{padding-top:17px;margin-top:24px;border-top:1px solid #344760;color:var(--muted);font-size:12px}.sources{display:flex;gap:13px;flex-wrap:wrap;margin-top:9px}
+@media(max-width:610px){main{padding:18px 10px 50px}.card{padding:14px}.overview{gap:4px}.over{min-height:98px;padding:7px 3px}.over .ico{font-size:23px}.over strong{font-size:10px}.over small{font-size:9px}.steps{gap:3px}.step{min-height:55px;font-size:9px;padding:6px 1px}.step span{font-size:14px}.stageArea{padding:11px}.flowbox{min-width:80px;padding:9px}.optionGrid{gap:7px}.choice{min-height:96px;padding:9px}.choice strong{font-size:12px}.choice small{font-size:11px}.statePanel{gap:8px}.instance{min-height:155px;padding:10px}.machine{font-size:41px}.billingLine{padding:8px}.costRow>div{font-size:10px;padding:7px 3px}.costRow.header>div{font-size:10px}.btn{padding:9px 11px}}
+@media(max-width:360px){.statePanel{grid-template-columns:1fr}.overview{grid-template-columns:repeat(5,minmax(0,1fr))}.over strong{font-size:9px}.over small{font-size:8px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style></head>
+<body><main>
+<header>
+<div class="brand"><div class="brandmark" aria-label="AWS inspired colors">aws</div><div class="brandtxt">EC2 VISUAL LEARNING LAB<br>INTERACTIVE • OFFLINE • DARK THEME</div></div>
+<div class="kicker">CLOUD COMPUTING BASICS</div><h1>Amazon EC2</h1>
+<p class="lead">An <strong>Elastic Compute Cloud</strong> instance is a virtual server you can start in AWS, configure, and use to run websites, apps and services.</p>
+</header>
+
+<section aria-labelledby="overviewTitle"><h2 id="overviewTitle">1. Picture the cloud server</h2><p class="explain">Your users reach an EC2 app through networking. A <strong>security group</strong> controls allowed traffic, and <strong>Amazon EBS</strong> can store the server's data.</p>
+<div class="card">
+<div class="overview">
+<div class="over"><span class="ico">💻</span><strong>You / users</strong><small>Browser</small></div>
+<div class="over"><span class="ico">🌐</span><strong>Internet</strong><small>Route</small></div>
+<div class="over"><span class="ico">🏘️</span><strong>VPC</strong><small>Network</small></div>
+<div class="over"><span class="ico">🛡️</span><strong>Security group</strong><small>Firewall</small></div>
+<div class="over ec2"><span class="ico">🖥️</span><strong>EC2</strong><small>Virtual server</small></div>
+</div>
+<div class="storage"><span style="font-size:22px">💾</span><div><b>Amazon EBS</b> — attached block storage<br><span class="small">Keeps data through a normal EC2 stop/start</span></div></div>
+<p class="caption">For direct public access, the instance also needs a suitable public address and subnet route via an internet gateway. This diagram is conceptual.</p>
+</div></section>
+
+<section aria-labelledby="wizardTitle"><h2 id="wizardTitle">2. Launch an EC2 instance — guided demo</h2>
+<p class="explain">Imagine creating a Linux web server. Choose its operating system, instance size, login method, network and storage. <strong>This is a safe simulation</strong> — it never creates AWS resources.</p>
+<div class="card">
+<div class="row between"><h3>Launch wizard</h3><span class="tag" id="wizardCounter">Step 1 / 6</span></div>
+<nav class="steps" aria-label="Launch steps" id="stepBar">
+<button class="step" data-step="0" aria-current="step"><span>1</span>AMI</button><button class="step" data-step="1"><span>2</span>Size</button><button class="step" data-step="2"><span>3</span>Key</button><button class="step" data-step="3"><span>4</span>Network</button><button class="step" data-step="4"><span>5</span>EBS</button><button class="step" data-step="5"><span>6</span>Launch</button></nav>
+<div id="wizardBody" aria-live="polite"></div>
+<div class="wizardControls"><button class="btn" id="backStep">‹ Previous</button><button class="btn orange" id="nextStep">Next step →</button></div>
+</div></section>
+
+<section aria-labelledby="sgTitle"><h2 id="sgTitle">3. Security groups: which traffic gets in?</h2>
+<p class="explain">A security group is an <strong>instance-level virtual firewall</strong>. Turn inbound rules on or off, then test whether a request is allowed. For SSH, restrict access to your own IP rather than everyone.</p>
+<div class="card">
+<div class="between"><h3>Inbound firewall playground</h3><span class="tag">LIVE</span></div>
+<div class="sgScene">
+<div class="sgNode"><span>🌍</span><strong>Incoming request</strong><small id="requestInfo">Internet · HTTPS 443</small></div>
+<div class="sgarrow allowed" id="trafficArrow" aria-hidden="true">→</div>
+<div class="sgNode"><span>🛡️</span><strong>Security group</strong><small>Check port + source</small></div>
+</div>
+<div class="inbound" id="ruleLines">
+<div class="ruleLine"><div><strong>SSH — port 22</strong><small>My IP only (secure admin access)</small></div><button class="switch" data-rule="ssh" aria-label="Allow SSH from my IP" aria-pressed="true"></button></div>
+<div class="ruleLine"><div><strong>HTTP — port 80</strong><small>Anyone on the internet</small></div><button class="switch" data-rule="http" aria-label="Allow HTTP from internet" aria-pressed="false"></button></div>
+<div class="ruleLine"><div><strong>HTTPS — port 443</strong><small>Anyone on the internet</small></div><button class="switch" data-rule="https" aria-label="Allow HTTPS from internet" aria-pressed="true"></button></div>
+</div>
+<div class="testControls"><select id="testPort" aria-label="Traffic port"><option value="https">HTTPS · port 443</option><option value="http">HTTP · port 80</option><option value="ssh">SSH · port 22</option></select>
+<select id="testSource" aria-label="Request source"><option value="internet">General internet user</option><option value="myip">My approved IP</option></select></div>
+<div id="testResult" class="checkResult allowed" role="status">✓ Inbound rule allows HTTPS on port 443</div>
+<p class="caption">This tests security-group inbound rules only, not a real connection. The server must also be running, reachable, and listening on that port. Security groups are stateful, so permitted connections can receive response traffic.</p>
+</div></section>
+
+<section aria-labelledby="lifeTitle"><h2 id="lifeTitle">4. Start, stop or terminate?</h2>
+<p class="explain">An EC2 instance has a lifecycle. Try each action to see what changes. <strong>Stopping is not the same as deleting</strong> — and stopping doesn't necessarily remove all AWS charges.</p>
+<div class="card">
+<div class="row between"><h3>Instance lifecycle simulator</h3><span id="liveState" class="inlineStatus idle"><i class="dot"></i> Not launched</span></div>
+<div class="statePanel" style="margin-top:13px">
+<div class="instance"><div class="machine" id="machineIcon">🖥️</div><strong id="machineTitle">No instance yet</strong><span class="small" id="machineSub">Use Launch to create a demo server</span></div>
+<div class="billing">
+<div class="billingLine"><span>Compute usage</span><b id="computeBill">Not billed — no instance</b></div>
+<div class="billingLine"><span>EBS root storage</span><b id="storageBill">Not provisioned</b></div>
+<div class="billingLine"><span>Public IPv4</span><b id="ipBill">May cost when allocated</b></div>
+</div>
+</div>
+<div class="stateBtns"><button class="btn orange" id="startBtn">Launch</button><button class="btn" id="stopBtn" disabled>Stop</button><button class="btn danger" id="terminateBtn" disabled>Terminate</button><button class="btn" id="resetBtn">Reset</button></div>
+<div class="note" id="lifeNote">Start by launching a simulated EC2 instance. No real AWS resources or charges are created here.</div>
+</div></section>
+
+<section aria-labelledby="billingTitle"><h2 id="billingTitle">5. What keeps costing money?</h2><p class="explain">EC2 compute is not your only potential bill. EBS volumes, public IPv4 addresses, and data transfer can also matter. Exact prices depend on your Region and setup.</p>
+<div class="card">
+<div class="costRows" role="table" aria-label="High-level EC2 billing conditions">
+<div class="costRow header" role="row"><div role="columnheader">Resource</div><div role="columnheader">Running</div><div role="columnheader">Stopped</div><div role="columnheader">Terminated</div></div>
+<div class="costRow" role="row"><div role="rowheader">Instance compute</div><div class="on" role="cell">Charged</div><div class="off" role="cell">No regular compute charge</div><div class="off" role="cell">Ends</div></div>
+<div class="costRow" role="row"><div role="rowheader">EBS volume</div><div role="cell">Charged</div><div role="cell">Still charged</div><div role="cell">If preserved, charged</div></div>
+<div class="costRow" role="row"><div role="rowheader">Public IPv4</div><div role="cell">May be charged</div><div role="cell">Depends on allocation</div><div role="cell">May remain charged</div></div>
+</div>
+<div class="note">⚠️ Root EBS volumes are normally set to delete on termination by default. Preserved volumes continue billing until removed. Always check the <strong>Delete on termination</strong> setting.</div>
+<p class="caption">Simplified On-Demand lifecycle, not a price quote. Savings Plans, Spot pricing, attached resources and committed charges follow their own rules.</p>
+</div></section>
+
+<section aria-labelledby="connectTitle"><h2 id="connectTitle">6. How do you connect?</h2>
+<p class="explain">For a Linux EC2 instance, you can use a supported browser-based connection method or SSH. SSH uses a private key and an allowed network path.</p>
+<div class="card">
+<div class="row between" style="margin-bottom:12px"><h3>Example: SSH to Amazon Linux</h3><span class="tag">EXAMPLE ONLY</span></div>
+<div class="codeBlock" role="region" aria-label="Example SSH command">ssh -i "my-key.pem" ec2-user@YOUR_PUBLIC_IP</div>
+<div class="note green">✓ Keep the private key secure. Allow SSH from your IP only, and use the correct default username for your AMI. You can also consider AWS Systems Manager Session Manager to avoid opening inbound SSH.</div>
+<p class="caption">Example placeholders are not an actual server or a valid connection address. The simulator never makes network calls.</p>
+</div></section>
+<footer class="footer"><strong style="color:#fff">Remember:</strong> An EC2 instance is a configurable cloud server. The AMI supplies the system image, instance type sets compute resources, the security group controls allowed connections, and EBS provides block storage.
+<div class="sources">AWS documentation: <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EC2_GetStarted.html" target="_blank" rel="noopener noreferrer">Getting started</a><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-security-groups.html" target="_blank" rel="noopener noreferrer">Security groups</a><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-lifecycle.html" target="_blank" rel="noopener noreferrer">Lifecycle & charges</a></div>
+<p class="caption">Independent educational demo with AWS-inspired dark colors. Works offline; documentation links open the AWS website when you are online.</p>
+</footer>
+</main>
+<script>
+"use strict";
+const $=id=>document.getElementById(id);
+const steps=[
+ ["1. Choose an Amazon Machine Image (AMI)","An AMI is the starting template: operating system and initial software. We will use a Linux image."],
+ ["2. Choose an instance type","The instance type determines the virtual CPU, memory and other capabilities. Bigger types usually cost more."],
+ ["3. Choose how to log in","A key pair can authenticate an SSH connection. Keep its private key secret; AWS does not need your private key file."],
+ ["4. Configure the network","A VPC is your private network in AWS. A public subnet can route through an internet gateway; inbound security-group rules control access."],
+ ["5. Add block storage","Amazon EBS volumes act like disks attached to your instance. EBS-backed data normally survives a stop/start."],
+ ["6. Review and launch","Review the settings, then click Launch demo. This runs a local simulation; it does not access AWS."]
+];
+let wizard=0,config={ami:"Amazon Linux 2023",type:"t3.micro",key:"demo-key.pem",public:true,ebs:20},rules={ssh:true,http:false,https:true},state="idle";
+const choice=(icon,title,detail,attr,val,active)=>'<button class="choice" '+attr+'="'+val+'" aria-pressed="'+String(active)+'"><span class="icon" aria-hidden="true">'+icon+'</span><strong>'+title+'</strong><small>'+detail+'</small></button>';
+function renderWizard(){
+ const info=steps[wizard];$('wizardCounter').textContent='Step '+(wizard+1)+' / 6';
+ document.querySelectorAll('[data-step]').forEach(b=>{if(+b.dataset.step===wizard)b.setAttribute('aria-current','step');else b.removeAttribute('aria-current')});
+ let body='';
+ if(wizard===0){body='<div class="optionGrid">'+choice('🐧','Amazon Linux 2023','AWS-maintained Linux distribution','data-ami','Amazon Linux 2023',config.ami==='Amazon Linux 2023')+choice('🐧','Ubuntu Server','Popular Linux distribution','data-ami','Ubuntu Server',config.ami==='Ubuntu Server')+'</div><div class="note">An AMI is a reusable template. Selecting a Linux AMI here does not install anything on your own computer.</div>'}
+ else if(wizard===1){body='<div class="optionGrid">'+choice('⚙️','t3.micro','Example: 2 vCPU · 1 GiB memory','data-type','t3.micro',config.type==='t3.micro')+choice('🚀','t3.small','Example: 2 vCPU · 2 GiB memory','data-type','t3.small',config.type==='t3.small')+'</div><div class="note">CPU and memory are examples from the T3 family. Actual cost and Free Tier eligibility depend on account, Region and offer — not shown here.</div>'}
+ else if(wizard===2){body='<div class="flow"><div class="flowbox blue">🔑<br>Private key<br><small>Stays with you</small></div><div class="flowarrow">↔</div><div class="flowbox orange">🖥️<br>EC2 instance<br><small>Public key</small></div></div><div class="note green">Use an authorized key or another supported connection method. Never paste a private key into chat, code repositories, or websites.</div>'}
+ else if(wizard===3){body='<div class="flow"><div class="flowbox">🌍 Internet</div><div class="flowarrow">→</div><div class="flowbox blue">VPC<br><small>Public subnet</small></div><div class="flowarrow">→</div><div class="flowbox orange">🛡️ SG + EC2</div></div><div style="margin-top:15px" class="optionGrid">'+choice('🌐','Public web demo','Use a public address and a reachable subnet','data-public','true',config.public)+choice('🔒','Private server','Keep the instance without direct public access','data-public','false',!config.public)+'</div><div class="note">A public address alone is not enough: routing, security-group rules and the app itself must also be configured.</div>'}
+ else if(wizard===4){body='<div class="flow"><div class="flowbox orange">🖥️ EC2</div><div class="flowarrow">↔</div><div class="flowbox blue">💽 EBS<br><small>gp3 volume</small></div></div><div style="margin-top:17px" class="between"><label for="storageRange"><strong>Root volume size</strong></label><output id="storageVal" style="color:var(--orange);font-weight:900">'+config.ebs+' GiB</output></div><input id="storageRange" type="range" min="10" max="50" step="10" value="'+config.ebs+'" style="width:100%;accent-color:var(--orange);margin:12px 0"><div class="note">Storage is billed separately from EC2 compute. A normal stop keeps the attached EBS root volume.</div>'}
+ else{body='<div class="summary">'+[
+ ['AMI',config.ami],['Instance type',config.type],['Login method','Key pair (example)'],['Network',config.public?'Public-subnet demo':'Private-subnet demo'],['Root storage',config.ebs+' GiB gp3'],['Region','Choose in real AWS console']
+ ].map(([a,b])=>'<div class="summaryLine"><small>'+a+'</small><b>'+b+'</b></div>').join('')+'</div><div class="note green">Everything here is a local educational simulator — clicking Launch will not create an instance or charge an AWS account.</div><button class="btn orange wide" data-launch style="margin-top:12px">'+(state==='idle'||state==='terminated'?'🚀 Launch demo instance':'↻ Relaunch demo instance')+'</button>'}
+ $('wizardBody').innerHTML='<h3 class="stageTitle">'+info[0]+'</h3><p class="stageDesc">'+info[1]+'</p><div class="stageArea">'+body+'</div>';
+ $('backStep').disabled=wizard===0;
+ $('nextStep').textContent=wizard===5?'↻ Start walkthrough':'Next step →';
+}
+document.querySelectorAll('[data-step]').forEach(b=>b.addEventListener('click',()=>{wizard=+b.dataset.step;renderWizard()}));
+$('backStep').addEventListener('click',()=>{wizard=Math.max(0,wizard-1);renderWizard()});
+$('nextStep').addEventListener('click',()=>{wizard=(wizard+1)%6;renderWizard()});
+$('wizardBody').addEventListener('click',e=>{
+ const b=e.target.closest('button');if(!b)return;
+ if('ami' in b.dataset)config.ami=b.dataset.ami;
+ if('type' in b.dataset)config.type=b.dataset.type;
+ if('public' in b.dataset)config.public=b.dataset.public==='true';
+ if(b.hasAttribute('data-launch')){state='running';renderLifecycle()}
+ renderWizard();
+});
+$('wizardBody').addEventListener('input',e=>{if(e.target.id==='storageRange'){config.ebs=+e.target.value;$('storageVal').textContent=config.ebs+' GiB'}});
+function testSecurity(){
+ const kind=$('testPort').value,source=$('testSource').value;
+ const titles={ssh:'SSH · 22',http:'HTTP · 80',https:'HTTPS · 443'};
+ const allowed=rules[kind]&&(kind!=='ssh'||source==='myip');
+ $('requestInfo').textContent=(source==='myip'?'Approved IP':'Internet')+' · '+titles[kind];
+ $('trafficArrow').className='sgarrow '+(allowed?'allowed':'denied');
+ $('trafficArrow').textContent=allowed?'→':'✕';
+ const result=$('testResult');
+ result.className='checkResult '+(allowed?'allowed':'denied');
+ result.textContent=allowed?'✓ Rule allows '+titles[kind]+' from '+(source==='myip'?'your approved IP':'the internet')
+ :'✕ Rule blocks '+titles[kind]+' from '+(source==='myip'?'your approved IP':'the internet');
+}
+document.querySelectorAll('[data-rule]').forEach(b=>b.addEventListener('click',()=>{const k=b.dataset.rule;rules[k]=!rules[k];b.setAttribute('aria-pressed',String(rules[k]));testSecurity()}));
+$('testPort').addEventListener('change',testSecurity);$('testSource').addEventListener('change',testSecurity);
+function renderLifecycle(){
+ const labels={idle:'Not launched',running:'Running',stopped:'Stopped',terminated:'Terminated'};
+ $('liveState').className='inlineStatus '+state;$('liveState').innerHTML='<span class="dot"></span> '+labels[state];
+ $('machineIcon').className='machine '+state;
+ $('machineIcon').textContent=state==='running'?'🟢':state==='stopped'?'⏸️':state==='terminated'?'🗑️':'🖥️';
+ $('machineTitle').textContent=state==='running'?'Demo server is running':state==='stopped'?'Demo server is stopped':state==='terminated'?'Demo server was terminated':'No instance yet';
+ $('machineSub').textContent=state==='running'?'Virtual compute is active':state==='stopped'?'EBS-backed data remains':state==='terminated'?'Re-launch to create a new demo':'Click Launch to begin';
+ $('computeBill').textContent=state==='running'?'Compute usage billed':state==='stopped'?'No regular compute charge':state==='terminated'?'Ended':'Not billed — no instance';
+ $('storageBill').textContent=state==='running'||state==='stopped'?config.ebs+' GiB EBS — still billed':state==='terminated'?'Root volume deleted (demo default)':'Not provisioned';
+ $('ipBill').textContent=state==='running'?'Public IPv4 may cost':state==='stopped'?'Allocated addresses may cost':state==='terminated'?'Released unless separately allocated':'May cost when allocated';
+ $('startBtn').textContent=state==='stopped'?'▶ Start':state==='running'?'Running':'🚀 Launch';
+ $('startBtn').disabled=state==='running';
+ $('stopBtn').disabled=state!=='running';$('terminateBtn').disabled=state==='idle'||state==='terminated';
+ $('lifeNote').className='note '+(state==='running'?'green':state==='terminated'?'red':'');
+ $('lifeNote').textContent={
+ idle:'Start by launching a simulated EC2 instance. No real AWS resources or charges are created here.',
+ running:'Running: compute resources are active. EBS and other resources may be billed separately.',
+ stopped:'Stopped: normal On-Demand compute usage stops, but EBS storage remains allocated and can still be billed. A new public IPv4 address may be assigned at the next start.',
+ terminated:'Terminated: the instance cannot restart. This demo deletes the root EBS volume by default. In real AWS, preserved volumes can continue billing.'
+ }[state];
+}
+$('startBtn').addEventListener('click',()=>{if(state!=='running'){state='running';renderLifecycle();renderWizard()}});
+$('stopBtn').addEventListener('click',()=>{if(state==='running'){state='stopped';renderLifecycle()}});
+$('terminateBtn').addEventListener('click',()=>{if(state!=='idle'&&state!=='terminated'){state='terminated';renderLifecycle();renderWizard()}});
+$('resetBtn').addEventListener('click',()=>{state='idle';renderLifecycle();renderWizard()});
+renderWizard();testSecurity();renderLifecycle();
+</script></body></html>
