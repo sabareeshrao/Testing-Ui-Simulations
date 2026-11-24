@@ -98,7 +98,22 @@ p{margin:0}
 @media(max-width:560px){main{padding:18px 10px 45px}.card{padding:13px;border-radius:14px}.roadmap{gap:6px;margin:14px 0 22px}.road{padding:10px 4px;min-height:102px}.road-icon{font-size:25px}.road b{font-size:12px}.road small{font-size:10px}.step-nav{gap:3px}.step-tab{min-height:56px;padding:5px 1px;font-size:9px}.step-tab b{font-size:13px}.lesson-scene{padding:11px 8px}.two{gap:8px}.mgroup{padding:9px 5px}.mtitle{font-size:12px}.matrix{gap:2px}.cell{font-size:10px;border-width:1.5px;border-radius:3px}.facts{grid-template-columns:1fr}.learning{gap:4px}.learnbox{padding:8px 3px;min-height:83px}.learnbox b{font-size:10px}.learnbox small{font-size:9px}.sum-answer{font-size:21px}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 </style>
-</head>
+<style id="wide-compact-layout">/* Wide compact lesson layout — desktop split panels, mobile single column */
+main{width:100%;max-width:1440px;margin:0 auto;padding:20px clamp(14px,2.4vw,36px) 32px}
+main h1{font-size:clamp(25px,3vw,34px);margin-top:0;margin-bottom:8px}
+main h2{font-size:20px;margin:18px 0 6px}main h3{font-size:17px}
+main .lead,main .explain{max-width:none}
+main .card,main .panel{padding:12px 16px;border-radius:10px;margin:8px 0}
+main .tile{padding:7px 9px;border-radius:6px}
+main .diagram,main .panel>svg,main .map,main .cos-svg{max-height:330px;margin-left:auto;margin-right:auto}
+main .progress{margin-top:6px;margin-bottom:8px}
+main .controls,main .page-controls,main .wizardControls{margin-top:8px}
+.wide-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:0 16px;align-items:start}
+.wide-unit,.wide-visual,.wide-controls{min-width:0}
+.wide-split{display:grid;grid-template-columns:minmax(0,1fr);gap:12px;align-items:center}
+.wide-visual>svg{display:block;width:100%;height:auto;max-height:330px;margin:auto}
+@media(min-width:760px){.wide-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.wide-full{grid-column:1/-1}.wide-split{grid-template-columns:minmax(0,1fr) minmax(0,1.12fr);gap:24px}.wide-controls{padding-left:20px;border-left:1px solid currentColor;border-left-color:rgba(128,128,128,.25)}main button:not(.switch):not(.step):not(.step-tab):not(.stepbutton){min-height:34px}main .progress button{min-height:20px!important}}
+@media(max-width:759px){main{padding:14px 12px 28px}main .card,main .panel{padding:12px}.wide-grid{gap:0}.wide-split{gap:8px}}</style></head>
 <body>
 <main>
 <header><div class="eyebrow">VISUAL AI LESSON · BEGINNER FRIENDLY</div><h1>How a CNN works</h1><p class="lead">A <strong>Convolutional Neural Network</strong> learns to find useful image patterns — starting with simple lines, then combining features to recognize objects.</p></header>
@@ -106,7 +121,7 @@ p{margin:0}
 <div class="road"><span class="road-icon" aria-hidden="true">▦</span><b>Pixels</b><small>Image as numbers</small></div>
 <div class="road"><span class="road-icon" aria-hidden="true">🔎</span><b>Patterns</b><small>Small moving filter</small></div>
 <div class="road"><span class="road-icon" aria-hidden="true">✓</span><b>Recognize</b><small>Combine features</small></div>
-</div>
+</div><div class="wide-grid"><div class="wide-unit">
 <h2>Learn with one tiny image</h2>
 <p class="explain">We will use a <strong>6×6 black-and-white image</strong> to understand every operation. You only need to follow one line detector.</p>
 <section class="card" aria-labelledby="lessonHeading">
@@ -123,7 +138,7 @@ p{margin:0}
 <div class="progress" id="progress" aria-hidden="true"><span class="on"></span><span></span><span></span><span></span><span></span><span></span></div>
 <div id="stepArea" aria-live="polite"></div>
 <div class="page-controls"><button class="btn" id="prev" disabled>‹ Previous</button><button class="btn primary" id="next">Next step →</button></div>
-</section>
+</section></div><div class="wide-unit">
 <h2>How does a CNN learn its filters?</h2>
 <p class="explain">The filter above was <strong>hand-designed for teaching</strong>. In a real CNN, the network normally starts with adjustable weights and improves them by learning from labeled examples.</p>
 <section class="card">
@@ -134,15 +149,14 @@ p{margin:0}
 <div class="learnbox"><span>↻</span><b>Improve</b><small>Update weights</small></div>
 </div>
 <p class="explain" style="margin:13px 0 0">Training repeats this cycle using <strong>backpropagation</strong> and an optimizer. Later CNN layers combine simple edges and textures into richer patterns that can help recognize cats, cars, faces, or other objects.</p>
-</section>
+</section></div><div class="wide-unit">
 <h2>Three words to remember</h2>
 <div class="facts">
 <div class="fact"><b>Filter (kernel)</b><small>A small set of weights that detects local patterns.</small></div>
 <div class="fact"><b>Feature map</b><small>The grid of responses produced by a filter.</small></div>
 <div class="fact"><b>Pooling</b><small>Keeps important local values in a smaller grid.</small></div>
 </div>
-<div class="bottom"><strong>Takeaway:</strong> A CNN learns reusable filters. They slide over images to create feature maps, then layers transform and combine those features to make predictions.</div>
-</main>
+<div class="bottom"><strong>Takeaway:</strong> A CNN learns reusable filters. They slide over images to create feature maps, then layers transform and combine those features to make predictions.</div></div></div></main>
 <script>
 "use strict";
 const $=id=>document.getElementById(id);

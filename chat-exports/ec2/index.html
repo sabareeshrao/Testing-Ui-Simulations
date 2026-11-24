@@ -68,13 +68,28 @@ button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible{ou
 @media(max-width:610px){main{padding:18px 10px 50px}.card{padding:14px}.overview{gap:4px}.over{min-height:98px;padding:7px 3px}.over .ico{font-size:23px}.over strong{font-size:10px}.over small{font-size:9px}.steps{gap:3px}.step{min-height:55px;font-size:9px;padding:6px 1px}.step span{font-size:14px}.stageArea{padding:11px}.flowbox{min-width:80px;padding:9px}.optionGrid{gap:7px}.choice{min-height:96px;padding:9px}.choice strong{font-size:12px}.choice small{font-size:11px}.statePanel{gap:8px}.instance{min-height:155px;padding:10px}.machine{font-size:41px}.billingLine{padding:8px}.costRow>div{font-size:10px;padding:7px 3px}.costRow.header>div{font-size:10px}.btn{padding:9px 11px}}
 @media(max-width:360px){.statePanel{grid-template-columns:1fr}.overview{grid-template-columns:repeat(5,minmax(0,1fr))}.over strong{font-size:9px}.over small{font-size:8px}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
-</style></head>
+</style><style id="wide-compact-layout">/* Wide compact lesson layout — desktop split panels, mobile single column */
+main{width:100%;max-width:1440px;margin:0 auto;padding:20px clamp(14px,2.4vw,36px) 32px}
+main h1{font-size:clamp(25px,3vw,34px);margin-top:0;margin-bottom:8px}
+main h2{font-size:20px;margin:18px 0 6px}main h3{font-size:17px}
+main .lead,main .explain{max-width:none}
+main .card,main .panel{padding:12px 16px;border-radius:10px;margin:8px 0}
+main .tile{padding:7px 9px;border-radius:6px}
+main .diagram,main .panel>svg,main .map,main .cos-svg{max-height:330px;margin-left:auto;margin-right:auto}
+main .progress{margin-top:6px;margin-bottom:8px}
+main .controls,main .page-controls,main .wizardControls{margin-top:8px}
+.wide-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:0 16px;align-items:start}
+.wide-unit,.wide-visual,.wide-controls{min-width:0}
+.wide-split{display:grid;grid-template-columns:minmax(0,1fr);gap:12px;align-items:center}
+.wide-visual>svg{display:block;width:100%;height:auto;max-height:330px;margin:auto}
+@media(min-width:760px){.wide-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.wide-full{grid-column:1/-1}.wide-split{grid-template-columns:minmax(0,1fr) minmax(0,1.12fr);gap:24px}.wide-controls{padding-left:20px;border-left:1px solid currentColor;border-left-color:rgba(128,128,128,.25)}main button:not(.switch):not(.step):not(.step-tab):not(.stepbutton){min-height:34px}main .progress button{min-height:20px!important}}
+@media(max-width:759px){main{padding:14px 12px 28px}main .card,main .panel{padding:12px}.wide-grid{gap:0}.wide-split{gap:8px}}</style></head>
 <body><main>
 <header>
 <div class="brand"><div class="brandmark" aria-label="AWS inspired colors">aws</div><div class="brandtxt">EC2 VISUAL LEARNING LAB<br>INTERACTIVE • OFFLINE • DARK THEME</div></div>
 <div class="kicker">CLOUD COMPUTING BASICS</div><h1>Amazon EC2</h1>
 <p class="lead">An <strong>Elastic Compute Cloud</strong> instance is a virtual server you can start in AWS, configure, and use to run websites, apps and services.</p>
-</header>
+</header><div class="wide-grid"><div class="wide-unit">
 
 <section aria-labelledby="overviewTitle"><h2 id="overviewTitle">1. Picture the cloud server</h2><p class="explain">Your users reach an EC2 app through networking. A <strong>security group</strong> controls allowed traffic, and <strong>Amazon EBS</strong> can store the server's data.</p>
 <div class="card">
@@ -87,7 +102,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible{ou
 </div>
 <div class="storage"><span style="font-size:22px">💾</span><div><b>Amazon EBS</b> — attached block storage<br><span class="small">Keeps data through a normal EC2 stop/start</span></div></div>
 <p class="caption">For direct public access, the instance also needs a suitable public address and subnet route via an internet gateway. This diagram is conceptual.</p>
-</div></section>
+</div></section></div><div class="wide-unit">
 
 <section aria-labelledby="wizardTitle"><h2 id="wizardTitle">2. Launch an EC2 instance — guided demo</h2>
 <p class="explain">Imagine creating a Linux web server. Choose its operating system, instance size, login method, network and storage. <strong>This is a safe simulation</strong> — it never creates AWS resources.</p>
@@ -97,7 +112,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible{ou
 <button class="step" data-step="0" aria-current="step"><span>1</span>AMI</button><button class="step" data-step="1"><span>2</span>Size</button><button class="step" data-step="2"><span>3</span>Key</button><button class="step" data-step="3"><span>4</span>Network</button><button class="step" data-step="4"><span>5</span>EBS</button><button class="step" data-step="5"><span>6</span>Launch</button></nav>
 <div id="wizardBody" aria-live="polite"></div>
 <div class="wizardControls"><button class="btn" id="backStep">‹ Previous</button><button class="btn orange" id="nextStep">Next step →</button></div>
-</div></section>
+</div></section></div><div class="wide-unit">
 
 <section aria-labelledby="sgTitle"><h2 id="sgTitle">3. Security groups: which traffic gets in?</h2>
 <p class="explain">A security group is an <strong>instance-level virtual firewall</strong>. Turn inbound rules on or off, then test whether a request is allowed. For SSH, restrict access to your own IP rather than everyone.</p>
@@ -117,7 +132,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible{ou
 <select id="testSource" aria-label="Request source"><option value="internet">General internet user</option><option value="myip">My approved IP</option></select></div>
 <div id="testResult" class="checkResult allowed" role="status">✓ Inbound rule allows HTTPS on port 443</div>
 <p class="caption">This tests security-group inbound rules only, not a real connection. The server must also be running, reachable, and listening on that port. Security groups are stateful, so permitted connections can receive response traffic.</p>
-</div></section>
+</div></section></div><div class="wide-unit">
 
 <section aria-labelledby="lifeTitle"><h2 id="lifeTitle">4. Start, stop or terminate?</h2>
 <p class="explain">An EC2 instance has a lifecycle. Try each action to see what changes. <strong>Stopping is not the same as deleting</strong> — and stopping doesn't necessarily remove all AWS charges.</p>
@@ -133,7 +148,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible{ou
 </div>
 <div class="stateBtns"><button class="btn orange" id="startBtn">Launch</button><button class="btn" id="stopBtn" disabled>Stop</button><button class="btn danger" id="terminateBtn" disabled>Terminate</button><button class="btn" id="resetBtn">Reset</button></div>
 <div class="note" id="lifeNote">Start by launching a simulated EC2 instance. No real AWS resources or charges are created here.</div>
-</div></section>
+</div></section></div><div class="wide-unit">
 
 <section aria-labelledby="billingTitle"><h2 id="billingTitle">5. What keeps costing money?</h2><p class="explain">EC2 compute is not your only potential bill. EBS volumes, public IPv4 addresses, and data transfer can also matter. Exact prices depend on your Region and setup.</p>
 <div class="card">
@@ -145,7 +160,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible{ou
 </div>
 <div class="note">⚠️ Root EBS volumes are normally set to delete on termination by default. Preserved volumes continue billing until removed. Always check the <strong>Delete on termination</strong> setting.</div>
 <p class="caption">Simplified On-Demand lifecycle, not a price quote. Savings Plans, Spot pricing, attached resources and committed charges follow their own rules.</p>
-</div></section>
+</div></section></div><div class="wide-unit">
 
 <section aria-labelledby="connectTitle"><h2 id="connectTitle">6. How do you connect?</h2>
 <p class="explain">For a Linux EC2 instance, you can use a supported browser-based connection method or SSH. SSH uses a private key and an allowed network path.</p>
@@ -158,8 +173,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible{ou
 <footer class="footer"><strong style="color:#fff">Remember:</strong> An EC2 instance is a configurable cloud server. The AMI supplies the system image, instance type sets compute resources, the security group controls allowed connections, and EBS provides block storage.
 <div class="sources">AWS documentation: <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EC2_GetStarted.html" target="_blank" rel="noopener noreferrer">Getting started</a><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-security-groups.html" target="_blank" rel="noopener noreferrer">Security groups</a><a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-lifecycle.html" target="_blank" rel="noopener noreferrer">Lifecycle & charges</a></div>
 <p class="caption">Independent educational demo with AWS-inspired dark colors. Works offline; documentation links open the AWS website when you are online.</p>
-</footer>
-</main>
+</footer></div></div></main>
 <script>
 "use strict";
 const $=id=>document.getElementById(id);
