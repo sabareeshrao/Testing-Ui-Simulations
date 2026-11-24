@@ -195,9 +195,9 @@ function render(){
  if(step===0){
   view='<div class="two">'+sub('Your 6×6 image',grid(6,p,'image'),"Blue = 1 · White = 0")+sub('What the numbers mean','<div class="center"><div class="large">0 & 1</div><p class="explain" style="margin:8px 0">1 = bright pixel<br>0 = dark pixel</p></div>','Real photos use many intensity values and often three color channels.')+'</div>'+note('<strong>Notice:</strong> The '+(picture==="vertical"?'vertical':'horizontal')+' line is just a pattern of blue squares.');
  }else if(step===1){
-  const sample=1,patch=pixPatch(p,sample),sum=result[sample];
-  view='<div class="two">'+sub('Highlighted 3×3 patch',grid(6,p,'image',{type:'window6',n:sample}),"The filter only sees this small area")+sub('Vertical line filter',grid(3,KVERT,'kernel'),"Center: +2 · Neighbors: −1")+'</div>'+
-  '<div class="sum"><div class="center subnumber">CURRENT FILTER SCORE</div><div class="mathline">'+patch.map((n,i)=>n+'×('+(KVERT[i]<0?'−1':'+2')+')').join(' + ')+'</div><div class="center sum-answer">= '+sum+'</div></div>'+
+  const sample=1,patch=pixPatch(p,sample),sum=result[sample],center=patch[1]+patch[4]+patch[7],sides=patch.reduce((total,value,i)=>total+(i%3===1?0:value),0);
+  view='<div class="two">'+sub('3×3 image patch',grid(3,patch,'image'),"A small piece of the original image")+sub('Vertical line filter',grid(3,KVERT,'kernel'),"Center: +2 · Sides: −1")+'</div>'+
+  '<div class="sum"><div class="center subnumber">FILTER SCORE</div><div class="mathline">('+center+' center pixels × 2) − ('+sides+' side pixels × 1)</div><div class="center sum-answer">= '+sum+'</div></div>'+
   note('<strong>Why?</strong> When the middle column is bright and its sides are dark, the filter score is strongly positive.');
  }else if(step===2){
   const rr=Math.floor(scan/4),cc=scan%4;
