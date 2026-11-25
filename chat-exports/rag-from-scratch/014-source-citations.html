@@ -1,0 +1,171 @@
+<!doctype html><html lang="te"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="dark"><title>014 — Source Citations</title><style>
+:root{color-scheme:dark;background:#171717;color:#ececec;font:16px/1.65 system-ui,"Segoe UI",sans-serif}*{box-sizing:border-box}body{margin:0}main{max-width:1040px;margin:auto;padding:20px clamp(12px,3vw,30px) 32px}h1{font-size:30px;line-height:1.25;margin:8px 0}h2{font-size:21px;margin:24px 0 8px}h3{font-size:17px;margin:16px 0 6px}p{margin:6px 0 12px;max-width:85ch}a{color:#93c5fd}small,.muted{color:#a3a3a3;font-size:13px}.panel,.code{border:1px solid #404040;background:#212121;border-radius:10px;padding:12px 16px;margin:10px 0}.code{padding:0;overflow:hidden}.bar{display:flex;justify-content:space-between;align-items:center;background:#292929;padding:6px 12px;color:#bdbdbd;font-size:13px}pre{margin:0;overflow:auto;padding:12px;white-space:pre;font:13px/1.6 Consolas,monospace}code{font-family:Consolas,monospace}.kw{color:#c084fc}.string{color:#a7d7a0}.number{color:#fbbf24}.comment{color:#a3a3a3}.terminal{background:#0d1117;color:#e6edf3;border-radius:8px;white-space:pre-wrap;overflow-wrap:anywhere}.good{color:#86efac}.bad{color:#fca5a5}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(125px,1fr));gap:8px}.tile{border:1px solid #404040;border-radius:6px;padding:8px}.metric{font-size:24px;font-weight:650}button{background:#363636;border:1px solid #606060;color:#eee;border-radius:6px;padding:7px 12px;font:inherit;cursor:pointer}textarea{width:100%;background:#161616;color:#eee;border:1px solid #555;border-radius:6px;padding:10px;font:inherit;resize:vertical}svg{display:block;width:100%;height:auto;max-height:245px}table{width:100%;border-collapse:collapse;font-size:14px}td,th{border-bottom:1px solid #444;padding:6px 8px;text-align:left}.progress{height:7px;border-radius:7px;background:#414141;overflow:hidden}.progress i{display:block;width:70%;height:100%;background:#22c55e}.chips{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}.chip{border:1px solid #555;padding:4px 8px;border-radius:5px;overflow-wrap:anywhere}button:focus-visible,textarea:focus-visible{outline:2px solid #93c5fd} @media(max-width:600px){h1{font-size:24px}.panel{padding:10px}pre{font-size:12px}}
+</style></head><body><main><small>STAGE 014 · D01 08:11–08:56</small><h1>Source Citations</h1><p>LLM ఇచ్చిన answer లోని citation ID నిజంగా retrieve చేసిన chunks లో ఉందో తెలుసుకోవాలి. ID match factual verification కాదు.</p><div class="panel"><svg viewBox="0 0 340 244" role="img" aria-label="Citation validation flow"><g fill="#262626" stroke="#60a5fa"><rect x="65" y="8" width="210" height="40" rx="6"/><rect x="58" y="73" width="224" height="52" rx="6" stroke="#a78bfa"/><rect x="8" y="166" width="148" height="66" rx="6" stroke="#22c55e"/><rect x="184" y="166" width="148" height="66" rx="6" stroke="#ef4444"/></g><g stroke="#a3a3a3" stroke-dasharray="4 3" fill="none"><path d="M170 48 V73 M170 125 V145 H82 V166 M170 145 H258 V166"/></g><g fill="#ececec" font-size="11" text-anchor="middle"><text x="170" y="25">Generated answer</text><text x="170" y="39">Extract citation IDs</text><text x="170" y="94">Compare with retrieved chunks</text><text x="170" y="111">Does exact ID exist?</text><text x="82" y="157" fill="#86efac">Yes</text><text x="258" y="157" fill="#fca5a5">No</text><text x="82" y="187">Known ID</text><text x="82" y="205">Display source text</text><text x="82" y="220">rag.txt:1</text><text x="258" y="187">Unknown ID</text><text x="258" y="205">Display warning</text><text x="258" y="220">missing.txt:99</text></g></svg></div>
+<h2>1. Create citations.py</h2><p>Project root లో కొత్త file create చెయ్యి. re standard library module; కొత్త dependency అవసరం లేదు.</p><div class="code"><div class="bar"><span>Pattern</span><button type="button" class="copy">Copy</button></div><pre><code><span class="kw">import</span> re
+
+CITATION_PATTERN = re.compile(<span class="string">r"\[([^\[\]\r\n]+:[0-9]+)\]"</span>)</code></pre></div><p>Opening bracket, filename, colon, digits, closing bracket. Character class brackets మరియు line breaks ని exclude చేస్తుంది. ఈ parser మన ప్రస్తుత ID format కోసం మాత్రమే.</p>
+<h2>2. Extract and deduplicate</h2><div class="code"><div class="bar"><span>extract_citations</span><button type="button" class="copy">Copy</button></div><pre><code><span class="kw">def</span> extract_citations(answer: <span class="kw">str</span>) -&gt; <span class="kw">list</span>[<span class="kw">str</span>]:
+    <span class="kw">return</span> <span class="kw">list</span>(<span class="kw">dict</span>.fromkeys(CITATION_PATTERN.findall(answer)))</code></pre></div><p>findall() matching IDs అన్నీ extract చేస్తుంది. dict.fromkeys() first-seen order preserve చేస్తూ duplicates remove చేస్తుంది. list() keys ని list గా convert చేస్తుంది.</p>
+<h2>3. Validate against retrieved chunks</h2><div class="code"><div class="bar"><span>validate_citations</span><button type="button" class="copy">Copy</button></div><pre><code><span class="kw">def</span> validate_citations(
+    answer: <span class="kw">str</span>, results: <span class="kw">list</span>[<span class="kw">dict</span>[<span class="kw">str</span>, <span class="kw">str</span> | <span class="kw">float</span>]]
+) -&gt; <span class="kw">tuple</span>[<span class="kw">list</span>[<span class="kw">dict</span>[<span class="kw">str</span>, <span class="kw">str</span> | <span class="kw">float</span>]], <span class="kw">list</span>[<span class="kw">str</span>]]:
+    retrieved = {result[<span class="string">"id"</span>]: result <span class="kw">for</span> result <span class="kw">in</span> results}
+    valid = []
+    unknown = []
+
+    <span class="kw">for</span> citation_id <span class="kw">in</span> extract_citations(answer):
+        <span class="kw">if</span> citation_id <span class="kw">in</span> retrieved:
+            valid.append(retrieved[citation_id])
+        <span class="kw">else</span>:
+            unknown.append(citation_id)
+</code></pre></div><p>retrieved dictionary ద్వారా ID lookup చేస్తాం. valid list లో actual retrieved record ని append చేస్తాం; unknown list లో match కాని ID ఉంటుంది. మొత్తం knowledge base కాకుండా prompt కి ఇచ్చిన context మాత్రమే compare చేస్తాం.</p>
+<h2>4. Interactive citation checker</h2><div class="panel"><small>Illustrative retrieved context (synthetic)</small><div class="chips"><span class="chip">rag.txt:1</span><span class="chip">ai.txt:2</span></div><label for="answer">Generated answer — edit this text</label><textarea id="answer" rows="4">Embeddings represent text as vectors. [rag.txt:1] [missing.txt:99] [rag.txt:1]</textarea><div class="chips"><button id="validate">Validate</button><button id="reset">Reset</button></div><div id="report" aria-live="polite"></div></div>
+<h2>5. Display sources and warnings</h2><div class="code"><div class="bar"><span>display_citations</span><button type="button" class="copy">Copy</button></div><pre><code>
+<span class="kw">def</span> display_citations(answer: <span class="kw">str</span>, results: <span class="kw">list</span>[<span class="kw">dict</span>[<span class="kw">str</span>, <span class="kw">str</span> | <span class="kw">float</span>]]) -&gt; <span class="kw">None</span>:
+    valid, unknown = validate_citations(answer, results)
+    <span class="kw">if</span> <span class="kw">not</span> valid <span class="kw">and</span> <span class="kw">not</span> unknown:
+        <span class="kw">print</span>(<span class="string">"\nNo chunk citations found; answer is not source-linked."</span>)
+        <span class="kw">return</span>
+
+    <span class="kw">if</span> valid:
+        <span class="kw">print</span>(<span class="string">"\nCited sources (ID match only):"</span>)
+        <span class="kw">for</span> source <span class="kw">in</span> valid:
+            <span class="kw">print</span>(<span class="string">f"[{source['id']}] {source['source']}"</span>)
+            <span class="kw">print</span>(source[<span class="string">"text"</span>])
+    <span class="kw">if</span> unknown:
+        <span class="kw">print</span>(<span class="string">"\nWarning: unknown citation IDs:"</span>, <span class="string">", "</span>.join(unknown))
+    <span class="kw">print</span>(<span class="string">"Citation ID matches do not prove factual support."</span>)
+</code></pre></div><p>valid, unknown అనే రెండు lists unpack చేస్తాం. రెండూ empty అయితే no-citation warning print చేసి return చేస్తాం. valid records నుంచి id, source, text చూపిస్తాం. unknown IDs ఉంటే warning print చేస్తాం. ID match factual support guarantee కాదు.</p>
+<h2>6. Complete citations.py</h2><div class="code"><div class="bar"><span>citations.py</span><button type="button" class="copy">Copy</button></div><pre><code><span class="kw">import</span> re
+
+CITATION_PATTERN = re.compile(<span class="string">r"\[([^\[\]\r\n]+:[0-9]+)\]"</span>)
+
+
+<span class="kw">def</span> extract_citations(answer: <span class="kw">str</span>) -&gt; <span class="kw">list</span>[<span class="kw">str</span>]:
+    <span class="kw">return</span> <span class="kw">list</span>(<span class="kw">dict</span>.fromkeys(CITATION_PATTERN.findall(answer)))
+
+
+<span class="kw">def</span> validate_citations(
+    answer: <span class="kw">str</span>, results: <span class="kw">list</span>[<span class="kw">dict</span>[<span class="kw">str</span>, <span class="kw">str</span> | <span class="kw">float</span>]]
+) -&gt; <span class="kw">tuple</span>[<span class="kw">list</span>[<span class="kw">dict</span>[<span class="kw">str</span>, <span class="kw">str</span> | <span class="kw">float</span>]], <span class="kw">list</span>[<span class="kw">str</span>]]:
+    retrieved = {result[<span class="string">"id"</span>]: result <span class="kw">for</span> result <span class="kw">in</span> results}
+    valid = []
+    unknown = []
+
+    <span class="kw">for</span> citation_id <span class="kw">in</span> extract_citations(answer):
+        <span class="kw">if</span> citation_id <span class="kw">in</span> retrieved:
+            valid.append(retrieved[citation_id])
+        <span class="kw">else</span>:
+            unknown.append(citation_id)
+
+    <span class="kw">return</span> valid, unknown
+
+
+<span class="kw">def</span> display_citations(answer: <span class="kw">str</span>, results: <span class="kw">list</span>[<span class="kw">dict</span>[<span class="kw">str</span>, <span class="kw">str</span> | <span class="kw">float</span>]]) -&gt; <span class="kw">None</span>:
+    valid, unknown = validate_citations(answer, results)
+    <span class="kw">if</span> <span class="kw">not</span> valid <span class="kw">and</span> <span class="kw">not</span> unknown:
+        <span class="kw">print</span>(<span class="string">"\nNo chunk citations found; answer is not source-linked."</span>)
+        <span class="kw">return</span>
+
+    <span class="kw">if</span> valid:
+        <span class="kw">print</span>(<span class="string">"\nCited sources (ID match only):"</span>)
+        <span class="kw">for</span> source <span class="kw">in</span> valid:
+            <span class="kw">print</span>(<span class="string">f"[{source['id']}] {source['source']}"</span>)
+            <span class="kw">print</span>(source[<span class="string">"text"</span>])
+    <span class="kw">if</span> unknown:
+        <span class="kw">print</span>(<span class="string">"\nWarning: unknown citation IDs:"</span>, <span class="string">", "</span>.join(unknown))
+    <span class="kw">print</span>(<span class="string">"Citation ID matches do not prove factual support."</span>)
+</code></pre></div>
+<h2>7. Integrate main.py</h2><div class="code"><div class="bar"><span>New import</span><button type="button" class="copy">Copy</button></div><pre><code><span class="kw">from</span> citations <span class="kw">import</span> display_citations</code></pre></div><div class="code"><div class="bar"><span>After print(answer)</span><button type="button" class="copy">Copy</button></div><pre><code>    display_citations(answer, results)</code></pre></div><p>Stage 011 prompt ఇప్పటికే citations అడుగుతుంది. Stage 013 answer extract చేసిన తర్వాత అదే retrieved results ని validation function కి పంపిస్తాం. Answer చూపించి warnings కూడా ఇస్తాం; reject చేయము.</p>
+<h2>8. Complete main.py</h2><div class="code"><div class="bar"><span>main.py</span><button type="button" class="copy">Copy</button></div><pre><code><span class="kw">from</span> pathlib <span class="kw">import</span> Path
+<span class="kw">from</span> loader <span class="kw">import</span> load_documents
+<span class="kw">from</span> preprocessor <span class="kw">import</span> clean_text
+<span class="kw">from</span> chunker <span class="kw">import</span> create_chunks
+<span class="kw">from</span> embedder <span class="kw">import</span> load_embedding_model, embed_texts, MODEL_NAME
+<span class="kw">from</span> vector_store <span class="kw">import</span> save_vector_store, load_vector_store
+<span class="kw">from</span> retriever <span class="kw">import</span> retrieve_documents
+<span class="kw">from</span> prompt_builder <span class="kw">import</span> build_prompt
+<span class="kw">from</span> llm <span class="kw">import</span> create_llm_client, request_response
+<span class="kw">from</span> answer <span class="kw">import</span> extract_answer
+<span class="kw">from</span> citations <span class="kw">import</span> display_citations
+
+
+<span class="kw">def</span> main():
+    <span class="kw">print</span>(<span class="string">"RAG Application Started"</span>)
+
+    data_directory = Path(__file__).resolve().parent / <span class="string">"data"</span>
+    documents = load_documents(data_directory)
+    <span class="kw">print</span>(<span class="string">f"Loaded {len(documents)} documents"</span>)
+    all_chunks = []
+    <span class="kw">for</span> name, content <span class="kw">in</span> documents.items():
+        cleaned_content = clean_text(content)
+        all_chunks.extend(create_chunks(name, cleaned_content))
+
+    <span class="kw">print</span>(<span class="string">f"Created {len(all_chunks)} chunks"</span>)
+    <span class="kw">if</span> <span class="kw">not</span> all_chunks:
+        <span class="kw">print</span>(<span class="string">"No chunks to embed."</span>)
+        <span class="kw">return</span>
+
+    texts = [chunk[<span class="string">"text"</span>] <span class="kw">for</span> chunk <span class="kw">in</span> all_chunks]
+    model = load_embedding_model()
+    embeddings = embed_texts(model, texts)
+
+    <span class="kw">print</span>(<span class="string">f"Embedding matrix shape: {embeddings.shape}"</span>)
+    <span class="kw">for</span> chunk, vector <span class="kw">in</span> zip(all_chunks, embeddings, strict=True):
+        <span class="kw">print</span>(<span class="string">f"{chunk['id']}: {len(vector)} dimensions"</span>)
+
+    storage_directory = data_directory.parent / <span class="string">"storage"</span>
+    save_vector_store(storage_directory, all_chunks, embeddings, MODEL_NAME)
+    <span class="kw">print</span>(<span class="string">"Vector store saved."</span>)
+
+    saved_chunks, saved_embeddings = load_vector_store(
+        storage_directory, MODEL_NAME
+    )
+    <span class="kw">print</span>(<span class="string">f"Reloaded {len(saved_chunks)} chunks"</span>)
+    <span class="kw">print</span>(<span class="string">f"Reloaded matrix shape: {saved_embeddings.shape}"</span>)
+
+    question = input(<span class="string">"\nAsk a question: "</span>).strip()
+    <span class="kw">if</span> <span class="kw">not</span> question:
+        <span class="kw">print</span>(<span class="string">"Question cannot be empty."</span>)
+        <span class="kw">return</span>
+
+    query = embed_texts(model, [question])[<span class="number">0</span>]
+    results = retrieve_documents(
+        query, saved_chunks, saved_embeddings, top_k=<span class="number">3</span>, min_score=<span class="number">0.35</span>
+    )
+    <span class="kw">if</span> <span class="kw">not</span> results:
+        <span class="kw">print</span>(<span class="string">"No relevant context found."</span>)
+        <span class="kw">return</span>
+
+    <span class="kw">print</span>(<span class="string">f"\nRetrieved {len(results)} relevant chunks:"</span>)
+    prompt = build_prompt(question, results)
+    client = create_llm_client()
+    response = request_response(client, prompt)
+    <span class="kw">print</span>(<span class="string">f"\nLLM response status: {response.status}"</span>)
+
+    <span class="kw">try</span>:
+        answer = extract_answer(response)
+    <span class="kw">except</span> ValueError <span class="kw">as</span> error:
+        <span class="kw">print</span>(<span class="string">f"Answer unavailable: {error}"</span>)
+        <span class="kw">return</span>
+
+    <span class="kw">print</span>(<span class="string">"\nAnswer:"</span>)
+    <span class="kw">print</span>(answer)
+    display_citations(answer, results)
+
+
+<span class="kw">if</span> __name__ == <span class="string">"__main__"</span>:
+    main()
+</code></pre></div>
+<h2>9. Deterministic tests</h2><div class="code"><div class="bar"><span>Terminal command</span><button type="button" class="copy">Copy</button></div><pre><code>python -c <span class="string">"from citations import extract_citations; print(extract_citations('[rag.txt:1] [missing.txt:99] [rag.txt:1]'))"</span></code></pre></div><pre class="terminal">['rag.txt:1', 'missing.txt:99']</pre><div class="code"><div class="bar"><span>Terminal command</span><button type="button" class="copy">Copy</button></div><pre><code>python -c <span class="string">"from citations import display_citations; display_citations('[rag.txt:1] [missing.txt:99]', [{'id':'rag.txt:1','source':'rag.txt','text':'Embeddings represent text as numerical vectors.'}])"</span></code></pre></div><pre class="terminal">Cited sources (ID match only):
+[rag.txt:1] rag.txt
+Embeddings represent text as numerical vectors.
+
+Warning: unknown citation IDs: missing.txt:99
+Citation ID matches do not prove factual support.</pre><div class="code"><div class="bar"><span>Syntax check</span><button type="button" class="copy">Copy</button></div><pre><code>python -m py_compile citations.py main.py</code></pre></div><p>Optional: python main.py. Actual LLM output depends on local model, retrieval, credentials and API response. API may incur charges. No live request was made.</p>
+<h2>Progress</h2><div class="panel"><div class="grid"><div class="tile"><small>Stages</small><div class="metric">14 / 20</div></div><div class="tile"><small>New actions</small><div class="metric">46</div></div><div class="tile"><small>Total actions</small><div class="metric">536</div></div><div class="tile"><small>Files</small><div class="metric">18</div></div><div class="tile"><small>Python lines</small><div class="metric">358</div></div><div class="tile"><small>Tracked lines</small><div class="metric">380</div></div></div><p>70% of foundational stages</p><div class="progress"><i></i></div><p class="good">14 deterministic citation checks passed. Replay matched all 18 project files; previous 490 actions preserved.</p><p class="muted">Reconstructed offline lesson, not pixel-perfect chat export. Browser rendering, real embedding inference and live LLM calls unverified. Next stage: REST API development · D01 08:57.</p></div><p><a href="https://sabareeshrao.github.io/Gradstudio-Version-2.0/github-timestamps/rag/">Timestamp simulator</a> · <a href="https://github.com/sabareeshrao/Gradstudio-Version-2.0/commit/802cfb057e2bf85666bc0f02094db433fdca7f7e">Project commit</a> · <a href="index.html">Lesson index</a></p></main><script>
+const a=document.getElementById('answer'),report=document.getElementById('report'),initial=a.value;
+function run(){const ids=[...new Set([...a.value.matchAll(/\[([^\[\]\r\n]+:[0-9]+)\]/g)].map(x=>x[1]))],known={'rag.txt:1':'Embeddings represent text as numerical vectors.','ai.txt:2':'Example AI content.'};report.replaceChildren();const add=(s,cls)=>{const p=document.createElement('p');p.textContent=s;p.className=cls;report.append(p)};if(!ids.length){add('No chunk citations found; answer is not source-linked.','bad');return}for(const id of ids){const ok=Object.prototype.hasOwnProperty.call(known,id);add(ok?id+' — '+known[id]:id+' — unknown citation',ok?'good':'bad')}add('Citation ID matches do not prove factual support.','muted')}
+document.getElementById('validate').onclick=run;document.getElementById('reset').onclick=()=>{a.value=initial;run()};a.addEventListener('input',run);run();
+document.querySelectorAll('.copy').forEach(b=>b.onclick=async()=>{const t=b.closest('.code').querySelector('code').textContent;try{await navigator.clipboard.writeText(t);b.textContent='Copied'}catch{const r=document.createRange();r.selectNodeContents(b.closest('.code').querySelector('code'));const s=window.getSelection();s.removeAllRanges();s.addRange(r);b.textContent='Selected'}})
+</script></body></html>
