@@ -1,0 +1,116 @@
+{
+  "source": "Current conversation JAVA SCANNER 20 cards, including all partial/final continuations",
+  "file": "chat-exports/java-scanner/index.html",
+  "commit": "3dc66ca3902da10dcdd182ae56e9072134f0d001",
+  "status": "structural readback verified; browser and interactive execution unverified",
+  "counts": {
+    "sourceCards": 20,
+    "exportCards": 20,
+    "staticCards": 15,
+    "interactiveCards": 5
+  },
+  "manifest": [
+    {
+      "card": 1,
+      "title": "01 · What is Scanner?"
+    },
+    {
+      "card": 2,
+      "title": "02 · Creating a Scanner"
+    },
+    {
+      "card": 3,
+      "title": "03 · Inside the input buffer"
+    },
+    {
+      "card": 4,
+      "title": "04 · next() vs nextLine()"
+    },
+    {
+      "card": 5,
+      "title": "05 · Reading a String"
+    },
+    {
+      "card": 6,
+      "title": "06 · Reading an integer"
+    },
+    {
+      "card": 7,
+      "title": "07 · Reading decimal numbers"
+    },
+    {
+      "card": 8,
+      "title": "08 · Reading boolean values"
+    },
+    {
+      "card": 9,
+      "title": "09 · Reading a single character"
+    },
+    {
+      "card": 10,
+      "title": "10 · Reading multiple inputs"
+    },
+    {
+      "card": 11,
+      "title": "11 · The infamous newline problem"
+    },
+    {
+      "card": 12,
+      "title": "12 · Fixing the newline problem"
+    },
+    {
+      "card": 13,
+      "title": "13 · Validating input before reading"
+    },
+    {
+      "card": 14,
+      "title": "14 · Retry until valid input"
+    },
+    {
+      "card": 15,
+      "title": "15 · Scanner resource lifecycle"
+    },
+    {
+      "card": 16,
+      "title": "16 · Predict the output"
+    },
+    {
+      "card": 17,
+      "title": "17 · Newline bug simulator"
+    },
+    {
+      "card": 18,
+      "title": "18 · Live console simulator"
+    },
+    {
+      "card": 19,
+      "title": "19 · Input validation simulator"
+    },
+    {
+      "card": 20,
+      "title": "20 · Test your understanding"
+    }
+  ],
+  "interactionInventory": [
+    "16 radio selection, output SVG and feedback",
+    "17 broken/fixed toggle, code, cursor diagram, name result and caption",
+    "18 live token parser, partial variables, errors, extra tokens, reset",
+    "19 editable tokens, iteration, accept/discard flow, execution log, EOF, reset",
+    "20 five questions, locked answers, previous/next, feedback, score, completion ring, retake"
+  ],
+  "checks": {
+    "readBack": true,
+    "order": true,
+    "grayscaleBackground": true,
+    "standalone": true,
+    "staticSVGCount": 15,
+    "interactiveHandlersPresent": true,
+    "desktopBrowser": "not tested",
+    "mobileBrowser": "not tested",
+    "interactionExecution": "not tested",
+    "pages": "not independently verified"
+  },
+  "differences": [
+    "Neutral grayscale explicitly requested. SVGs and native HTML controls reconstructed from original chat. Equivalent styling and some primitive geometry differ; exact pixel parity unverified."
+  ]
+}
