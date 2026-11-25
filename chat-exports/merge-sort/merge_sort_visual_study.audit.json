@@ -1,0 +1,135 @@
+{
+  "source": "Current chat response: Merge Sort — Data Structures & Algorithms, including all partial continuations",
+  "status": "Local Chromium interaction and structural checks passed; exact ChatGPT pixel comparison and live Pages deployment not independently verified",
+  "rules": [
+    "27",
+    "29"
+  ],
+  "testedBlob": "fb27ed8726321d2b6a30442ecae1c8f94999d6f8",
+  "sourceAndExportCounts": {
+    "numberedSections": 10,
+    "heroDiagrams": 1,
+    "staticEducationalSVGs": 5,
+    "dynamicEducationalSVGs": 2,
+    "interactiveModules": 4,
+    "quizQuestions": 5,
+    "rangeInputs": 3,
+    "pythonCodeBlocks": 1,
+    "tables": 2,
+    "terminalPreviews": 1
+  },
+  "manifest": [
+    {
+      "id": "intro",
+      "items": "Title, definition, eight-value divide/sort/merge overview, labels and connectors",
+      "coverage": "present"
+    },
+    {
+      "id": "s1",
+      "items": "Three icon cards, divide/conquer/combine, base case paragraph",
+      "coverage": "present"
+    },
+    {
+      "id": "s2",
+      "items": "Recursive split tree with original eight values, base-case label, caption, three metrics, odd-size note",
+      "coverage": "present"
+    },
+    {
+      "id": "s3",
+      "items": "Two-pointer merge lab: both arrays, highlighted heads and consumed values, pointer arrows, dashed empty output, live comparison and output counts, step slider, previous/next/reset, explanatory messages and paragraph",
+      "coverage": "present"
+    },
+    {
+      "id": "s4",
+      "items": "Full recursive trace: input array, trace slider, progress, current range, working array, split/merge runs, live counts, previous/next/shuffle/reset, caption",
+      "coverage": "present"
+    },
+    {
+      "id": "s5",
+      "items": "Four merge levels, connectors, caption and recursion-return explanation",
+      "coverage": "present"
+    },
+    {
+      "id": "s6",
+      "items": "Exact Python code with token highlighting, terminal output, five annotated code explanation rows, new-list note",
+      "coverage": "present"
+    },
+    {
+      "id": "s7",
+      "items": "Complexity text, recursion-level diagram, recurrence, five-row complexity table, input slider, two live metrics, two comparison bars and scaling caveat",
+      "coverage": "present"
+    },
+    {
+      "id": "s8",
+      "items": "Stability explanation, colored equal-key diagram with dashed connectors, caption and tie-break condition",
+      "coverage": "present"
+    },
+    {
+      "id": "s9",
+      "items": "Five-algorithm comparison table, implementation caveat, four icon cards",
+      "coverage": "present"
+    },
+    {
+      "id": "s10",
+      "items": "Five questions with four choices each, progress bar, check/reset, correct/wrong feedback, score and accuracy, final recap",
+      "coverage": "present"
+    }
+  ],
+  "interactionChecks": [
+    "Two-pointer next/previous, reset, keyboard End, six comparisons and eight merged elements",
+    "Trace next/previous, shuffle, reset, keyboard End, sorted result",
+    "100 randomized arrays per viewport tested against numerical reference sort, including duplicates and odd lengths",
+    "Complexity slider Home/End (2 to 1024), expected work 10240",
+    "Quiz gating, all-correct score, wrong-answer score, editing hides score, reset",
+    "Code text equals original Python source",
+    "No page overflow or runtime JavaScript errors"
+  ],
+  "browser": [
+    {
+      "engine": "Chromium 144",
+      "viewport": [
+        1280,
+        900
+      ],
+      "touch": false,
+      "diagramWidth": 380,
+      "sliderWidth": 380,
+      "sliderHitHeight": 24,
+      "barHeights": [
+        4,
+        6,
+        6,
+        4
+      ],
+      "runtimeErrors": 0
+    },
+    {
+      "engine": "Chromium 144",
+      "viewport": [
+        390,
+        844
+      ],
+      "touch": true,
+      "diagramWidth": 316,
+      "sliderWidth": 344,
+      "sliderHitHeight": 44,
+      "barHeights": [
+        4,
+        6,
+        6,
+        4
+      ],
+      "runtimeErrors": 0
+    }
+  ],
+  "sharedAssets": {
+    "css": "6e7cd0ec6ba1074b0841c80de5d1275308fd2373",
+    "js": "6c7195436ba27cd1f476955deec4660a803fcfcb",
+    "method": "Exact repository assets served by Playwright route fulfillment in local browser; fallback standalone styling also tested."
+  },
+  "limitations": [
+    "Original chat component geometry translated to HTML/SVG and inline Lucide-style icon paths; independent side-by-side pixel parity and exact native icon rasterization not established.",
+    "Actual hosted network deployment was not tested; local browser used route fulfillment for the shared assets.",
+    "Only Chromium tested; Firefox-specific CSS is implemented but not browser-tested."
+  ]
+}
