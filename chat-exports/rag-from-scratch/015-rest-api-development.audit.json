@@ -1,0 +1,301 @@
+{
+  "rule": 29,
+  "status": "unverified_draft",
+  "source": "Stage 015 assistant response in current RAG development chat; source code pinned to e6e0e4bab2b0c46756f18b0304491cd5935dbc7c",
+  "sourceManifest": [
+    {
+      "order": 1,
+      "type": "header",
+      "id": "intro"
+    },
+    {
+      "order": 2,
+      "type": "heading",
+      "id": "build-heading"
+    },
+    {
+      "order": 3,
+      "type": "svg",
+      "id": "architecture",
+      "viewBox": "0 0 340 204",
+      "labels": [
+        "Website",
+        "Mobile app",
+        "AI Agent",
+        "FastAPI — POST /ask",
+        "Validate HTTP request",
+        "Existing RAG pipeline",
+        "Answer + citations + status",
+        "Return JSON response to the caller"
+      ],
+      "dashedPaths": 3
+    },
+    {
+      "order": 4,
+      "type": "table",
+      "id": "spring-comparison"
+    },
+    {
+      "order": 5,
+      "type": "code",
+      "id": "dependencies"
+    },
+    {
+      "order": 6,
+      "type": "prose",
+      "id": "service-intro"
+    },
+    {
+      "order": 7,
+      "type": "svg",
+      "id": "index-reuse",
+      "viewBox": "0 0 340 180",
+      "dashedPaths": 4,
+      "requestBoxes": 3
+    },
+    {
+      "order": 8,
+      "type": "code-table",
+      "id": "service-a"
+    },
+    {
+      "order": 9,
+      "type": "code-prose",
+      "id": "service-b"
+    },
+    {
+      "order": 10,
+      "type": "code-prose",
+      "id": "service-c"
+    },
+    {
+      "order": 11,
+      "type": "code-prose",
+      "id": "service-d"
+    },
+    {
+      "order": 12,
+      "type": "code-prose",
+      "id": "service-e"
+    },
+    {
+      "order": 13,
+      "type": "complete-code",
+      "id": "service-full",
+      "sourceBlob": "9ab3a4735f147eedf2e1cf4819c628413ba40a32",
+      "lines": 57
+    },
+    {
+      "order": 14,
+      "type": "file-tree",
+      "id": "api-tree",
+      "children": 18
+    },
+    {
+      "order": 15,
+      "type": "code-table",
+      "id": "api-a"
+    },
+    {
+      "order": 16,
+      "type": "code-prose",
+      "id": "api-b"
+    },
+    {
+      "order": 17,
+      "type": "code-prose",
+      "id": "api-c"
+    },
+    {
+      "order": 18,
+      "type": "code-prose",
+      "id": "api-d"
+    },
+    {
+      "order": 19,
+      "type": "code-prose",
+      "id": "api-e"
+    },
+    {
+      "order": 20,
+      "type": "code-prose",
+      "id": "api-f"
+    },
+    {
+      "order": 21,
+      "type": "complete-code",
+      "id": "api-full",
+      "sourceBlob": "fcb9bbce7d455497ef71044ad7c348032b4df372",
+      "lines": 55
+    },
+    {
+      "order": 22,
+      "type": "interactive",
+      "id": "http-simulator",
+      "controls": [
+        "scenario",
+        "reset"
+      ],
+      "states": [
+        {
+          "label": "Valid question",
+          "status": 200,
+          "request": "What are embeddings?",
+          "response": {
+            "status": "answered",
+            "answer": "Embeddings represent text as numerical vectors. [rag.txt:1]",
+            "sources": [
+              {
+                "id": "rag.txt:1",
+                "source": "rag.txt",
+                "text": "Embeddings represent text as numerical vectors."
+              }
+            ],
+            "unknown_citations": [],
+            "citation_status": "id_match_only"
+          },
+          "message": "Question validate అయింది. RAG service answer మరియు source data return చేసింది."
+        },
+        {
+          "label": "Empty question",
+          "status": 422,
+          "request": "",
+          "response": {
+            "detail": [
+              {
+                "type": "string_too_short",
+                "loc": [
+                  "body",
+                  "question"
+                ],
+                "msg": "String should have at least 1 character",
+                "input": "",
+                "ctx": {
+                  "min_length": 1
+                }
+              }
+            ]
+          },
+          "message": "Pydantic request ని reject చేసింది. RAG service execute కాలేదు."
+        },
+        {
+          "label": "No matching context",
+          "status": 200,
+          "request": "What is the capital of Mars?",
+          "response": {
+            "status": "no_context",
+            "answer": "No relevant context found.",
+            "sources": [],
+            "unknown_citations": [],
+            "citation_status": "not_applicable"
+          },
+          "message": "Retrieved chunks లేవు. LLM call చేయకుండా no_context response వచ్చింది."
+        },
+        {
+          "label": "Upstream error",
+          "status": 502,
+          "request": "What are embeddings?",
+          "response": {
+            "detail": "Answer unavailable."
+          },
+          "message": "Upstream failure వచ్చింది. Private error details client కి పంపలేదు."
+        }
+      ],
+      "default": 0
+    },
+    {
+      "order": 23,
+      "type": "code-table-terminal",
+      "id": "startup"
+    },
+    {
+      "order": 24,
+      "type": "code-terminal",
+      "id": "health-test"
+    },
+    {
+      "order": 25,
+      "type": "illustrative-ui",
+      "id": "swagger"
+    },
+    {
+      "order": 26,
+      "type": "table",
+      "id": "stop-server"
+    },
+    {
+      "order": 27,
+      "type": "tracker",
+      "id": "development-tracker",
+      "rows": 20,
+      "completed": 15
+    },
+    {
+      "order": 28,
+      "type": "metrics-checklist",
+      "id": "implementation-audit",
+      "metrics": 6,
+      "checks": 6
+    },
+    {
+      "order": 29,
+      "type": "next-stage",
+      "id": "next-stage"
+    }
+  ],
+  "exportCounts": {
+    "manifestGroups": 29,
+    "primarySvgDiagrams": 2,
+    "codeBlocks": 20,
+    "tables": 5,
+    "fileTreeChildren": 18,
+    "trackerRows": 20,
+    "httpScenarios": 4,
+    "terminalPanels": 4
+  },
+  "checks": {
+    "allManifestGroupIdsPresent": true,
+    "uniqueIds": true,
+    "completeSourceCodeExact": true,
+    "javascriptSyntax": "passed",
+    "mockDOMSimulatorTests": [
+      {
+        "scenario": "Valid question",
+        "passed": true
+      },
+      {
+        "scenario": "Empty question",
+        "passed": true
+      },
+      {
+        "scenario": "No matching context",
+        "passed": true
+      },
+      {
+        "scenario": "Upstream error",
+        "passed": true
+      },
+      {
+        "scenario": "Reset",
+        "passed": true
+      }
+    ],
+    "realBrowserDesktop": "not run — connector content unavailable to container over network",
+    "realBrowserMobile": "not run",
+    "exactRenderedChatParity": "not verified",
+    "liveDeployment": "not verified",
+    "codeCopyBrowser": "not verified",
+    "offlineExternalAssets": false
+  },
+  "approvedExceptions": [],
+  "discrepancies": [
+    "Reconstructed HTML; exact typography and full source-to-DOM text parity not independently verified.",
+    "Actual browser visual/runtime QA pending. Not accepted as complete under Rule 29."
+  ],
+  "project": {
+    "commit": "e6e0e4bab2b0c46756f18b0304491cd5935dbc7c",
+    "apiTests": 21,
+    "testsUseMockPipeline": true,
+    "realModelAndOpenAIUnverified": true
+  }
+}
