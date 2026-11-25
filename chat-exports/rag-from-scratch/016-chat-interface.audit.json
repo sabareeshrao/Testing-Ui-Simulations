@@ -1,0 +1,191 @@
+{
+  "rule": 29,
+  "status": "unverified",
+  "source": "Current Stage 016 chat lesson; project commit 0c6988128b7adf15c1e59b948f4f8e73fa141acc",
+  "manifest": [
+    {
+      "id": "intro",
+      "type": "heading-prose",
+      "order": 1
+    },
+    {
+      "id": "architecture",
+      "type": "diagram",
+      "order": 2,
+      "viewBox": "0 0 340 174",
+      "dashedPaths": 2,
+      "boxes": 3
+    },
+    {
+      "id": "create-chat",
+      "type": "file-tree",
+      "order": 3
+    },
+    {
+      "id": "html-structure",
+      "type": "code-prose",
+      "order": 4
+    },
+    {
+      "id": "safe-message",
+      "type": "code-prose",
+      "order": 5
+    },
+    {
+      "id": "http-request",
+      "type": "code-table",
+      "order": 6
+    },
+    {
+      "id": "loading",
+      "type": "prose",
+      "order": 7
+    },
+    {
+      "id": "citations",
+      "type": "prose",
+      "order": 8
+    },
+    {
+      "id": "full-chat",
+      "type": "complete-code",
+      "order": 9,
+      "blob": "c8c425fb5183fd1a1bb942ed43b79841bcef1ef3",
+      "lines": 108
+    },
+    {
+      "id": "connect-api",
+      "type": "code-prose",
+      "order": 10
+    },
+    {
+      "id": "full-api",
+      "type": "complete-code",
+      "order": 11,
+      "blob": "714b722edb623a21353b4631368df5cf2da88aac",
+      "lines": 61
+    },
+    {
+      "id": "chat-demo",
+      "type": "interactive",
+      "order": 12,
+      "controls": [
+        "demo-choice",
+        "send-demo",
+        "clear-demo"
+      ],
+      "states": [
+        {
+          "label": "Successful answer",
+          "question": "What are embeddings?",
+          "answer": "Embeddings represent text as numerical vectors. [rag.txt:1]",
+          "source": "rag.txt:1 | rag.txt",
+          "evidence": "Embeddings represent text as numerical vectors.",
+          "status": "Citation status: id_match_only"
+        },
+        {
+          "label": "No matching context",
+          "question": "What is the capital of Mars?",
+          "answer": "No relevant context found.",
+          "source": "",
+          "evidence": "",
+          "status": "Citation status: not_applicable"
+        },
+        {
+          "label": "Request failure",
+          "question": "What are embeddings?",
+          "answer": "Unable to answer. Please try again.",
+          "source": "",
+          "evidence": "",
+          "status": "Request failed"
+        }
+      ],
+      "default": 0,
+      "history": "append on Send; empty on Clear; selected scenario unchanged"
+    },
+    {
+      "id": "run",
+      "type": "commands-terminal-table",
+      "order": 13
+    },
+    {
+      "id": "tracker",
+      "type": "tracker",
+      "order": 14,
+      "rows": 20,
+      "complete": 16
+    },
+    {
+      "id": "metrics",
+      "type": "metrics",
+      "order": 15
+    },
+    {
+      "id": "next",
+      "type": "next-stage",
+      "order": 16
+    }
+  ],
+  "exportCounts": {
+    "manifestGroups": 16,
+    "primarySvgDiagrams": 1,
+    "codeBlocks": 9,
+    "tables": 2,
+    "treeChildren": 5,
+    "simulationScenarios": 3,
+    "trackerRows": 20,
+    "metrics": 6
+  },
+  "checks": {
+    "manifestIdsPresent": true,
+    "uniqueIds": true,
+    "codeBlocksExact": true,
+    "javascriptSyntax": "passed",
+    "mockDOMTests": [
+      {
+        "scenario": "Successful answer",
+        "pass": true
+      },
+      {
+        "scenario": "No matching context",
+        "pass": true
+      },
+      {
+        "scenario": "Request failure",
+        "pass": true
+      },
+      {
+        "scenario": "History append",
+        "pass": true
+      },
+      {
+        "scenario": "Clear retains scenario",
+        "pass": true
+      }
+    ],
+    "lessonBrowserDesktop": "not yet run",
+    "lessonBrowserMobile": "not yet run",
+    "livePages": "not verified",
+    "internalQANoticesInLesson": false,
+    "offlineExternalDependencies": false
+  },
+  "projectTests": {
+    "fastAPITestClientChecks": 8,
+    "apiDependenciesStubbed": true,
+    "chromiumViewports": [
+      "1280x800",
+      "390x844"
+    ],
+    "browserFetchMocked": true,
+    "actualSourceBlobHashes": [
+      "c8c425fb5183fd1a1bb942ed43b79841bcef1ef3",
+      "714b722edb623a21353b4631368df5cf2da88aac"
+    ],
+    "realLLMCalls": false,
+    "fullLiveIntegration": false
+  },
+  "discrepancies": [
+    "Lesson browser QA and exact rendered chat parity not independently verified."
+  ],
+  "approvedExceptions": []
+}
