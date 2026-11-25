@@ -285,12 +285,15 @@
     "exactRenderedChatParity": "not verified",
     "liveDeployment": "not verified",
     "codeCopyBrowser": "not verified",
-    "offlineExternalAssets": false
+    "offlineExternalAssets": false,
+    "completeCodeAndExcerptsExact": true,
+    "excerptsVerified": 14
   },
   "approvedExceptions": [],
   "discrepancies": [
     "Reconstructed HTML; exact typography and full source-to-DOM text parity not independently verified.",
-    "Actual browser visual/runtime QA pending. Not accepted as complete under Rule 29."
+    "Actual browser visual/runtime QA pending. Not accepted as complete under Rule 29.",
+    "Initial draft excerpt line boundaries corrected and all 14 Python blocks (including full files) compared byte-for-byte with expected source slices; actual rendered browser remains unverified."
   ],
   "project": {
     "commit": "e6e0e4bab2b0c46756f18b0304491cd5935dbc7c",

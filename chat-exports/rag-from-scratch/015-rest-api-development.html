@@ -124,18 +124,18 @@ uvicorn</code></pre></div><p>VS Code terminal లో virtual environment active 
     unknown_citations: <span class="kw">list</span>[<span class="kw">str</span>]
     citation_status: Literal[
         <span class="string">"id_match_only"</span>, <span class="string">"unknown_ids"</span>, <span class="string">"no_citations"</span>, <span class="string">"not_applicable"</span>
-    ]
-</code></pre></div><p><code>Literal</code> ద్వారా allowed values ని explicitly define చేస్తున్నాం. Client application predictable JSON format receive చేస్తుంది.</p><p><code>id_match_only</code> అంటే citation ID match అయింది. Answer factually correct అని కాదు.</p></section>
-<section class="component" id="api-c"><h3>Block C — Server lifecycle</h3><div class="code" data-language="python"><div class="codebar"><span>Python</span><button type="button" class="copy">Copy</button></div><pre><code><span class="kw">async</span> <span class="kw">def</span> lifespan(app: FastAPI):
+    ]</code></pre></div><p><code>Literal</code> ద్వారా allowed values ని explicitly define చేస్తున్నాం. Client application predictable JSON format receive చేస్తుంది.</p><p><code>id_match_only</code> అంటే citation ID match అయింది. Answer factually correct అని కాదు.</p></section>
+<section class="component" id="api-c"><h3>Block C — Server lifecycle</h3><div class="code" data-language="python"><div class="codebar"><span>Python</span><button type="button" class="copy">Copy</button></div><pre><code>@asynccontextmanager
+<span class="kw">async</span> <span class="kw">def</span> lifespan(app: FastAPI):
     data_directory = Path(__file__).resolve().parent / <span class="string">"data"</span>
     app.state.rag = RAGService(data_directory)
-    <span class="kw">yield</span>
-</code></pre></div><p>ఈ function server startup సమయంలో execute అవుతుంది.</p><p><code>app.state.rag</code> లో service object store చేస్తాం. <code>yield</code> వరకు startup operations జరుగుతాయి. Startup successful అయిన తర్వాత server requests accept చేస్తుంది.</p></section>
-<section class="component" id="api-d"><h3>Block D — Create FastAPI application</h3><div class="code" data-language="python"><div class="codebar"><span>Python</span><button type="button" class="copy">Copy</button></div><pre><code></code></pre></div><p>ఇక్కడ మన actual web application object create చేస్తున్నాం. Server startup lifecycle function ని కూడా register చేస్తున్నాం.</p></section>
-<section class="component" id="api-e"><h3>Block E — Health endpoint</h3><div class="code" data-language="python"><div class="codebar"><span>Python</span><button type="button" class="copy">Copy</button></div><pre><code><span class="kw">def</span> health():
-    <span class="kw">return</span> {<span class="string">"status"</span>: <span class="string">"ready"</span>}
-</code></pre></div><p><code>@app.get()</code> అనేది HTTP GET request కి route register చేస్తుంది.</p><p>ఈ endpoint server startup అయిందో లేదో తెలుసుకోవడానికి ఉపయోగపడుతుంది. OpenAI API credentials లేదా upstream service availability ని verify చేయదు.</p></section>
-<section class="component" id="api-f"><h3>Block F — Ask endpoint</h3><div class="code" data-language="python"><div class="codebar"><span>Python</span><button type="button" class="copy">Copy</button></div><pre><code><span class="kw">def</span> ask(payload: AskRequest, request: Request) -&gt; AskResponse:
+    <span class="kw">yield</span></code></pre></div><p>ఈ function server startup సమయంలో execute అవుతుంది.</p><p><code>app.state.rag</code> లో service object store చేస్తాం. <code>yield</code> వరకు startup operations జరుగుతాయి. Startup successful అయిన తర్వాత server requests accept చేస్తుంది.</p></section>
+<section class="component" id="api-d"><h3>Block D — Create FastAPI application</h3><div class="code" data-language="python"><div class="codebar"><span>Python</span><button type="button" class="copy">Copy</button></div><pre><code>app = FastAPI(title=<span class="string">"RAG from Scratch"</span>, lifespan=lifespan)</code></pre></div><p>ఇక్కడ మన actual web application object create చేస్తున్నాం. Server startup lifecycle function ని కూడా register చేస్తున్నాం.</p></section>
+<section class="component" id="api-e"><h3>Block E — Health endpoint</h3><div class="code" data-language="python"><div class="codebar"><span>Python</span><button type="button" class="copy">Copy</button></div><pre><code>@app.get(<span class="string">"/health"</span>)
+<span class="kw">def</span> health():
+    <span class="kw">return</span> {<span class="string">"status"</span>: <span class="string">"ready"</span>}</code></pre></div><p><code>@app.get()</code> అనేది HTTP GET request కి route register చేస్తుంది.</p><p>ఈ endpoint server startup అయిందో లేదో తెలుసుకోవడానికి ఉపయోగపడుతుంది. OpenAI API credentials లేదా upstream service availability ని verify చేయదు.</p></section>
+<section class="component" id="api-f"><h3>Block F — Ask endpoint</h3><div class="code" data-language="python"><div class="codebar"><span>Python</span><button type="button" class="copy">Copy</button></div><pre><code>@app.post(<span class="string">"/ask"</span>, response_model=AskResponse)
+<span class="kw">def</span> ask(payload: AskRequest, request: Request) -&gt; AskResponse:
     <span class="kw">try</span>:
         result = request.app.state.rag.ask(payload.question)
         <span class="kw">return</span> AskResponse(**result)
