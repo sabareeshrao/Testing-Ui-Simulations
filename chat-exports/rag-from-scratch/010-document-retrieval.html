@@ -36,7 +36,7 @@ main .progress button{min-height:18px!important}
 <!-- RULE 27: shared compact sizing; original lesson unchanged -->
 <link rel="stylesheet" href="../../assets/rule-27.css">
 <script defer src="../../assets/rule-27.js"></script>
-</head><body><main><header><h1>Stage 010 — Document Retrieval</h1><small>D01 05:33 onwards · Relevance filtering & context selection</small></header>
+<style id="fidelity-dark-final">html,body,main,main.canvas{background:#000!important;color:#f5f5f5!important;color-scheme:only dark}html{color-scheme:only dark!important}svg.recovered-visual,main .recovered-visual svg{display:block!important;width:100%!important;height:auto!important;max-width:100%!important;overflow:visible!important}main .recovered-visual{background:#1c1c1c!important;color:#f5f5f5!important}main .recovered-visual svg text{font-family:Arial,sans-serif}pre code span.syn-kw{color:#e5a0e7!important}pre code span.syn-str{color:#a5d6a7!important}pre code span.syn-fn{color:#f3c98b!important}pre code span.syn-type{color:#81b9f9!important}pre code span.syn-builtin{color:#93c5fd!important}pre code span.syn-num{color:#f5a97f!important}pre code span.syn-op{color:#c4b5fd!important}pre code span.syn-comment{color:#a3a3a3!important}</style></head><body><main><header><h1>Stage 010 — Document Retrieval</h1><small>D01 05:33 onwards · Relevance filtering & context selection</small></header>
 <p>GitHub లో Stage 009 వరకు ఉన్న source code, 332 timestamp actions verify చేశాను.</p>
 <p>ఇప్పటివరకు మన application user question తీసుకుని, embeddings generate చేసి, Top-3 relevant chunks ని select చేస్తుంది. కానీ ఇక్కడ ఒక సమస్య ఉంది. User మన knowledge base లో లేని question అడిగినా, మన semantic search మూడు chunks ని return చేస్తుంది.</p>
 <p>ఉదాహరణకు మన documents అన్నీ AI గురించి ఉన్నాయి. User ఇలా అడిగాడనుకో:</p><p><b>What is the capital of Japan?</b></p><p>మన search algorithm కి answer తెలియకపోయినా, ఉన్న documents లో highest similarity ఉన్న మూడు chunks ని return చేస్తుంది. ఈ సమస్యను solve చేయడానికి <b>Document Retrieval Layer</b> implement చేద్దాం.</p><div class="wide-grid"><div class="wide-unit">
@@ -60,122 +60,122 @@ main .progress button{min-height:18px!important}
   ◇ similarity.py
   ◇ vector_store.py
   ◇ .gitignore</div></section></div><div class="wide-unit">
-<h2>Step 2 — Import dependencies</h2><div class="codebox"><div class="codehead"><span>python</span><button type="button" class="copy">Copy</button></div><pre><code class="python">import numpy as np
-from search import semantic_search</code></pre></div><p>numpy మన function తీసుకునే query vector, embedding matrix యొక్క data types కోసం ఉపయోగిస్తున్నాం. semantic_search Stage 009 లో మనం implement చేసిన function. అది ఇప్పటికే similarity scores calculate చేసి descending order లో Top-K results return చేస్తుంది. ఇప్పుడు ఆ code ని మార్చకుండా దాని పైన కొత్త retrieval layer నిర్మిస్తున్నాం.</p>
+<h2>Step 2 — Import dependencies</h2><div class="codebox"><div class="codehead"><span>python</span><button type="button" class="copy">Copy</button></div><pre><code class="python"><span class="syn-kw" style="color:#e5a0e7!important">import</span> numpy <span class="syn-kw" style="color:#e5a0e7!important">as</span> np
+<span class="syn-kw" style="color:#e5a0e7!important">from</span> search <span class="syn-kw" style="color:#e5a0e7!important">import</span> semantic_search</code></pre></div><p>numpy మన function తీసుకునే query vector, embedding matrix యొక్క data types కోసం ఉపయోగిస్తున్నాం. semantic_search Stage 009 లో మనం implement చేసిన function. అది ఇప్పటికే similarity scores calculate చేసి descending order లో Top-K results return చేస్తుంది. ఇప్పుడు ఆ code ని మార్చకుండా దాని పైన కొత్త retrieval layer నిర్మిస్తున్నాం.</p>
 <section class="card"><svg class="diagram" viewBox="0 0 340 208"><rect x="65" y="3" width="210" height="40" rx="6" fill="#3b82f6" fill-opacity=".10" stroke="#3b82f6"/><text x="170" y="19" font-size="11" font-weight="700" text-anchor="middle">main.py</text><text x="170" y="33" font-size="10" text-anchor="middle">Application coordination</text><path d="M170 43v12 l-4 -4 m4 4 l4 -4" stroke="currentColor" stroke-dasharray="3 2" opacity=".6" fill="none"/><rect x="65" y="56" width="210" height="40" rx="6" fill="#16a34a" fill-opacity=".10" stroke="#16a34a"/><text x="170" y="72" font-size="11" font-weight="700" text-anchor="middle">retriever.py</text><text x="170" y="86" font-size="10" text-anchor="middle">Relevance filtering</text><path d="M170 96v12 l-4 -4 m4 4 l4 -4" stroke="currentColor" stroke-dasharray="3 2" opacity=".6" fill="none"/><rect x="65" y="109" width="210" height="40" rx="6" fill="#8b5cf6" fill-opacity=".10" stroke="#8b5cf6"/><text x="170" y="125" font-size="11" font-weight="700" text-anchor="middle">search.py</text><text x="170" y="139" font-size="10" text-anchor="middle">Ranking and Top-K</text><path d="M170 149v12 l-4 -4 m4 4 l4 -4" stroke="currentColor" stroke-dasharray="3 2" opacity=".6" fill="none"/><rect x="65" y="162" width="210" height="40" rx="6" fill="#d97706" fill-opacity=".10" stroke="#d97706"/><text x="170" y="178" font-size="11" font-weight="700" text-anchor="middle">similarity.py</text><text x="170" y="192" font-size="10" text-anchor="middle">Cosine calculation</text></svg></section><p>Java లో ఒక Service ఇంకొక Service ని call చేసే విధంగా ఇక్కడ functions ఒకదానిని ఇంకొకటి call చేస్తున్నాయి.</p></div><div class="wide-unit">
-<h2>Step 3 — Define retrieve_documents()</h2><div class="codebox"><div class="codehead"><span>python</span><button type="button" class="copy">Copy</button></div><pre><code class="python">def retrieve_documents(
-    query: np.ndarray,
-    chunks: list[dict[str, str]],
-    embeddings: np.ndarray,
-    top_k: int = 3,
-    min_score: float = 0.35,
-) -&gt; list[dict[str, str | float]]:</code></pre></div><div class="scroll"><table><thead><tr><th>Parameter</th><th>Description</th></tr></thead><tbody><tr><td>query</td><td>Question embedding</td></tr><tr><td>chunks</td><td>Chunk metadata collection</td></tr><tr><td>embeddings</td><td>Stored document vectors</td></tr><tr><td>top_k</td><td>Maximum results</td></tr><tr><td>min_score</td><td>Relevance threshold</td></tr></tbody></table></div><p>ఇంతకుముందు search function లో నాలుగు parameters ఉన్నాయి. ఇప్పుడు ఐదవ parameter min_score add చేశాం. Return type మాత్రం మారలేదు. దీనివల్ల existing result-display code ని reuse చేయవచ్చు.</p></div><div class="wide-unit">
-<h2>Step 4 — Validate minimum similarity</h2><div class="codebox"><div class="codehead"><span>python</span><button type="button" class="copy">Copy</button></div><pre><code class="python">    if not -1.0 &lt;= min_score &lt;= 1.0:
-        raise ValueError(&quot;min_score must be between -1 and 1&quot;)</code></pre></div><p>Cosine similarity range -1 నుంచి +1 వరకు ఉంటుంది. అందుకే developer threshold గా 1.5 లేదా -2 ఇస్తే invalid configuration అని గుర్తించి exception raise చేస్తున్నాం. NaN కూడా ఈ validation లో reject అవుతుంది.</p>
+<h2>Step 3 — Define retrieve_documents()</h2><div class="codebox"><div class="codehead"><span>python</span><button type="button" class="copy">Copy</button></div><pre><code class="python"><span class="syn-kw" style="color:#e5a0e7!important">def</span><span class="syn-fn" style="color:#f3c98b!important"> </span><span class="syn-fn" style="color:#f3c98b!important">retrieve_documents</span>(
+    query: np.<span class="syn-type" style="color:#81b9f9!important">ndarray</span>,
+    chunks: <span class="syn-type" style="color:#81b9f9!important">list</span>[<span class="syn-type" style="color:#81b9f9!important">dict</span>[<span class="syn-type" style="color:#81b9f9!important">str</span>, <span class="syn-type" style="color:#81b9f9!important">str</span>]],
+    embeddings: np.<span class="syn-type" style="color:#81b9f9!important">ndarray</span>,
+    top_k: <span class="syn-type" style="color:#81b9f9!important">int</span> <span class="syn-op" style="color:#c4b5fd!important">=</span> <span class="syn-num" style="color:#f5a97f!important">3</span>,
+    min_score: <span class="syn-type" style="color:#81b9f9!important">float</span> <span class="syn-op" style="color:#c4b5fd!important">=</span> <span class="syn-num" style="color:#f5a97f!important">0.35</span>,
+) <span class="syn-op" style="color:#c4b5fd!important">-&gt;</span> <span class="syn-type" style="color:#81b9f9!important">list</span>[<span class="syn-type" style="color:#81b9f9!important">dict</span>[<span class="syn-type" style="color:#81b9f9!important">str</span>, <span class="syn-type" style="color:#81b9f9!important">str</span> <span class="syn-op" style="color:#c4b5fd!important">|</span> <span class="syn-type" style="color:#81b9f9!important">float</span>]]:</code></pre></div><div class="scroll"><table><thead><tr><th>Parameter</th><th>Description</th></tr></thead><tbody><tr><td>query</td><td>Question embedding</td></tr><tr><td>chunks</td><td>Chunk metadata collection</td></tr><tr><td>embeddings</td><td>Stored document vectors</td></tr><tr><td>top_k</td><td>Maximum results</td></tr><tr><td>min_score</td><td>Relevance threshold</td></tr></tbody></table></div><p>ఇంతకుముందు search function లో నాలుగు parameters ఉన్నాయి. ఇప్పుడు ఐదవ parameter min_score add చేశాం. Return type మాత్రం మారలేదు. దీనివల్ల existing result-display code ని reuse చేయవచ్చు.</p></div><div class="wide-unit">
+<h2>Step 4 — Validate minimum similarity</h2><div class="codebox"><div class="codehead"><span>python</span><button type="button" class="copy">Copy</button></div><pre><code class="python">    <span class="syn-kw" style="color:#e5a0e7!important">if</span> <span class="syn-kw" style="color:#e5a0e7!important">not</span> <span class="syn-op" style="color:#c4b5fd!important">-</span><span class="syn-num" style="color:#f5a97f!important">1.0</span> <span class="syn-op" style="color:#c4b5fd!important">&lt;=</span> min_score <span class="syn-op" style="color:#c4b5fd!important">&lt;=</span> <span class="syn-num" style="color:#f5a97f!important">1.0</span>:
+        <span class="syn-kw" style="color:#e5a0e7!important">raise</span> <span class="syn-type" style="color:#81b9f9!important">ValueError</span>(<span class="syn-str" style="color:#a5d6a7!important">"min_score must be between -1 and 1"</span>)</code></pre></div><p>Cosine similarity range -1 నుంచి +1 వరకు ఉంటుంది. అందుకే developer threshold గా 1.5 లేదా -2 ఇస్తే invalid configuration అని గుర్తించి exception raise చేస్తున్నాం. NaN కూడా ఈ validation లో reject అవుతుంది.</p>
 <section class="card"><svg class="diagram" viewBox="0 0 340 96"><rect x="16" y="29" width="51" height="25" rx="4" fill="#ef4444" fill-opacity=".18"/><rect x="67" y="29" width="206" height="25" fill="#16a34a" fill-opacity=".18" stroke="#16a34a"/><rect x="273" y="29" width="51" height="25" rx="4" fill="#ef4444" fill-opacity=".18"/><path d="M67 54V62" stroke="currentColor"/><text x="67" y="76" text-anchor="middle" font-size="12">−1</text><path d="M170 54V62" stroke="currentColor"/><text x="170" y="76" text-anchor="middle" font-size="12">0</text><path d="M273 54V62" stroke="currentColor"/><text x="273" y="76" text-anchor="middle" font-size="12">+1</text><text x="41" y="20" font-size="10" style="fill:#f87171" text-anchor="middle">Invalid</text><text x="170" y="20" font-size="11" style="fill:#4ade80" text-anchor="middle">Valid threshold range</text><text x="299" y="20" font-size="10" style="fill:#f87171" text-anchor="middle">Invalid</text><path d="M206 26V59" stroke="#d97706" stroke-width="2" stroke-dasharray="3 2"/><text x="206" y="91" font-size="10" style="fill:#f59e0b" text-anchor="middle">0.35</text></svg></section></div><div class="wide-unit">
-<h2>Step 5 — Retrieve ranked candidates</h2><div class="codebox"><div class="codehead"><span>python</span><button type="button" class="copy">Copy</button></div><pre><code class="python">    candidates = semantic_search(query, chunks, embeddings, top_k=top_k)</code></pre></div><p>ఈ line execute అయినప్పుడు search.py లోని function కి control వెళ్తుంది. అక్కడ అన్ని document vectors తో query vector compare చేసి, highest-scoring chunks return చేస్తుంది. candidates అంటే ఇంకా final relevance filtering చేయని search results.</p></div><div class="wide-unit">
-<h2>Step 6 — Filter candidates</h2><div class="codebox"><div class="codehead"><span>python</span><button type="button" class="copy">Copy</button></div><pre><code class="python">    return [result for result in candidates if result[&quot;score&quot;] &gt;= min_score]</code></pre></div><p>ఇది ఈ stage లో అత్యంత ముఖ్యమైన line. దీనిని <b>list comprehension with filtering</b> అంటారు. సాధారణ for loop ఉపయోగించి ఇదే logic రాస్తే ఇలా ఉంటుంది:</p><div class="codebox"><div class="codehead"><span>python</span><button type="button" class="copy">Copy</button></div><pre><code class="python">    relevant = []
+<h2>Step 5 — Retrieve ranked candidates</h2><div class="codebox"><div class="codehead"><span>python</span><button type="button" class="copy">Copy</button></div><pre><code class="python">    candidates <span class="syn-op" style="color:#c4b5fd!important">=</span> <span class="syn-fn" style="color:#f3c98b!important">semantic_search</span>(query, chunks, embeddings, top_k<span class="syn-op" style="color:#c4b5fd!important">=</span>top_k)</code></pre></div><p>ఈ line execute అయినప్పుడు search.py లోని function కి control వెళ్తుంది. అక్కడ అన్ని document vectors తో query vector compare చేసి, highest-scoring chunks return చేస్తుంది. candidates అంటే ఇంకా final relevance filtering చేయని search results.</p></div><div class="wide-unit">
+<h2>Step 6 — Filter candidates</h2><div class="codebox"><div class="codehead"><span>python</span><button type="button" class="copy">Copy</button></div><pre><code class="python">    <span class="syn-kw" style="color:#e5a0e7!important">return</span> [result <span class="syn-kw" style="color:#e5a0e7!important">for</span> result <span class="syn-kw" style="color:#e5a0e7!important">in</span> candidates <span class="syn-kw" style="color:#e5a0e7!important">if</span> result[<span class="syn-str" style="color:#a5d6a7!important">"score"</span>] <span class="syn-op" style="color:#c4b5fd!important">&gt;=</span> min_score]</code></pre></div><p>ఇది ఈ stage లో అత్యంత ముఖ్యమైన line. దీనిని <b>list comprehension with filtering</b> అంటారు. సాధారణ for loop ఉపయోగించి ఇదే logic రాస్తే ఇలా ఉంటుంది:</p><div class="codebox"><div class="codehead"><span>python</span><button type="button" class="copy">Copy</button></div><pre><code class="python">    relevant <span class="syn-op" style="color:#c4b5fd!important">=</span> []
 
-    for result in candidates:
-        if result[&quot;score&quot;] &gt;= min_score:
-            relevant.append(result)
+    <span class="syn-kw" style="color:#e5a0e7!important">for</span> result <span class="syn-kw" style="color:#e5a0e7!important">in</span> candidates:
+        <span class="syn-kw" style="color:#e5a0e7!important">if</span> result[<span class="syn-str" style="color:#a5d6a7!important">"score"</span>] <span class="syn-op" style="color:#c4b5fd!important">&gt;=</span> min_score:
+            relevant.<span class="syn-fn" style="color:#f3c98b!important">append</span>(result)
 
-    return relevant</code></pre></div><p>ఇది understanding కోసం మాత్రమే. మన actual file లో single-line list comprehension ఉంచాలి.</p>
+    <span class="syn-kw" style="color:#e5a0e7!important">return</span> relevant</code></pre></div><p>ఇది understanding కోసం మాత్రమే. మన actual file లో single-line list comprehension ఉంచాలి.</p>
 <section class="card"><div class="row between"><b>Filtering execution simulator</b><small id="iteration"></small></div><small>MINIMUM SCORE = 0.80</small><div id="step-candidates"></div><hr><small>RETURN LIST</small><div id="return-list" class="tile"></div><div class="row" style="margin-top:12px"><button id="step-reset">Reset</button><button class="secondary" id="step-prev" disabled>Previous</button><button id="step-next" style="flex:1">Process next candidate</button></div></section>
 <p>>= ఉపయోగించడం వల్ల threshold కి exactly equal score ఉన్న chunk కూడా accept అవుతుంది. Already descending order లో ఉన్న candidates ని filter చేస్తున్నాం కాబట్టి మళ్ళీ sorting అవసరం లేదు.</p></div><div class="wide-unit">
-<h2>Step 7 — Complete retriever.py</h2><small>D01 05:34–05:49</small><div class="codebox"><div class="codehead"><span>python</span><button type="button" class="copy">Copy</button></div><pre><code class="python">import numpy as np
-from search import semantic_search
+<h2>Step 7 — Complete retriever.py</h2><small>D01 05:34–05:49</small><div class="codebox"><div class="codehead"><span>python</span><button type="button" class="copy">Copy</button></div><pre><code class="python"><span class="syn-kw" style="color:#e5a0e7!important">import</span> numpy <span class="syn-kw" style="color:#e5a0e7!important">as</span> np
+<span class="syn-kw" style="color:#e5a0e7!important">from</span> search <span class="syn-kw" style="color:#e5a0e7!important">import</span> semantic_search
 
 
-def retrieve_documents(
-    query: np.ndarray,
-    chunks: list[dict[str, str]],
-    embeddings: np.ndarray,
-    top_k: int = 3,
-    min_score: float = 0.35,
-) -&gt; list[dict[str, str | float]]:
-    if not -1.0 &lt;= min_score &lt;= 1.0:
-        raise ValueError(&quot;min_score must be between -1 and 1&quot;)
+<span class="syn-kw" style="color:#e5a0e7!important">def</span><span class="syn-fn" style="color:#f3c98b!important"> </span><span class="syn-fn" style="color:#f3c98b!important">retrieve_documents</span>(
+    query: np.<span class="syn-type" style="color:#81b9f9!important">ndarray</span>,
+    chunks: <span class="syn-type" style="color:#81b9f9!important">list</span>[<span class="syn-type" style="color:#81b9f9!important">dict</span>[<span class="syn-type" style="color:#81b9f9!important">str</span>, <span class="syn-type" style="color:#81b9f9!important">str</span>]],
+    embeddings: np.<span class="syn-type" style="color:#81b9f9!important">ndarray</span>,
+    top_k: <span class="syn-type" style="color:#81b9f9!important">int</span> <span class="syn-op" style="color:#c4b5fd!important">=</span> <span class="syn-num" style="color:#f5a97f!important">3</span>,
+    min_score: <span class="syn-type" style="color:#81b9f9!important">float</span> <span class="syn-op" style="color:#c4b5fd!important">=</span> <span class="syn-num" style="color:#f5a97f!important">0.35</span>,
+) <span class="syn-op" style="color:#c4b5fd!important">-&gt;</span> <span class="syn-type" style="color:#81b9f9!important">list</span>[<span class="syn-type" style="color:#81b9f9!important">dict</span>[<span class="syn-type" style="color:#81b9f9!important">str</span>, <span class="syn-type" style="color:#81b9f9!important">str</span> <span class="syn-op" style="color:#c4b5fd!important">|</span> <span class="syn-type" style="color:#81b9f9!important">float</span>]]:
+    <span class="syn-kw" style="color:#e5a0e7!important">if</span> <span class="syn-kw" style="color:#e5a0e7!important">not</span> <span class="syn-op" style="color:#c4b5fd!important">-</span><span class="syn-num" style="color:#f5a97f!important">1.0</span> <span class="syn-op" style="color:#c4b5fd!important">&lt;=</span> min_score <span class="syn-op" style="color:#c4b5fd!important">&lt;=</span> <span class="syn-num" style="color:#f5a97f!important">1.0</span>:
+        <span class="syn-kw" style="color:#e5a0e7!important">raise</span> <span class="syn-type" style="color:#81b9f9!important">ValueError</span>(<span class="syn-str" style="color:#a5d6a7!important">"min_score must be between -1 and 1"</span>)
 
-    candidates = semantic_search(query, chunks, embeddings, top_k=top_k)
-    return [result for result in candidates if result[&quot;score&quot;] &gt;= min_score]</code></pre></div></div><div class="wide-unit">
-<h2>Step 8 — Test retrieval independently</h2><small>D01 05:50</small><p>Terminal లో ఈ command execute చెయ్యి.</p><div class="codebox"><div class="codehead"><span>bash</span><button type="button" class="copy">Copy</button></div><pre><code class="bash">python -c &quot;import numpy as np; from retriever import retrieve_documents; chunks = [{'id': x} for x in ['A', 'B', 'C']]; results = retrieve_documents(np.array([1, 0]), chunks, np.array([[0, 1], [1, 0], [1, 1]]), top_k=3, min_score=0.8); print([r['id'] for r in results])&quot;</code></pre></div><div class="terminal"><small>TERMINAL · Actual synthetic test output</small><hr><b>['B']</b></div><div class="scroll"><table><thead><tr><th>Chunk</th><th>Similarity</th><th>Threshold</th><th>Result</th></tr></thead><tbody><tr><td>B</td><td>1.0000</td><td>0.80</td><td>Accepted</td></tr><tr><td>C</td><td>0.7071</td><td>0.80</td><td>Rejected</td></tr><tr><td>A</td><td>0.0000</td><td>0.80</td><td>Rejected</td></tr></tbody></table></div><p>top_k=3 ఇచ్చినప్పటికీ ఒక్క result మాత్రమే వచ్చింది. ఇదే మనం కోరుకున్న behavior.</p>
+    candidates <span class="syn-op" style="color:#c4b5fd!important">=</span> <span class="syn-fn" style="color:#f3c98b!important">semantic_search</span>(query, chunks, embeddings, top_k<span class="syn-op" style="color:#c4b5fd!important">=</span>top_k)
+    <span class="syn-kw" style="color:#e5a0e7!important">return</span> [result <span class="syn-kw" style="color:#e5a0e7!important">for</span> result <span class="syn-kw" style="color:#e5a0e7!important">in</span> candidates <span class="syn-kw" style="color:#e5a0e7!important">if</span> result[<span class="syn-str" style="color:#a5d6a7!important">"score"</span>] <span class="syn-op" style="color:#c4b5fd!important">&gt;=</span> min_score]</code></pre></div></div><div class="wide-unit">
+<h2>Step 8 — Test retrieval independently</h2><small>D01 05:50</small><p>Terminal లో ఈ command execute చెయ్యి.</p><div class="codebox"><div class="codehead"><span>bash</span><button type="button" class="copy">Copy</button></div><pre><code class="bash"><span class="syn-kw" style="color:#e5a0e7!important">python</span> <span class="syn-type" style="color:#81b9f9!important">-c</span> <span class="syn-str" style="color:#a5d6a7!important">"import numpy as np; from retriever import retrieve_documents; chunks = [{'id': x} for x in ['A', 'B', 'C']]; results = retrieve_documents(np.array([1, 0]), chunks, np.array([[0, 1], [1, 0], [1, 1]]), top_k=3, min_score=0.8); print([r['id'] for r in results])"</span></code></pre></div><div class="terminal"><small>TERMINAL · Actual synthetic test output</small><hr><b>['B']</b></div><div class="scroll"><table><thead><tr><th>Chunk</th><th>Similarity</th><th>Threshold</th><th>Result</th></tr></thead><tbody><tr><td>B</td><td>1.0000</td><td>0.80</td><td>Accepted</td></tr><tr><td>C</td><td>0.7071</td><td>0.80</td><td>Rejected</td></tr><tr><td>A</td><td>0.0000</td><td>0.80</td><td>Rejected</td></tr></tbody></table></div><p>top_k=3 ఇచ్చినప్పటికీ ఒక్క result మాత్రమే వచ్చింది. ఇదే మనం కోరుకున్న behavior.</p>
 <hr></div><div class="wide-unit"><h2>Step 9 — Modify main.py</h2><small>D01 05:51–06:07</small></div><div class="wide-unit"><h3>Change 1 — Replace import</h3><div class="change remove">− from search import semantic_search</div><div class="change add">+ from retriever import retrieve_documents</div><p>main.py ఇక నేరుగా search function ని call చేయదు. Retriever ద్వారా search, filtering రెండూ execute అవుతాయి.</p></div><div class="wide-unit">
-<h3>Change 2 — Replace the search call</h3><div class="codebox"><div class="codehead"><span>python</span><button type="button" class="copy">Copy</button></div><pre><code class="python">    results = semantic_search(query, saved_chunks, saved_embeddings, top_k=3)</code></pre></div><p>పై line remove చేసి ఈ block add చెయ్యి.</p><div class="codebox"><div class="codehead"><span>python</span><button type="button" class="copy">Copy</button></div><pre><code class="python">    results = retrieve_documents(
-        query, saved_chunks, saved_embeddings, top_k=3, min_score=0.35
+<h3>Change 2 — Replace the search call</h3><div class="codebox"><div class="codehead"><span>python</span><button type="button" class="copy">Copy</button></div><pre><code class="python">    results <span class="syn-op" style="color:#c4b5fd!important">=</span> <span class="syn-fn" style="color:#f3c98b!important">semantic_search</span>(query, saved_chunks, saved_embeddings, top_k<span class="syn-op" style="color:#c4b5fd!important">=</span><span class="syn-num" style="color:#f5a97f!important">3</span>)</code></pre></div><p>పై line remove చేసి ఈ block add చెయ్యి.</p><div class="codebox"><div class="codehead"><span>python</span><button type="button" class="copy">Copy</button></div><pre><code class="python">    results <span class="syn-op" style="color:#c4b5fd!important">=</span> <span class="syn-fn" style="color:#f3c98b!important">retrieve_documents</span>(
+        query, saved_chunks, saved_embeddings, top_k<span class="syn-op" style="color:#c4b5fd!important">=</span><span class="syn-num" style="color:#f5a97f!important">3</span>, min_score<span class="syn-op" style="color:#c4b5fd!important">=</span><span class="syn-num" style="color:#f5a97f!important">0.35</span>
     )</code></pre></div><p>query, saved_chunks, saved_embeddings ఇంతకుముందు ఉన్న variables. top_k=3 maximum results. min_score=0.35 threshold. Retriever first rank చేసి తర్వాత filter చేస్తుంది.</p></div><div class="wide-unit">
-<h3>Change 3 — Handle empty results</h3><div class="codebox"><div class="codehead"><span>python</span><button type="button" class="copy">Copy</button></div><pre><code class="python">    if not results:
-        print(&quot;No relevant context found.&quot;)
-        return</code></pre></div><p>results empty list అయితే if not results True అవుతుంది. User కి no-context message చూపించి main() నుంచి బయటకు వస్తాం. భవిష్యత్తులో LLM కి empty context పంపించకుండా ఈ guard ఉపయోగపడుతుంది.</p>
+<h3>Change 3 — Handle empty results</h3><div class="codebox"><div class="codehead"><span>python</span><button type="button" class="copy">Copy</button></div><pre><code class="python">    <span class="syn-kw" style="color:#e5a0e7!important">if</span> <span class="syn-kw" style="color:#e5a0e7!important">not</span> results:
+        <span class="syn-builtin" style="color:#93c5fd!important">print</span>(<span class="syn-str" style="color:#a5d6a7!important">"No relevant context found."</span>)
+        <span class="syn-kw" style="color:#e5a0e7!important">return</span></code></pre></div><p>results empty list అయితే if not results True అవుతుంది. User కి no-context message చూపించి main() నుంచి బయటకు వస్తాం. భవిష్యత్తులో LLM కి empty context పంపించకుండా ఈ guard ఉపయోగపడుతుంది.</p>
 <section class="card"><svg class="diagram" viewBox="0 0 340 178"><rect x="90" y="5" width="160" height="37" rx="5" fill="#8b5cf6" fill-opacity=".12" stroke="#8b5cf6"/><text x="170" y="28" font-size="12" text-anchor="middle">Retrieved results</text><path d="M170 42V58" stroke="currentColor" stroke-dasharray="3 2"/><path d="M170 58L240 91L170 124L100 91Z" fill="#d97706" fill-opacity=".1" stroke="#d97706"/><text x="170" y="94" font-size="11" text-anchor="middle">Empty?</text><path d="M100 91H54V140 M240 91H286V140" fill="none" stroke="currentColor" stroke-dasharray="3 2"/><text x="62" y="82" font-size="10">Yes</text><text x="266" y="82" font-size="10">No</text><rect x="4" y="141" width="131" height="30" rx="5" fill="#ef4444" fill-opacity=".1" stroke="#ef4444"/><text x="69" y="160" font-size="10" text-anchor="middle">No context → stop</text><rect x="205" y="141" width="131" height="30" rx="5" fill="#16a34a" fill-opacity=".1" stroke="#16a34a"/><text x="270" y="160" font-size="10" text-anchor="middle">Display results</text></svg></section></div><div class="wide-unit">
-<h3>Change 4 — Update heading</h3><div class="codebox"><div class="codehead"><span>python</span><button type="button" class="copy">Copy</button></div><pre><code class="python">    print(f&quot;\nTop {len(results)} results:&quot;)</code></pre></div><p>ఈ line స్థానంలో:</p><div class="codebox"><div class="codehead"><span>python</span><button type="button" class="copy">Copy</button></div><pre><code class="python">    print(f&quot;\nRetrieved {len(results)} relevant chunks:&quot;)</code></pre></div><p>ఇప్పుడు fixed count కాకుండా నిజంగా filter తర్వాత మిగిలిన chunks count display అవుతుంది. Existing result loop unchanged.</p></div><div class="wide-unit">
-<h2>Step 10 — Complete main.py</h2><div class="codebox"><div class="codehead"><span>python</span><button type="button" class="copy">Copy</button></div><pre><code class="python">from pathlib import Path
-from loader import load_documents
-from preprocessor import clean_text
-from chunker import create_chunks
-from embedder import load_embedding_model, embed_texts, MODEL_NAME
-from vector_store import save_vector_store, load_vector_store
-from retriever import retrieve_documents
+<h3>Change 4 — Update heading</h3><div class="codebox"><div class="codehead"><span>python</span><button type="button" class="copy">Copy</button></div><pre><code class="python">    <span class="syn-builtin" style="color:#93c5fd!important">print</span>(<span class="syn-str" style="color:#a5d6a7!important">f"\nTop {len(results)} results:"</span>)</code></pre></div><p>ఈ line స్థానంలో:</p><div class="codebox"><div class="codehead"><span>python</span><button type="button" class="copy">Copy</button></div><pre><code class="python">    <span class="syn-builtin" style="color:#93c5fd!important">print</span>(<span class="syn-str" style="color:#a5d6a7!important">f"\nRetrieved {len(results)} relevant chunks:"</span>)</code></pre></div><p>ఇప్పుడు fixed count కాకుండా నిజంగా filter తర్వాత మిగిలిన chunks count display అవుతుంది. Existing result loop unchanged.</p></div><div class="wide-unit">
+<h2>Step 10 — Complete main.py</h2><div class="codebox"><div class="codehead"><span>python</span><button type="button" class="copy">Copy</button></div><pre><code class="python"><span class="syn-kw" style="color:#e5a0e7!important">from</span> pathlib <span class="syn-kw" style="color:#e5a0e7!important">import</span> <span class="syn-type" style="color:#81b9f9!important">Path</span>
+<span class="syn-kw" style="color:#e5a0e7!important">from</span> loader <span class="syn-kw" style="color:#e5a0e7!important">import</span> load_documents
+<span class="syn-kw" style="color:#e5a0e7!important">from</span> preprocessor <span class="syn-kw" style="color:#e5a0e7!important">import</span> clean_text
+<span class="syn-kw" style="color:#e5a0e7!important">from</span> chunker <span class="syn-kw" style="color:#e5a0e7!important">import</span> create_chunks
+<span class="syn-kw" style="color:#e5a0e7!important">from</span> embedder <span class="syn-kw" style="color:#e5a0e7!important">import</span> load_embedding_model, embed_texts, MODEL_NAME
+<span class="syn-kw" style="color:#e5a0e7!important">from</span> vector_store <span class="syn-kw" style="color:#e5a0e7!important">import</span> save_vector_store, load_vector_store
+<span class="syn-kw" style="color:#e5a0e7!important">from</span> retriever <span class="syn-kw" style="color:#e5a0e7!important">import</span> retrieve_documents
 
 
-def main():
-    print(&quot;RAG Application Started&quot;)
+<span class="syn-kw" style="color:#e5a0e7!important">def</span><span class="syn-fn" style="color:#f3c98b!important"> </span><span class="syn-fn" style="color:#f3c98b!important">main</span>():
+    <span class="syn-builtin" style="color:#93c5fd!important">print</span>(<span class="syn-str" style="color:#a5d6a7!important">"RAG Application Started"</span>)
 
-    data_directory = Path(__file__).resolve().parent / &quot;data&quot;
-    documents = load_documents(data_directory)
-    print(f&quot;Loaded {len(documents)} documents&quot;)
-    all_chunks = []
-    for name, content in documents.items():
-        cleaned_content = clean_text(content)
-        all_chunks.extend(create_chunks(name, cleaned_content))
+    data_directory <span class="syn-op" style="color:#c4b5fd!important">=</span> <span class="syn-type" style="color:#81b9f9!important">Path</span>(__file__).<span class="syn-fn" style="color:#f3c98b!important">resolve</span>().parent <span class="syn-op" style="color:#c4b5fd!important">/</span> <span class="syn-str" style="color:#a5d6a7!important">"data"</span>
+    documents <span class="syn-op" style="color:#c4b5fd!important">=</span> <span class="syn-fn" style="color:#f3c98b!important">load_documents</span>(data_directory)
+    <span class="syn-builtin" style="color:#93c5fd!important">print</span>(<span class="syn-str" style="color:#a5d6a7!important">f"Loaded {len(documents)} documents"</span>)
+    all_chunks <span class="syn-op" style="color:#c4b5fd!important">=</span> []
+    <span class="syn-kw" style="color:#e5a0e7!important">for</span> name, content <span class="syn-kw" style="color:#e5a0e7!important">in</span> documents.<span class="syn-fn" style="color:#f3c98b!important">items</span>():
+        cleaned_content <span class="syn-op" style="color:#c4b5fd!important">=</span> <span class="syn-fn" style="color:#f3c98b!important">clean_text</span>(content)
+        all_chunks.<span class="syn-fn" style="color:#f3c98b!important">extend</span>(<span class="syn-fn" style="color:#f3c98b!important">create_chunks</span>(name, cleaned_content))
 
-    print(f&quot;Created {len(all_chunks)} chunks&quot;)
-    if not all_chunks:
-        print(&quot;No chunks to embed.&quot;)
-        return
+    <span class="syn-builtin" style="color:#93c5fd!important">print</span>(<span class="syn-str" style="color:#a5d6a7!important">f"Created {len(all_chunks)} chunks"</span>)
+    <span class="syn-kw" style="color:#e5a0e7!important">if</span> <span class="syn-kw" style="color:#e5a0e7!important">not</span> all_chunks:
+        <span class="syn-builtin" style="color:#93c5fd!important">print</span>(<span class="syn-str" style="color:#a5d6a7!important">"No chunks to embed."</span>)
+        <span class="syn-kw" style="color:#e5a0e7!important">return</span>
 
-    texts = [chunk[&quot;text&quot;] for chunk in all_chunks]
-    model = load_embedding_model()
-    embeddings = embed_texts(model, texts)
+    texts <span class="syn-op" style="color:#c4b5fd!important">=</span> [chunk[<span class="syn-str" style="color:#a5d6a7!important">"text"</span>] <span class="syn-kw" style="color:#e5a0e7!important">for</span> chunk <span class="syn-kw" style="color:#e5a0e7!important">in</span> all_chunks]
+    model <span class="syn-op" style="color:#c4b5fd!important">=</span> <span class="syn-fn" style="color:#f3c98b!important">load_embedding_model</span>()
+    embeddings <span class="syn-op" style="color:#c4b5fd!important">=</span> <span class="syn-fn" style="color:#f3c98b!important">embed_texts</span>(model, texts)
 
-    print(f&quot;Embedding matrix shape: {embeddings.shape}&quot;)
-    for chunk, vector in zip(all_chunks, embeddings, strict=True):
-        print(f&quot;{chunk['id']}: {len(vector)} dimensions&quot;)
+    <span class="syn-builtin" style="color:#93c5fd!important">print</span>(<span class="syn-str" style="color:#a5d6a7!important">f"Embedding matrix shape: {embeddings.shape}"</span>)
+    <span class="syn-kw" style="color:#e5a0e7!important">for</span> chunk, vector <span class="syn-kw" style="color:#e5a0e7!important">in</span> <span class="syn-builtin" style="color:#93c5fd!important">zip</span>(all_chunks, embeddings, strict<span class="syn-op" style="color:#c4b5fd!important">=</span><span class="syn-kw" style="color:#e5a0e7!important">True</span>):
+        <span class="syn-builtin" style="color:#93c5fd!important">print</span>(<span class="syn-str" style="color:#a5d6a7!important">f"{chunk['id']}: {len(vector)} dimensions"</span>)
 
-    storage_directory = data_directory.parent / &quot;storage&quot;
-    save_vector_store(storage_directory, all_chunks, embeddings, MODEL_NAME)
-    print(&quot;Vector store saved.&quot;)
+    storage_directory <span class="syn-op" style="color:#c4b5fd!important">=</span> data_directory.parent <span class="syn-op" style="color:#c4b5fd!important">/</span> <span class="syn-str" style="color:#a5d6a7!important">"storage"</span>
+    <span class="syn-fn" style="color:#f3c98b!important">save_vector_store</span>(storage_directory, all_chunks, embeddings, MODEL_NAME)
+    <span class="syn-builtin" style="color:#93c5fd!important">print</span>(<span class="syn-str" style="color:#a5d6a7!important">"Vector store saved."</span>)
 
-    saved_chunks, saved_embeddings = load_vector_store(
+    saved_chunks, saved_embeddings <span class="syn-op" style="color:#c4b5fd!important">=</span> <span class="syn-fn" style="color:#f3c98b!important">load_vector_store</span>(
         storage_directory, MODEL_NAME
     )
-    print(f&quot;Reloaded {len(saved_chunks)} chunks&quot;)
-    print(f&quot;Reloaded matrix shape: {saved_embeddings.shape}&quot;)
+    <span class="syn-builtin" style="color:#93c5fd!important">print</span>(<span class="syn-str" style="color:#a5d6a7!important">f"Reloaded {len(saved_chunks)} chunks"</span>)
+    <span class="syn-builtin" style="color:#93c5fd!important">print</span>(<span class="syn-str" style="color:#a5d6a7!important">f"Reloaded matrix shape: {saved_embeddings.shape}"</span>)
 
-    question = input(&quot;\nAsk a question: &quot;).strip()
-    if not question:
-        print(&quot;Question cannot be empty.&quot;)
-        return
+    question <span class="syn-op" style="color:#c4b5fd!important">=</span> <span class="syn-builtin" style="color:#93c5fd!important">input</span>(<span class="syn-str" style="color:#a5d6a7!important">"\nAsk a question: "</span>).<span class="syn-fn" style="color:#f3c98b!important">strip</span>()
+    <span class="syn-kw" style="color:#e5a0e7!important">if</span> <span class="syn-kw" style="color:#e5a0e7!important">not</span> question:
+        <span class="syn-builtin" style="color:#93c5fd!important">print</span>(<span class="syn-str" style="color:#a5d6a7!important">"Question cannot be empty."</span>)
+        <span class="syn-kw" style="color:#e5a0e7!important">return</span>
 
-    query = embed_texts(model, [question])[0]
-    results = retrieve_documents(
-        query, saved_chunks, saved_embeddings, top_k=3, min_score=0.35
+    query <span class="syn-op" style="color:#c4b5fd!important">=</span> <span class="syn-fn" style="color:#f3c98b!important">embed_texts</span>(model, [question])[<span class="syn-num" style="color:#f5a97f!important">0</span>]
+    results <span class="syn-op" style="color:#c4b5fd!important">=</span> <span class="syn-fn" style="color:#f3c98b!important">retrieve_documents</span>(
+        query, saved_chunks, saved_embeddings, top_k<span class="syn-op" style="color:#c4b5fd!important">=</span><span class="syn-num" style="color:#f5a97f!important">3</span>, min_score<span class="syn-op" style="color:#c4b5fd!important">=</span><span class="syn-num" style="color:#f5a97f!important">0.35</span>
     )
-    if not results:
-        print(&quot;No relevant context found.&quot;)
-        return
+    <span class="syn-kw" style="color:#e5a0e7!important">if</span> <span class="syn-kw" style="color:#e5a0e7!important">not</span> results:
+        <span class="syn-builtin" style="color:#93c5fd!important">print</span>(<span class="syn-str" style="color:#a5d6a7!important">"No relevant context found."</span>)
+        <span class="syn-kw" style="color:#e5a0e7!important">return</span>
 
-    print(f&quot;\nRetrieved {len(results)} relevant chunks:&quot;)
-    for rank, result in enumerate(results, start=1):
-        print(f&quot;\n{rank}. {result['id']} | Score: {result['score']:.4f}&quot;)
-        print(f&quot;Source: {result['source']}&quot;)
-        print(result[&quot;text&quot;])
+    <span class="syn-builtin" style="color:#93c5fd!important">print</span>(<span class="syn-str" style="color:#a5d6a7!important">f"\nRetrieved {len(results)} relevant chunks:"</span>)
+    <span class="syn-kw" style="color:#e5a0e7!important">for</span> rank, result <span class="syn-kw" style="color:#e5a0e7!important">in</span> <span class="syn-builtin" style="color:#93c5fd!important">enumerate</span>(results, start<span class="syn-op" style="color:#c4b5fd!important">=</span><span class="syn-num" style="color:#f5a97f!important">1</span>):
+        <span class="syn-builtin" style="color:#93c5fd!important">print</span>(<span class="syn-str" style="color:#a5d6a7!important">f"\n{rank}. {result['id']} | Score: {result['score']:.4f}"</span>)
+        <span class="syn-builtin" style="color:#93c5fd!important">print</span>(<span class="syn-str" style="color:#a5d6a7!important">f"Source: {result['source']}"</span>)
+        <span class="syn-builtin" style="color:#93c5fd!important">print</span>(result[<span class="syn-str" style="color:#a5d6a7!important">"text"</span>])
 
 
-if __name__ == &quot;__main__&quot;:
-    main()</code></pre></div></div><div class="wide-unit">
-<h2>Step 11 — Syntax validation</h2><small>D01 06:08</small><div class="codebox"><div class="codehead"><span>bash</span><button type="button" class="copy">Copy</button></div><pre><code class="bash">python -m py_compile main.py retriever.py</code></pre></div><p>Syntax compilation నేను execute చేశాను. Successful అయితే output ఏమీ రాదు.</p></div><div class="wide-unit">
-<h2>Step 12 — Execute complete application</h2><small>D01 06:09</small><div class="codebox"><div class="codehead"><span>bash</span><button type="button" class="copy">Copy</button></div><pre><code class="bash">python main.py</code></pre></div><p>మొదట What are embeddings? అని అడుగు. రెండోసారి application run చేసి What is the capital of Japan? అని అడుగు. Actual model scores observe చెయ్యి.</p>
+<span class="syn-kw" style="color:#e5a0e7!important">if</span> __name__ <span class="syn-op" style="color:#c4b5fd!important">==</span> <span class="syn-str" style="color:#a5d6a7!important">"__main__"</span>:
+    <span class="syn-fn" style="color:#f3c98b!important">main</span>()</code></pre></div></div><div class="wide-unit">
+<h2>Step 11 — Syntax validation</h2><small>D01 06:08</small><div class="codebox"><div class="codehead"><span>bash</span><button type="button" class="copy">Copy</button></div><pre><code class="bash"><span class="syn-kw" style="color:#e5a0e7!important">python</span> <span class="syn-type" style="color:#81b9f9!important">-m</span> py_compile <span class="syn-str" style="color:#a5d6a7!important">main.py</span> <span class="syn-str" style="color:#a5d6a7!important">retriever.py</span></code></pre></div><p>Syntax compilation నేను execute చేశాను. Successful అయితే output ఏమీ రాదు.</p></div><div class="wide-unit">
+<h2>Step 12 — Execute complete application</h2><small>D01 06:09</small><div class="codebox"><div class="codehead"><span>bash</span><button type="button" class="copy">Copy</button></div><pre><code class="bash"><span class="syn-kw" style="color:#e5a0e7!important">python</span> <span class="syn-str" style="color:#a5d6a7!important">main.py</span></code></pre></div><p>మొదట What are embeddings? అని అడుగు. రెండోసారి application run చేసి What is the capital of Japan? అని అడుగు. Actual model scores observe చెయ్యి.</p>
 <div class="terminal"><small>TERMINAL · Expected structure</small><hr><b>(.venv) &gt; python main.py</b>
 RAG Application Started
 Loaded 3 documents
