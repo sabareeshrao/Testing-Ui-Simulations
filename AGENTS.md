@@ -43,4 +43,17 @@ Use the equivalent of the following pattern, adapting selectors to the lesson's 
 
 **Approved reference:** [SQL JOINs visual study](chat-exports/sql-joins/sql_joins_visual_study.html), compact-sizing commit `439666d2697e4c5795def82d5d92935c8b81cdd7`.
 
-**Acceptance criterion:** The hosted lesson retains the original ChatGPT learning experience without heavy, bulky, full-width diagrams on desktop.
+
+### Compact sliders and progress bars
+
+For every exported lesson, avoid oversized sliders and progress indicators. Use these default dimensions:
+- Slider visible track: **4px** high; circular thumb: **12px** diameter.
+- Quiz/completion progress bars: **4px** high; comparison/result bars: **6px** high.
+- Slider and progress-bar groups: **380px maximum width** on desktop, responsive to narrower containers, centered within larger cards. Keep the labels and values aligned with their bars.
+- Keep actual slider interaction areas at least 24px high on desktop and 44px on coarse-pointer/touch devices; retain visible keyboard focus, native range semantics, live values and accurate fill proportions.
+- Style both WebKit and Firefox range controls explicitly. Preserve original colors, minimum/maximum/step, event handlers, data, calculations, and quiz/reset behavior. Do not reduce other controls or text just to achieve a compact appearance.
+- A visually larger chart or bar is allowed only if needed for legibility or explicitly requested.
+
+Reference implementation: the SQL JOINs visual study linked above. Inspect both idle and active/dragged sliders and progress bars in light/dark and desktop/mobile layouts when browser QA is available.
+
+**Acceptance criterion:** The hosted lesson retains the original ChatGPT learning experience without heavy, bulky, full-width diagrams, sliders, or progress bars on desktop.
