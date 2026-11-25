@@ -32,7 +32,11 @@ main .caption,main .note{line-height:1.45}
 main button:not(.copy):not(.switch){min-height:36px}
 main .progress button{min-height:18px!important}
 @media(max-width:759px){main,main.canvas{padding:14px 12px 28px}main .card,main .panel{padding:10px 12px}main button:not(.copy):not(.switch){min-height:44px}main .progress button{min-height:18px!important}}
-</style></head><body><main><header><h1>Stage 009 — Semantic Search</h1><small>D01 04:41 onwards · Search engine implementation</small></header>
+</style>
+<!-- RULE 27: shared compact sizing; original lesson unchanged -->
+<link rel="stylesheet" href="../../assets/rule-27.css">
+<script defer src="../../assets/rule-27.js"></script>
+</head><body><main><header><h1>Stage 009 — Semantic Search</h1><small>D01 04:41 onwards · Search engine implementation</small></header>
 <p>GitHub లో Stage 008 వరకు ఉన్న source code, timeline పరిశీలించాను. మొత్తం 280 timestamp actions ఉన్నాయి. Handover లో ఇచ్చిన commit కూడా match అయింది.</p>
 <p>ఇప్పటివరకు మన RAG application documents ని numerical vectors గా convert చేయగలదు. రెండు vectors మధ్య similarity కూడా calculate చేయగలదు. కానీ ఇప్పటివరకు మనం user నుంచి question తీసుకోలేదు. ఈ stage నుంచి మన application ఒక చిన్న <strong>AI-powered search engine</strong> లాగా పనిచేస్తుంది.</p><div class="wide-grid"><div class="wide-unit">
 <h2>1. మనం ఏ functionality build చేస్తున్నాం?</h2><p>Suppose user ఈ question అడిగాడు:</p><p><strong>How does AI represent text numerically?</strong></p><p>మన document లో ఈ sentence ఉంది:</p><p><strong>Embeddings represent text as numerical vectors.</strong></p><p>రెండింటిలో exact words ఒకేలా లేకపోయినా, వాటి meaning దగ్గరగా ఉంటుంది. ఈ meaning ఆధారంగా relevant information ని వెతకడమే Semantic Search.</p>

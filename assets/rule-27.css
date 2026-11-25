@@ -1,0 +1,53 @@
+/* RULE 27 — compact visual lesson sizing. Existing assets, colors and lesson behavior stay intact. */
+svg[data-r27-diagram],svg.diagram:not(.ico):not(.icon-svg),svg.map,svg.cos-svg {
+  display:block!important;max-width:min(100%,var(--r27-diagram-width,380px))!important;
+  height:auto!important;min-height:0!important;margin-inline:auto!important;
+}
+[data-r27-image],[data-r27-html-diagram]{
+  max-width:min(100%,var(--r27-diagram-width,380px))!important;
+  margin-inline:auto!important;
+}
+img[data-r27-image]{height:auto!important;object-fit:contain}
+[data-r27-slider-group],[data-r27-bar-group],[data-r27-label]{
+  width:100%!important;max-width:380px!important;margin-inline:auto!important;
+  min-width:0;
+}
+input[type=range]{
+  -webkit-appearance:none!important;appearance:none!important;display:block!important;
+  width:100%!important;max-width:380px!important;min-width:0!important;
+  height:24px!important;min-height:24px!important;padding:0!important;border:0!important;
+  margin-inline:auto!important;background:transparent!important;box-shadow:none!important;
+  cursor:pointer;
+}
+input[type=range]::-webkit-slider-runnable-track{
+  height:4px!important;border:0!important;border-radius:999px!important;
+  background:linear-gradient(to right,var(--r27-accent,#3b82f6) 0 var(--r27-fill,0%),var(--r27-track,#94a3b855) var(--r27-fill,0%) 100%)!important;
+}
+input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none!important;appearance:none!important;
+  width:12px!important;height:12px!important;margin-top:-4px!important;
+  border:0!important;border-radius:50%!important;
+  background:var(--r27-accent,#3b82f6)!important;box-shadow:none!important;
+}
+input[type=range]::-moz-range-track{height:4px!important;border:0!important;border-radius:999px!important;background:var(--r27-track,#94a3b855)!important}
+input[type=range]::-moz-range-progress{height:4px!important;border-radius:999px!important;background:var(--r27-accent,#3b82f6)!important}
+input[type=range]::-moz-range-thumb{width:12px!important;height:12px!important;border:0!important;border-radius:50%!important;background:var(--r27-accent,#3b82f6)!important;box-shadow:none!important}
+input[type=range]:focus-visible{outline:2px solid var(--r27-accent,#3b82f6)!important;outline-offset:2px!important;border-radius:6px}
+input[type=range]:disabled{cursor:not-allowed;opacity:.55}
+[data-r27-bar]{
+  width:100%!important;max-width:380px!important;height:6px!important;min-height:6px!important;
+  max-height:6px!important;margin-inline:auto!important;
+}
+[data-r27-bar="progress"]{height:4px!important;min-height:4px!important;max-height:4px!important}
+[data-r27-segments]{width:100%!important;max-width:380px!important;margin-inline:auto!important}
+[data-r27-segments]>span,[data-r27-segments] button>i{height:4px!important;min-height:4px!important}
+[data-r27-step]{height:24px!important;min-height:24px!important;box-sizing:border-box!important;padding-block:10px!important;background-clip:content-box!important}
+@media(max-width:500px){
+  svg[data-r27-diagram="standalone"],svg.diagram:not([data-r27-diagram]),svg.map:not([data-r27-diagram]),svg.cos-svg:not([data-r27-diagram]){
+    max-width:min(92%,340px)!important
+  }
+}
+@media(pointer:coarse){
+  input[type=range]{height:44px!important;min-height:44px!important}
+  [data-r27-step]{height:44px!important;min-height:44px!important;padding-block:20px!important}
+}

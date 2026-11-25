@@ -55,7 +55,11 @@ main .caption,main .note{line-height:1.45}
 main button:not(.copy):not(.switch){min-height:36px}
 main .progress button{min-height:18px!important}
 @media(max-width:759px){main,main.canvas{padding:14px 12px 28px}main .card,main .panel{padding:10px 12px}main button:not(.copy):not(.switch){min-height:44px}main .progress button{min-height:18px!important}}
-</style></head><body style="background:#000;color:#f5f5f5"><main style="background:#000;color:#f5f5f5"><h1>Stage 005 — Text Chunking</h1><div class="caption">D01 01:30 onwards · Document preparation</div>
+</style>
+<!-- RULE 27: shared compact sizing; original lesson unchanged -->
+<link rel="stylesheet" href="../../assets/rule-27.css">
+<script defer src="../../assets/rule-27.js"></script>
+</head><body style="background:#000;color:#f5f5f5"><main style="background:#000;color:#f5f5f5"><h1>Stage 005 — Text Chunking</h1><div class="caption">D01 01:30 onwards · Document preparation</div>
 <p>ఇప్పటివరకు documents automatically load చేసి, వాటిలోని unnecessary whitespace ని clean చేశాం.</p>
 <p>మన దగ్గర ఒక 500 pages document ఉందనుకో. మొత్తం document ని LLM కి పంపితే context limit, cost, unrelated information వంటి సమస్యలు రావచ్చు.</p>
 <p>అందుకే పెద్ద document ని చిన్న sections గా divide చేస్తాం. ఒక్కో section ని <strong>Chunk</strong> అంటాం.</p>

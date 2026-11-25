@@ -57,3 +57,7 @@ For every exported lesson, avoid oversized sliders and progress indicators. Use 
 Reference implementation: the SQL JOINs visual study linked above. Inspect both idle and active/dragged sliders and progress bars in light/dark and desktop/mobile layouts when browser QA is available.
 
 **Acceptance criterion:** The hosted lesson retains the original ChatGPT learning experience without heavy, bulky, full-width diagrams, sliders, or progress bars on desktop.
+
+### Shared repository implementation
+
+Use `assets/rule-27.css` and `assets/rule-27.js` for new or revised HTML exports, loading them after the lesson's existing styles with the correct relative paths. They compact eligible SVG diagrams and sliders/progress bars, preserve existing artwork, and handle dynamically generated elements. The original SQL JOINs reference already implements the same dimensions locally and need not load these assets. Preserve original scripts and content; check responsive rendering and readable text, and add narrowly scoped exceptions if needed. Do not apply diagram sizing to small icons or logos.

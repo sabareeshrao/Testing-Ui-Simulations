@@ -32,7 +32,11 @@ main .caption,main .note{line-height:1.45}
 main button:not(.copy):not(.switch){min-height:36px}
 main .progress button{min-height:18px!important}
 @media(max-width:759px){main,main.canvas{padding:14px 12px 28px}main .card,main .panel{padding:10px 12px}main button:not(.copy):not(.switch){min-height:44px}main .progress button{min-height:18px!important}}
-</style></head><body><main><header><h1>Stage 010 — Document Retrieval</h1><small>D01 05:33 onwards · Relevance filtering & context selection</small></header>
+</style>
+<!-- RULE 27: shared compact sizing; original lesson unchanged -->
+<link rel="stylesheet" href="../../assets/rule-27.css">
+<script defer src="../../assets/rule-27.js"></script>
+</head><body><main><header><h1>Stage 010 — Document Retrieval</h1><small>D01 05:33 onwards · Relevance filtering & context selection</small></header>
 <p>GitHub లో Stage 009 వరకు ఉన్న source code, 332 timestamp actions verify చేశాను.</p>
 <p>ఇప్పటివరకు మన application user question తీసుకుని, embeddings generate చేసి, Top-3 relevant chunks ని select చేస్తుంది. కానీ ఇక్కడ ఒక సమస్య ఉంది. User మన knowledge base లో లేని question అడిగినా, మన semantic search మూడు chunks ని return చేస్తుంది.</p>
 <p>ఉదాహరణకు మన documents అన్నీ AI గురించి ఉన్నాయి. User ఇలా అడిగాడనుకో:</p><p><b>What is the capital of Japan?</b></p><p>మన search algorithm కి answer తెలియకపోయినా, ఉన్న documents లో highest similarity ఉన్న మూడు chunks ని return చేస్తుంది. ఈ సమస్యను solve చేయడానికి <b>Document Retrieval Layer</b> implement చేద్దాం.</p><div class="wide-grid"><div class="wide-unit">

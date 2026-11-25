@@ -54,7 +54,11 @@ main .caption,main .note{line-height:1.45}
 main button:not(.copy):not(.switch){min-height:36px}
 main .progress button{min-height:18px!important}
 @media(max-width:759px){main,main.canvas{padding:14px 12px 28px}main .card,main .panel{padding:10px 12px}main button:not(.copy):not(.switch){min-height:44px}main .progress button{min-height:18px!important}}
-</style></head><body style="background:#000;color:#f5f5f5"><main style="background:#000;color:#f5f5f5"><h1>Stage 004 — Text Preprocessing</h1><div class="caption">D01 01:13 onwards · Data preparation</div>
+</style>
+<!-- RULE 27: shared compact sizing; original lesson unchanged -->
+<link rel="stylesheet" href="../../assets/rule-27.css">
+<script defer src="../../assets/rule-27.js"></script>
+</head><body style="background:#000;color:#f5f5f5"><main style="background:#000;color:#f5f5f5"><h1>Stage 004 — Text Preprocessing</h1><div class="caption">D01 01:13 onwards · Data preparation</div>
 <p><code>data</code> folder లో ఉన్న మూడు documents ని మన application ఇప్పటివరకు automatically load చేస్తుంది.</p>
 <p>కానీ real-world documents ఎప్పుడూ clean గా ఉండవు. PDFs, websites, company documents నుంచి extract చేసిన text లో unnecessary spaces, tabs, inconsistent line breaks ఉంటాయి.</p>
 <p>వీటిని normalize చేయకుండా chunks create చేస్తే అనవసరమైన formatting కూడా processing లో భాగమవుతుంది.</p>
