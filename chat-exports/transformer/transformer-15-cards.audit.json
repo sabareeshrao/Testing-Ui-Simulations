@@ -1,0 +1,167 @@
+{
+  "source": "Current ChatGPT conversation, How Transformer works, cards 01–15, including partial and final continuations.",
+  "file": "chat-exports/transformer/transformer-15-cards.html",
+  "commit": "cbd731f8e3987ee4c98b2fbddbe3e4fd20a06e9f",
+  "status": "structurally verified; browser fidelity unverified",
+  "counts": {
+    "sourceCards": 15,
+    "sourceDiagrams": 15,
+    "sourceExplanations": 15,
+    "sourceFormulas": 1,
+    "exportCards": 15,
+    "exportDiagrams": 15,
+    "exportExplanations": 15,
+    "exportFormulas": 1,
+    "interactiveControls": 0
+  },
+  "manifest": [
+    {
+      "card": 1,
+      "title": "01 · Tokenization",
+      "viewBox": "0 0 340 83",
+      "svgElements": 12,
+      "dashedConnectors": 0,
+      "explanation": "The sentence is split into tokens. Each token receives a numerical ID from the tokenizer's vocabulary.",
+      "formula": false
+    },
+    {
+      "card": 2,
+      "title": "02 · Embedding lookup",
+      "viewBox": "0 0 340 100",
+      "svgElements": 76,
+      "dashedConnectors": 0,
+      "explanation": "The ID selects a learned vector containing numerical features. Real Transformers typically use hundreds or thousands of dimensions.",
+      "formula": false
+    },
+    {
+      "card": 3,
+      "title": "03 · Positional information",
+      "viewBox": "0 0 340 96",
+      "svgElements": 22,
+      "dashedConnectors": 1,
+      "explanation": "Position matters. Rotary positional embeddings (RoPE), for example, rotate query and key vector components according to token position.",
+      "formula": false
+    },
+    {
+      "card": 4,
+      "title": "04 · Query, Key and Value",
+      "viewBox": "0 0 340 100",
+      "svgElements": 71,
+      "dashedConnectors": 3,
+      "explanation": "Three learned weight matrices transform each token representation into a Query, Key and Value vector.",
+      "formula": false
+    },
+    {
+      "card": 5,
+      "title": "05 · Attention scores",
+      "viewBox": "0 0 340 103",
+      "svgElements": 30,
+      "dashedConnectors": 1,
+      "explanation": "Each query is compared with every key using a dot product. Higher scores indicate stronger attention compatibility.",
+      "formula": true
+    },
+    {
+      "card": 6,
+      "title": "06 · Causal masking",
+      "viewBox": "0 0 340 108",
+      "svgElements": 28,
+      "dashedConnectors": 1,
+      "explanation": "A GPT-style Transformer cannot look at future tokens. Masked attention scores become negative infinity before softmax.",
+      "formula": false
+    },
+    {
+      "card": 7,
+      "title": "07 · Softmax normalization",
+      "viewBox": "0 0 340 94",
+      "svgElements": 20,
+      "dashedConnectors": 0,
+      "explanation": "Softmax converts the scores into attention weights that add up to 100%. Here, the token “cat” receives the most attention.",
+      "formula": false
+    },
+    {
+      "card": 8,
+      "title": "08 · Combining value vectors",
+      "viewBox": "0 0 340 104",
+      "svgElements": 29,
+      "dashedConnectors": 1,
+      "explanation": "Every value vector is multiplied by its attention weight. Their weighted sum creates a new context-aware representation.",
+      "formula": false
+    },
+    {
+      "card": 9,
+      "title": "09 · Multi-head attention",
+      "viewBox": "0 0 340 110",
+      "svgElements": 61,
+      "dashedConnectors": 0,
+      "explanation": "Multiple attention heads work in parallel using different learned projections, allowing the model to capture different contextual relationships.",
+      "formula": false
+    },
+    {
+      "card": 10,
+      "title": "10 · Head concatenation &amp; projection",
+      "viewBox": "0 0 340 100",
+      "svgElements": 78,
+      "dashedConnectors": 0,
+      "explanation": "Head outputs are joined and multiplied by a learned output matrix to produce one unified representation.",
+      "formula": false
+    },
+    {
+      "card": 11,
+      "title": "11 · Residual connection &amp; normalization",
+      "viewBox": "0 0 340 104",
+      "svgElements": 16,
+      "dashedConnectors": 0,
+      "explanation": "Normalization stabilizes computation. The residual connection adds the attention result to the original representation. Shown here is the pre-normalization design.",
+      "formula": false
+    },
+    {
+      "card": 12,
+      "title": "12 · Feed-forward network",
+      "viewBox": "0 0 340 118",
+      "svgElements": 67,
+      "dashedConnectors": 0,
+      "explanation": "Each token independently passes through a neural network that expands its dimensions, applies a nonlinear transformation and projects it back.",
+      "formula": false
+    },
+    {
+      "card": 13,
+      "title": "13 · Stacking Transformer blocks",
+      "viewBox": "0 0 340 113",
+      "svgElements": 38,
+      "dashedConnectors": 5,
+      "explanation": "Attention, feed-forward networks, normalization and residual connections repeat across many layers, progressively transforming the token representations.",
+      "formula": false
+    },
+    {
+      "card": 14,
+      "title": "14 · Language modeling head",
+      "viewBox": "0 0 340 110",
+      "svgElements": 60,
+      "dashedConnectors": 0,
+      "explanation": "The final representation is projected into vocabulary-sized logits. Softmax produces next-token probabilities, and a decoding strategy selects a token.",
+      "formula": false
+    },
+    {
+      "card": 15,
+      "title": "15 · Autoregressive generation",
+      "viewBox": "0 0 340 110",
+      "svgElements": 18,
+      "dashedConnectors": 6,
+      "explanation": "Each generated token becomes part of the context for predicting the next token. This process repeats until a stopping condition is reached.",
+      "formula": false
+    }
+  ],
+  "checks": {
+    "committedHtmlReadBack": true,
+    "cardOrder": true,
+    "darkTheme": true,
+    "responsiveSvg": true,
+    "standalone": true,
+    "browserDesktop": "not tested",
+    "browserMobile": "not tested",
+    "pagesDeployment": "not independently verified"
+  },
+  "differences": [
+    "SVG elements reconstructed from the original chat source; some equivalent SVG primitive dimensions and path grouping differ. Card 15 uses adjacent text spans to avoid overlap. Pixel-level parity not established."
+  ]
+}
