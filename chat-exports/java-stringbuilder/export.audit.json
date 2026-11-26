@@ -1,0 +1,38 @@
+{
+  "source": "Current chat: StringBuilder — Recreating the invention, all four phases and interview recap",
+  "status": "unverified-preview",
+  "card_count": 15,
+  "diagram_count": 23,
+  "code_blocks": 18,
+  "checks": {
+    "source_cards": 15,
+    "export_cards": 15,
+    "source_diagrams": 23,
+    "export_diagrams": 23,
+    "background_css": "#000000",
+    "neutral_card_css": "#111111",
+    "interactive_controls": "None in source",
+    "browser_desktop": "not run",
+    "browser_mobile": "not run",
+    "pixel_parity": "not established"
+  },
+  "limitations": [
+    "Diagrams recreated from source geometry and labels with helper functions; exact per-element parity not verified.",
+    "Some icon treatments and typography differ from the source chat.",
+    "No actual browser rendering or live Pages verification yet."
+  ],
+  "component_order": [
+    "intro",
+    "phase-1: cards 1–5",
+    "phase-2: cards 6–10",
+    "phase-3: cards 11–14",
+    "phase-4: card 15",
+    "final invention",
+    "interview answer",
+    "comparison table",
+    "Java 21 interview trap",
+    "permanent engineering knowledge",
+    "curriculum recap",
+    "educational caveat"
+  ]
+}
